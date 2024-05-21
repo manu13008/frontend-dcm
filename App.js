@@ -129,6 +129,7 @@ export default function App() {
             <Stack.Screen name="TabNavigator" component={TabNavigator} />
 
             <Stack.Screen name="AddDCM" component={AddDCMScreen} />
+            <Stack.Screen name="HomeScreen" component={HomeScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
