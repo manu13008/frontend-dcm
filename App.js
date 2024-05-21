@@ -93,6 +93,29 @@ const TabNavigator = () => {
 };
 
 export default function App() {
+
+  const [fontsLoaded, fontError] = useFonts({
+    'Gothic A1 Black': require('./assets/fonts/Gothic A1 Black.ttf'),
+    'Gothic A1 Bold': require('./assets/fonts/Gothic A1 Bold.ttf'),
+    'Gothic A1 ExtraBold': require('./assets/fonts/Gothic A1 ExtraBold.ttf'),
+    'Gothic A1 ExtraLight': require('./assets/fonts/Gothic A1 ExtraLight.ttf'),
+    'Gothic A1 Light': require('./assets/fonts/Gothic A1 Light.ttf'),
+    'Gothic A1 Medium': require('./assets/fonts/Gothic A1 Medium.ttf'),
+    'Gothic A1 Regular': require('./assets/fonts/Gothic A1 Regular.ttf'),
+    'Gothic A1 SemiBold': require('./assets/fonts/Gothic A1 SemiBold.ttf'),
+    'Gothic A1 Thin': require('./assets/fonts/Gothic A1 Thin.ttf')
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded || fontError) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
+
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
