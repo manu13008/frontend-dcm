@@ -1,11 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-const ProfilScreen = () => {
+const CategoryScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>ProfilScreen</Text>
-      {/* Mettez ici votre caméra ou toute autre interface pour prendre des photos */}
+      <Text>CategorieScreen</Text>
     </View>
   );
 };
@@ -19,4 +18,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfilScreen;
+export default CategoryScreen;
