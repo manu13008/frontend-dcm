@@ -1,6 +1,16 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
 
+<<<<<<< HEAD
+=======
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+
+
+>>>>>>> f4ca0720a2cdb29c204dec7a35b5515a20cc55e9
 // Redux
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
@@ -9,7 +19,11 @@ import { PersistGate } from "redux-persist/integration/react";
 import { combineReducers } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+<<<<<<< HEAD
 import Header from "./components/Header";
+=======
+import Header from './components/header'
+>>>>>>> f4ca0720a2cdb29c204dec7a35b5515a20cc55e9
 
 /*NAVIGATION*/
 import { NavigationContainer } from "@react-navigation/native";
@@ -98,6 +112,8 @@ const TabNavigator = () => {
 /*FONTS*/
 import { useCallback } from "react";
 import { useFonts } from "expo-font";
+
+
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
