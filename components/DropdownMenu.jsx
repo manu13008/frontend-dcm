@@ -4,6 +4,7 @@ import {SafeAreaView,  TextInput, TouchableOpacity} from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { useState } from 'react';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import Header from './header';
 
 
   
@@ -25,7 +26,6 @@ export default function DropdownMenu(props)  {
   const [isFocus, setIsFocus] = useState(false);
   const [isAble, setIsAble] = useState(true)
     
-
   return (
                 <Dropdown
                 style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}

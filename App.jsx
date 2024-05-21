@@ -72,3 +72,28 @@ const styles = StyleSheet.create({
 
 
 
+
+
+
+
+// const Tabs = () => (
+//   <Tab.Navigator
+//     screenOptions={({ route }) => ({
+//       tabBarIcon: ({ color, size }) => {
+//         let iconName;
+//         if (route.name === "Home") {
+//           iconName = require("./assets/home.png");
+//         } else if (route.name === "Categorie") {
+//           iconName = require("./assets/categ.png");
+//         } else if (route.name === "Notifications") {
+//           iconName = require("./assets/bell.png");
+//         } else if (route.name === "Profile") {
+//           iconName = require("./assets/profil.png");
+//         }
+//         // return <FontAwesomeIcon icon={iconName} size={size} color={color} />;
+//       },
+//     })}
+//     tabBarOptions={{
+//       activeTintColor: "#0F056B ",
+//       inactiveTintColor: "#0468BE",
+//     }}

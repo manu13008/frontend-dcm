@@ -118,7 +118,7 @@ style={styles.checkbox}
     container: {
         flex: 1,
       backgroundColor: 'white',
-      marginTop: 150,
+    //   marginTop: 150,
       height : '100%',
     },
     catDropDown : {
