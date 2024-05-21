@@ -22,6 +22,24 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Gothic A1 Black.ttf",
+            "./assets/fonts/Gothic A1 Bold.ttf",
+            "./assets/fonts/Gothic A1 ExtraBold.ttf",
+            "./assets/fonts/Gothic A1 ExtraLight.ttf",
+            "./assets/fonts/Gothic A1 Light.ttf",
+            "./assets/fonts/Gothic A1 Medium.ttf",
+            "./assets/fonts/Gothic A1 Regular.ttf",
+            "./assets/fonts/Gothic A1 SemiBold.ttf",
+            "./assets/fonts/Gothic A1 Thin.ttf" 
+        ]
+        }
+      ]
+    ]
   }
 }

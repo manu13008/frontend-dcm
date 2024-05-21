@@ -17,12 +17,8 @@ import storage from 'redux-persist/lib/storage';
 import { combineReducers} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-
-
 const reducers = combineReducers({ });
 const persistConfig = { key: 'dcm-app',   storage: AsyncStorage, };
-
 
 // Persistance du store
 const store = configureStore({
@@ -31,13 +27,39 @@ const store = configureStore({
  });
  const persistor = persistStore(store);
 
-
  const Tab = createBottomTabNavigator();
  const Stack = createNativeStackNavigator();
 
 
+ //Installation des polices
+import { useFonts } from 'expo-font';
+import { useCallback } from 'react';
+ import * as SplashScreen from 'expo-splash-screen';
+// SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+
+  const [fontsLoaded, fontError] = useFonts({
+    'Gothic A1 Black': require('./assets/fonts/Gothic A1 Black.ttf'),
+    'Gothic A1 Bold': require('./assets/fonts/Gothic A1 Bold.ttf'),
+    'Gothic A1 ExtraBold': require('./assets/fonts/Gothic A1 ExtraBold.ttf'),
+    'Gothic A1 ExtraLight': require('./assets/fonts/Gothic A1 ExtraLight.ttf'),
+    'Gothic A1 Light': require('./assets/fonts/Gothic A1 Light.ttf'),
+    'Gothic A1 Medium': require('./assets/fonts/Gothic A1 Medium.ttf'),
+    'Gothic A1 Regular': require('./assets/fonts/Gothic A1 Regular.ttf'),
+    'Gothic A1 SemiBold': require('./assets/fonts/Gothic A1 SemiBold.ttf'),
+    'Gothic A1 Thin': require('./assets/fonts/Gothic A1 Thin.ttf')
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded || fontError) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
 
   return (
     <Provider store={store}>

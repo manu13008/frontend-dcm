@@ -6,6 +6,9 @@ import { useState } from 'react';
 import  DropdownMenu from '../components/DropdownMenu.jsx';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import ButtonPrimary from '../components/ButtonPrimary'
+import ButtonSecondary from '../components/ButtonSecondary'
+
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
@@ -20,6 +23,8 @@ export default function AddDCMScreen({ navigation }) {
     <KeyboardAvoidingView style={styles.container}  behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
     <ScrollView contentContainerStyle={styles.scrollContainer}>
 
+    <ButtonPrimary text="Primary Button" />
+    <ButtonSecondary text="Secondary Button" />
 
 
     <Text style={styles.title}>Publier une DCM</Text>
