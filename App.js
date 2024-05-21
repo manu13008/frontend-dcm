@@ -1,18 +1,15 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
 
-
-
 // Redux
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-// Persistance du store
 import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { combineReducers } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import Header from './components/Header'
+import Header from "./components/Header";
 
 /*NAVIGATION*/
 import { NavigationContainer } from "@react-navigation/native";
@@ -22,15 +19,12 @@ import CategoryScreen from "./screens/CategoryScreen";
 import HomeScreen from "./screens/HomeScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import ProfileScreen from "./screens/ProfileScreen";
-import LoginScreen from './screens/LoginScreen'
-import AddDCMScreen from "./screens/AddDCMScreen"
-import SignUpScreen from './screens/SignUpScreen'
-
-
-
+import LoginScreen from "./screens/LoginScreen";
+import AddDCMScreen from "./screens/AddDCMScreen";
+import SignUpScreen from "./screens/SignUpScreen";
 
 // Persistance du store
-import user from './reducers/user'
+import user from "./reducers/user";
 const reducers = combineReducers({ user });
 const persistConfig = { key: "dcm-app", storage: AsyncStorage };
 
@@ -48,7 +42,7 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({ focused }) => {
           let iconName;
 
           if (route.name === "Home") {
@@ -72,7 +66,6 @@ const TabNavigator = () => {
             />
           );
         },
-
         tabBarShowLabel: false,
         tabBarActiveTintColor: "#0F056B",
         tabBarInactiveTintColor: "#0468BE",
@@ -80,7 +73,7 @@ const TabNavigator = () => {
     >
       <Tab.Screen
         name="Home"
-        component={LoginScreen}
+        component={HomeScreen}
         options={{ headerShown: false }}
       />
       <Tab.Screen
@@ -103,21 +96,20 @@ const TabNavigator = () => {
 };
 
 /*FONTS*/
-import { useCallback } from 'react';
-import { useFonts } from 'expo-font';
+import { useCallback } from "react";
+import { useFonts } from "expo-font";
 
 export default function App() {
-
   const [fontsLoaded, fontError] = useFonts({
-    'Gothic A1 Black': require('./assets/fonts/Gothic A1 Black.ttf'),
-    'Gothic A1 Bold': require('./assets/fonts/Gothic A1 Bold.ttf'),
-    'Gothic A1 ExtraBold': require('./assets/fonts/Gothic A1 ExtraBold.ttf'),
-    'Gothic A1 ExtraLight': require('./assets/fonts/Gothic A1 ExtraLight.ttf'),
-    'Gothic A1 Light': require('./assets/fonts/Gothic A1 Light.ttf'),
-    'Gothic A1 Medium': require('./assets/fonts/Gothic A1 Medium.ttf'),
-    'Gothic A1 Regular': require('./assets/fonts/Gothic A1 Regular.ttf'),
-    'Gothic A1 SemiBold': require('./assets/fonts/Gothic A1 SemiBold.ttf'),
-    'Gothic A1 Thin': require('./assets/fonts/Gothic A1 Thin.ttf')
+    "Gothic A1 Black": require("./assets/fonts/Gothic A1 Black.ttf"),
+    "Gothic A1 Bold": require("./assets/fonts/Gothic A1 Bold.ttf"),
+    "Gothic A1 ExtraBold": require("./assets/fonts/Gothic A1 ExtraBold.ttf"),
+    "Gothic A1 ExtraLight": require("./assets/fonts/Gothic A1 ExtraLight.ttf"),
+    "Gothic A1 Light": require("./assets/fonts/Gothic A1 Light.ttf"),
+    "Gothic A1 Medium": require("./assets/fonts/Gothic A1 Medium.ttf"),
+    "Gothic A1 Regular": require("./assets/fonts/Gothic A1 Regular.ttf"),
+    "Gothic A1 SemiBold": require("./assets/fonts/Gothic A1 SemiBold.ttf"),
+    "Gothic A1 Thin": require("./assets/fonts/Gothic A1 Thin.ttf"),
   });
 
   const onLayoutRootView = useCallback(async () => {
@@ -134,17 +126,9 @@ export default function App() {
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <Header />
-        {/* <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View> */}
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="TabNavigator" component={TabNavigator} />
-            <Stack.Screen name="HomeScreen" component={HomeScreen} />
-            <Stack.Screen name="LoginScreen" component={LoginScreen} />
-            <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-            <Stack.Screen name="AddDCM" component={AddDCMScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
