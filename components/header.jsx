@@ -1,10 +1,7 @@
-
-
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image, Modal, StyleSheet } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faBars, faPlus, faUser, faListAlt, faBook, faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
-
 const Header = ({ showButton = true }) => {
   const [menuVisible, setMenuVisible] = useState(false);
 
@@ -24,7 +21,7 @@ const Header = ({ showButton = true }) => {
 
         <View style={styles.buttonContainer}>
           {showButton && (
-            <TouchableOpacity style={styles.button} onPress={() => console.log("Action du bouton")}>
+            <TouchableOpacity style={styles.button} onPress={() => console.log("bouton presse")}>
               <FontAwesomeIcon style={styles.cross} icon={faPlus} size={20} />
               <Text style={styles.buttonText}> Je balance !</Text>
             </TouchableOpacity>
