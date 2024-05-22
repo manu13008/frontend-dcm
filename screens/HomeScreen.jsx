@@ -16,13 +16,37 @@ const categories = [
   { key: "favorite", label: "Coups de ♥️" },
   { key: "rant", label: "Coups de 😠" },
 ];
-
+const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 const HomeScreen = () => {
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch(`${BACKEND_ADDRESS}/dcm/lastdcm`)
+        .then((response) => response.json())
+        .then((data) => {
+            setData(data.data);
+        })
+  }, []);
+
+  const renderData = data.map((item, i) => (
+    console.log("test : ", item.subCategory),
+    
+    <Dcm key={i}  subCategory={item.subCategory && item.subCategory.name}
+      author={item.author/* && <Text style={styles.userName}>{item.author.username}</Text>*/ }
+      content={item.content}
+      origins={item.origins}
+      target={item.target}
+      date={item.date}
+       />
+  ));
+ 
   return (
     <>
     <Header/>
     <View style={styles.MainContainer}>
-      <ScrollView
+    <View style={styles.headerContainer}>
+       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
         style={styles.navBar}
@@ -33,27 +57,29 @@ const HomeScreen = () => {
           </TouchableOpacity>
         ))}
       </ScrollView>
-
-      <View style={styles.contentContainer}>
-        {/* contenu des dcms */}
-        <Text style={styles.contentText}>
-          DCM Content will be displayed here
-        </Text>
       </View>
+      <ScrollView  >
+        <View style={styles.contentContainer}>
+{renderData} 
+</View>   
+</ScrollView >
+
+     
     </View>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  MainContainer: {
-    backgroundColor: "#0468BE",
+  headerContainer: {
     paddingVertical: 5,
     borderRadius: 5,
+    backgroundColor: "#0468BE",
   },
   navBar: {
     flexDirection: "row",
     paddingVertical: 10,
+   
   },
   navButton: {
     paddingHorizontal: 20,
@@ -66,10 +92,9 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontWeight: "bold",
   },
-  contentContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+  contentContainer:{
+    alignItems:'center',
+    
   },
   contentText: {
     fontSize: 18,
