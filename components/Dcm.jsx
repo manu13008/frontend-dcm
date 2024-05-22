@@ -6,30 +6,6 @@ import { faThumbsUp, faThumbsDown,faArrowRight } from "@fortawesome/free-solid-s
 const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 
 export default function Dcm(props) {
- 
-
- 
-    // const renderData = data.map((item, i) => (
-    //     console.log("test : ", item.subCategory),
-        
-    //     <View key={i} style={styles.dataContainer}>
-    //         <View  style={styles.header}>
-    //         <Text style={styles.message}>{item.subCategory.name}</Text>
-    //         {item.author && <Text style={styles.userName}>{item.author.username}</Text>}
-    //         </View>
-    //         <Text style={styles.message}>{item.content}</Text>
-    //         <View style={styles.cibleContainer}>
-    //         <Text style={styles.origins}>{item.origins}</Text>
-    //         <FontAwesomeIcon icon={faArrowRight} size={20} color='#888' />
-    //         <Text style={styles.target}>{item.target}</Text>
-    //         </View>
-    //         <Text style={styles.date}>{item.date}</Text>
-    //         <View style={styles.iconsContainer}>
-    //             <FontAwesomeIcon icon={faThumbsUp} size={20} style={styles.icon} />
-    //             <FontAwesomeIcon icon={faThumbsDown} size={20} style={styles.icon} />
-    //         </View>
-    //     </View>
-    // ));
     console.log(props.subCategory);
 
     return (
@@ -76,7 +52,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#f0f0f0',
         marginBottom: 5,
         marginTop:3,
-        borderWidth:1
+        borderWidth:1,
+        width:'95%'
     },
     userName: {
         fontSize: 16,

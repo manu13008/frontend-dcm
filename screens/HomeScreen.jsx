@@ -39,11 +39,10 @@ const HomeScreen = () => {
       date={item.date}
        />
   ));
-
-
-
+ 
   return (
     <View style={styles.MainContainer}>
+    <View style={styles.headerContainer}>
        <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -55,9 +54,12 @@ const HomeScreen = () => {
           </TouchableOpacity>
         ))}
       </ScrollView>
+      </View>
       <ScrollView  >
-{renderData}       
-</ScrollView>
+        <View style={styles.contentContainer}>
+{renderData} 
+</View>   
+</ScrollView >
 
      
     </View>
@@ -65,14 +67,15 @@ const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  MainContainer: {
+  headerContainer: {
     paddingVertical: 5,
     borderRadius: 5,
+    backgroundColor: "#0468BE",
   },
   navBar: {
     flexDirection: "row",
     paddingVertical: 10,
-    backgroundColor: "#0468BE",
+   
   },
   navButton: {
     paddingHorizontal: 20,
@@ -85,11 +88,9 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontWeight: "bold",
   },
-  contentContainer: {
-    // flex: 1,
-    width:'9%',
-    justifyContent: "center",
-    alignItems: "center",
+  contentContainer:{
+    alignItems:'center',
+    
   },
   contentText: {
     fontSize: 18,
