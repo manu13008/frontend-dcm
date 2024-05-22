@@ -6,9 +6,9 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-
+import { useState, useEffect } from 'react';
 import Header from "../components/Header";
-
+import Dcm from "../components/Dcm";
 const categories = [
   { key: "top", label: "Les Tops 🔥" },
   { key: "latest", label: "Les Dernières" },
