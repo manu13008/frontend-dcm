@@ -1,11 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
-
-
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
+import { useState } from "react";
 
 
 // Redux
@@ -19,7 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from './components/Header'
 
 /*NAVIGATION*/
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import CategoryScreen from "./screens/CategoryScreen";
@@ -45,13 +40,23 @@ const persistor = persistStore(store);
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+
+
+
+
+
+
+
 const TabNavigator = () => {
+  
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused }) => {
           let iconName;
 
+
+          
           if (route.name === "Home") {
             iconName = require("./assets/home.png");
           } else if (route.name === "Categorie") {
@@ -60,6 +65,9 @@ const TabNavigator = () => {
             iconName = require("./assets/bell.png");
           } else if (route.name === "Profil") {
             iconName = require("./assets/profil.png");
+          }
+          if(route.name === 'AddDCM'){
+            return <Text style={{display: 'none', fontSize: 0}}>YO</Text>
           }
 
           return (
@@ -94,7 +102,7 @@ const TabNavigator = () => {
         options={{ headerShown: false }}
       />
       <Tab.Screen
-        name="Profile"
+        name="Profil"
         component={ProfileScreen}
         options={{ headerShown: false }}
       />
@@ -131,13 +139,19 @@ export default function App() {
     return null;
   }
 
+  
+
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <Header />
+ 
+        
         <NavigationContainer>
+        {/* <Header/> */}
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="TabNavigator" component={TabNavigator} />
+            
+            <Stack.Screen name="AddDCM" component={AddDCMScreen}  />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

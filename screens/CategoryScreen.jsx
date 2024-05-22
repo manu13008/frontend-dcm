@@ -4,10 +4,13 @@ import Header from "../components/Header";
 const CategoryScreen = () => {
 
     return (
+      <>
+      <Header showButton={false} />
       <View style={styles.container}>
-        <Header showButton={false} />
+        
         <Text>CategorieScreen</Text>
       </View>
+      </>
     );
   };
 

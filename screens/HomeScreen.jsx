@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import Header from "../components/Header";
+
 const categories = [
   { key: "top", label: "Les Tops 🔥" },
   { key: "latest", label: "Les Dernières" },
@@ -17,6 +19,8 @@ const categories = [
 
 const HomeScreen = () => {
   return (
+    <>
+    <Header/>
     <View style={styles.MainContainer}>
       <ScrollView
         horizontal
@@ -37,6 +41,7 @@ const HomeScreen = () => {
         </Text>
       </View>
     </View>
+    </>
   );
 };
 

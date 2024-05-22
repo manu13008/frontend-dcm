@@ -1,11 +1,34 @@
 
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image, Modal, StyleSheet } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faBars, faPlus, faUser, faListAlt, faBook, faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { useNavigation, useRoute } from "@react-navigation/native";
+
+
 
 const Header = ({ showButton = true }) => {
+  const navigation = useNavigation();
+  // const [routeName, setRouteName] = ("")
+//  navigation.setOptions({ headerTitle: "Updated!" })
+
+// function test() {
+//   console.log()
+// }
+
+// useEffect(()=> {
+//   // setInterval(test, 3000)
+//   console.log("salut")
+//   if(navigation){
+//     console.log(navigation)
+//     // if(navigation.getCurrentRoute()){
+//     //   setRouteName(navigation.getCurrentRoute().name)
+//     //   console.log(routeName)
+//     // }
+//   }
+  
+// }, [])
   const [menuVisible, setMenuVisible] = useState(false);
 
   const toggleMenu = () => {
@@ -15,7 +38,7 @@ const Header = ({ showButton = true }) => {
   return (
     <View>
       <View style={styles.container}>
-        <TouchableOpacity onPress={toggleMenu}>
+        <TouchableOpacity style={styles.burgerMenu} onPress={toggleMenu}>
           <FontAwesomeIcon icon={faBars} size={30} style={styles.icon} />
         </TouchableOpacity>
         <View style={{ ...styles.logoContainer, marginRight: showButton ? '' : 30 }}>
@@ -24,7 +47,7 @@ const Header = ({ showButton = true }) => {
 
         <View style={styles.buttonContainer}>
           {showButton && (
-            <TouchableOpacity style={styles.button} onPress={() => console.log("Action du bouton")}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AddDCM')}>
               <FontAwesomeIcon style={styles.cross} icon={faPlus} size={20} />
               <Text style={styles.buttonText}> Je balance !</Text>
             </TouchableOpacity>
@@ -79,12 +102,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#ddd",
     paddingHorizontal: 5,
-    marginTop: 15,
+    // marginTop: 15,
+  },
+  burgerMenu : {
+    marginTop : 10,
   },
   logoContainer: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+       marginTop: 20,
   },
   logo: {
     width: 100,
@@ -93,6 +120,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     marginRight: 10,
+    marginTop: 20,
   },
   button: {
     flexDirection: "row",

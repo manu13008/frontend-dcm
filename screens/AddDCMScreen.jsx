@@ -4,16 +4,18 @@ import {SafeAreaView,  TextInput, TouchableOpacity} from 'react-native';
 import { useState , useEffect} from 'react';
 // import AntDesign from '@expo/vector-icons/AntDesign';
 import  DropdownMenu from '../components/DropdownMenu.jsx';
-import Header from '../components/header.jsx';
+import Header from '../components/Header.jsx';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { RadioButton } from 'react-native-paper'; 
 
 
+
+
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
 
-export default function AddDCMScreen({ navigation }) {
+export default function AddDCMScreen(props) {
 
     const [dcmText, setDcmText] = useState('');
     const [isDisableSousCat, setIsDisableSousCat] = useState(true)
@@ -28,7 +30,7 @@ export default function AddDCMScreen({ navigation }) {
     const [categories, setCategories] = useState([]);
 
 
-console.log('anonym', anonym)
+console.log('props : ', props)
 
     // Récupérer toutes les catégories dans la base de données
     const getAllCategories = () => {
@@ -91,7 +93,9 @@ console.log('La catégorie est', category)
 
 // Que fais je après avoir sélectionné une sous catégorie
 const handleSelectSousCat = (sousCategoryValue) => {
-    setSousCategory(sousCategoryValue) 
+    setSousCategory(sousCategoryValue)    
+
+
     setIsDisableActors(isDisableSousCat ? false : true)
 }
 console.log('La sous-catégorie est', sousCategory)
@@ -119,17 +123,19 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
 
 
  return (
+    <>
+    <Header showButton={false}/>
     <ScrollView contentContainerStyle={styles.scrollContainer}>
     <KeyboardAvoidingView style={styles.container}  behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
     <ScrollView >
 
 
-    <Header></Header>
+   
 
 
    
 
-    <Text style={styles.title}>Publier une DCM</Text>
+    <Text style={styles.title}>Publier une DCM  {props.test}</Text>
 
          <Text style={styles.textAbove}>Catégorie</Text>
          <View style={styles.catDropDown}>
@@ -229,7 +235,7 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
         </ScrollView>
     
 
-
+        </>
 
  );
 }
