@@ -4,7 +4,7 @@ import {SafeAreaView,  TextInput, TouchableOpacity} from 'react-native';
 import { useState , useEffect} from 'react';
 // import AntDesign from '@expo/vector-icons/AntDesign';
 import  DropdownMenu from '../components/DropdownMenu.jsx';
-import Header from '../components/header.jsx';
+import Header from '../components/Header.jsx';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { RadioButton } from 'react-native-paper'; 
