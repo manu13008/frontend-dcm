@@ -24,11 +24,11 @@ export default function Dcm(props) {
             </View>
             <Text style={styles.date}>{props.date}</Text>
             <View style={styles.iconsContainer}>
-            <Text>
-                <FontAwesomeIcon icon={faThumbsUp} size={20} style={styles.icon} />
+            <Text style={styles.icon}>
+                <FontAwesomeIcon icon={faThumbsUp} size={20}  />
             </Text>
-            <Text>
-                <FontAwesomeIcon icon={faThumbsDown} size={20} style={styles.icon} />
+            <Text style={styles.icon}>
+                <FontAwesomeIcon icon={faThumbsDown} size={20}  />
             </Text>
             </View>
         </View> 
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     icon: {
-        marginRight: 15,
+        marginHorizontal: 15,
+        
     },
 });

@@ -16,7 +16,7 @@ const categories = [
   { key: "favorite", label: "Coups de ♥️" },
   { key: "rant", label: "Coups de 😠" },
 ];
-const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
+const BACKEND_ADDRESS = 'http://10.20.2.8:3000';
 const HomeScreen = () => {
 
   const [data, setData] = useState([]);
@@ -41,6 +41,9 @@ const HomeScreen = () => {
        />
   ));
  
+
+  console.log(renderData)
+
   return (
     <>
     <Header/>
