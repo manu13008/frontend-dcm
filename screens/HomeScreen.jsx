@@ -34,7 +34,7 @@ const HomeScreen = () => {
 
   const handleCategoryPress = (category) => {
     setSelectedCategory(category.endpoint);
-    setSelectedCategoryLabel(category.label); // Utiliser le label de la catégorie sélectionnée
+    setSelectedCategoryLabel(category.label);
   };
   const renderData = data.map((item, i) => (
     // console.log("test : ", item.subCategory),
