@@ -29,7 +29,7 @@ export default function DropdownMenu(props)  {
     
 
 useEffect(() => {
-  console.log("valeurs ", props.valeurs);
+  // console.log("valeurs ", props.valeurs);
 }, [props.valeurs])
   return (
                 <Dropdown
