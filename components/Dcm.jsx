@@ -30,7 +30,7 @@ export default function Dcm(props) {
             </Text>
             <Text style={styles.iconText}>{props.dislikes}</Text>
             <Text style={styles.icon}>
-                <FontAwesomeIcon icon={faThumbsDown} size={20} color='#0047AB' />
+                <FontAwesomeIcon icon={faThumbsDown} size={20} color='#0047AB'/>
             </Text>
             </View>
         </View> 
