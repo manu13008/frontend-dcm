@@ -6,7 +6,7 @@ import { faThumbsUp, faThumbsDown,faArrowRight } from "@fortawesome/free-solid-s
 const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 
 export default function Dcm(props) {
-    console.log(props.subCategory);
+    console.log(props);
 
     return (
        
@@ -24,11 +24,13 @@ export default function Dcm(props) {
             </View>
             <Text style={styles.date}>{props.date}</Text>
             <View style={styles.iconsContainer}>
+            <Text style={styles.iconText}>{props.likes}</Text>
             <Text style={styles.icon}>
-                <FontAwesomeIcon icon={faThumbsUp} size={20}  />
+                <FontAwesomeIcon icon={faThumbsUp} size={20} color='#DE3163' />
             </Text>
+            <Text style={styles.iconText}>{props.dislikes}</Text>
             <Text style={styles.icon}>
-                <FontAwesomeIcon icon={faThumbsDown} size={20}  />
+                <FontAwesomeIcon icon={faThumbsDown} size={20} color='#0047AB' />
             </Text>
             </View>
         </View> 
@@ -89,6 +91,10 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginHorizontal: 15,
+        
+    },
+    iconText: {
+        // marginLeft: ,
         
     },
 });

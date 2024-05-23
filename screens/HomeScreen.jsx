@@ -38,6 +38,9 @@ const HomeScreen = () => {
       origins={item.origins}
       target={item.target}
       date={item.date}
+      likes={item.likes.length}
+      dislikes={item.likes.length}
+
        />
   ));
  
