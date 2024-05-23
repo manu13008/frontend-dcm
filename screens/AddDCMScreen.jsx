@@ -1,13 +1,13 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
 import React from 'react';
-import {SafeAreaView,  TextInput, TouchableOpacity} from 'react-native';
+import {  TextInput, TouchableOpacity} from 'react-native';
 import { useState , useEffect} from 'react';
 // import AntDesign from '@expo/vector-icons/AntDesign';
 import  DropdownMenu from '../components/DropdownMenu';
 import Header from '../components/Header';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { RadioButton } from 'react-native-paper'; 
+import ErrorModal from '../components/ErrorModal'
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -16,27 +16,38 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
 export default function AddDCMScreen(props) {
 
     const [dcmText, setDcmText] = useState('');
+    const [compteur, setCompteur]= useState('0')
     const [isDisableSousCat, setIsDisableSousCat] = useState(true)
     const [isDisableActors, setIsDisableActors] = useState(true)
     const [anonym, setAnonym] = useState(false);
     const [hateOrLove, setHateOrLove] = useState(null);
     
 
-    const[category, setCategory] = useState('');
-    const[sousCategory, setSousCategory] = useState('');
+    const[categorySelected, setCategorySelected] = useState('');
+    const[sousCategorySelected, setSousCategorySelected] = useState('');
+    const [actorOrigin, setActorOrigin] = useState('');
+    const [actorTarget, setActorTarget] = useState('');
 
     const [categories, setCategories] = useState([]);
+    const [sousCategories, setSousCategories] = useState([]);
+    const [actors, setActors] = useState([]);
+
+    const [placeHolderDCM, setPlaceHolderDCM]= useState("J'aime quand... / Je n'aime pas quand... / J'adore quand... / Je déteste quand...")
 
 
-console.log('props : ', props)
+    // Gestion des erreurs 
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const BACKEND_ADDRESS = 'http://10.10.200.149:3000';
+// console.log('props : ', props)
 
     // Récupérer toutes les catégories dans la base de données
     const getAllCategories = () => {
-    fetch(`http://10.20.2.8:3000/category/all`)
+    fetch(`${BACKEND_ADDRESS}/category/all`)
     .then((response) => response.json())
     .then((data) => {
         if (data) {
-            console.log('daaataaaaa',data.CategoryNames)
+            // console.log('daaataaaaa',data.CategoryNames)
             const cats = data.CategoryNames.map((cat, i) => {
                 return {label : cat, value : i}
             })
@@ -51,53 +62,112 @@ useEffect(() => {
     getAllCategories()     
   }, []);
 
-
-
-const getCategoryId = async () => {
-    let response = await fetch(`http://10.20.2.8:3000/category/${category}`)
-    let idCat = await response.json()
-    return idCat.category.id;
-}
-
-const getSousCatOfCategoryId = async () => {
-    let response = await fetch(`http://10.20.2.8:3000/category/${category}`)
-    let idCat = await response.json()
-    return idCat.category.id;
-}
-
-
-
+// Use Effect qui active le drop down menu de la sous cat
 useEffect(() => {
-    setIsDisableSousCat(category ? false : true)
-}, [category])
+    setIsDisableSousCat(categorySelected ? false : true)
+}, [categorySelected])
+
+// Use Effect qui active les 2 drop down menu des actors
+useEffect(() => {
+    setIsDisableActors(sousCategorySelected ? false : true)
+}, [sousCategorySelected])
 
 
+// Fonction qui me récupère les sous catégories d'une catégorie sélectionnée
+const getSousCategoriesFromCategory = async (categoryValue) => {
+    let response = await fetch(`${BACKEND_ADDRESS}/sousCategory/oneCategory/${categoryValue}`)
+    let responseData = await response.json()
 
-
-
-// QUe fais je après avoir sélectionner une catégorie
-const handleSelectCat = async (categoryValue) => {
-
-    setCategory(categoryValue)  
-    const idCat = await getCategoryId()
-
-    // const sousCat = await 
-
-
+    const sousCats = responseData.sousCategory.map((sousCat, i) => {
+        return {label : sousCat.name, value : i, actors : sousCat.authors}
+    })
+   setSousCategories(sousCats)
 }
-console.log('disable sous cat' , isDisableSousCat)
-console.log('La catégorie est', category)
 
+// QUe fais je après avoir sélectionner une catégorie ?
+// J'update mon useState category selected
+// Je récupère les sous catégories
+const handleSelectCat = async (categoryValue) => {
+    setCategorySelected(categoryValue)  
+    setSousCategorySelected('')
+    setActors([]);
+    getSousCategoriesFromCategory(categoryValue)
+}
+
+  
+
+
+
+function getActors(sousCategories, sousCategoryValue){
+    const res = sousCategories.find(sousCatObj => sousCatObj.label === sousCategoryValue);
+
+    const actors = res.actors.map((actor, i) => {
+        return {label : actor, value : i}
+    })
+    return actors ? actors : "Nothing found";
+  }
+  
 
 // Que fais je après avoir sélectionné une sous catégorie
 const handleSelectSousCat = (sousCategoryValue) => {
-    setSousCategory(sousCategoryValue)    
+    setSousCategorySelected(sousCategoryValue) 
+    setActors(getActors(sousCategories, sousCategoryValue));
 
-
-    setIsDisableActors(isDisableSousCat ? false : true)
 }
-console.log('La sous-catégorie est', sousCategory)
 
+
+const handleSelectActorOrigin = (actorOrigin) => {
+    setActorOrigin(actorOrigin)
+}
+
+
+const handleSelectActorTarget = (actorTarget) => {
+    setActorTarget(actorTarget);
+}
+
+console.log(dcmText)
+
+
+
+
+
+
+
+const [errorVisible, setErrorVisible] = useState(false)
+const [titleModal, setTitleModal] = useState('')
+const [messageModal, setMessageModal] = useState('')
+
+const handlePostButton = () => {
+    console.log('Post in process')
+    const regexLove = /^j'aime quand|^j'adore quand/i;
+    const regexHate = /^je n'aime pas quand|^je déteste quand/i;
+    if (!categorySelected || !sousCategorySelected || !actorOrigin || !actorTarget) {
+        setErrorVisible(true)
+        setTitleModal('Action impossible !')
+        setMessageModal('Merci de remplir les 4 choix demandés')
+
+    } else if(!hateOrLove)  {
+        setErrorVisible(true)
+        setTitleModal('Action impossible !')
+        setMessageModal('Merci de sélectionner si votre DCM est un coup de coeur ou coup de gueule') 
+    } else if (hateOrLove === 'love' && !regexLove.test(dcmText)) {
+        setErrorVisible(true)
+        setTitleModal("Tu t'es vu quand t'as bu ?" )
+        setMessageModal("Commence ton coup de coeur par 'J'aime quand ou J'adore quand'")
+    } else if (hateOrLove === 'hate' && !regexHate.test(dcmText)) {
+        setErrorVisible(true)
+        setTitleModal("Tu t'es vu quand t'as bu ?" )
+        setMessageModal("Commence ton coup de gueule par 'Je n'aime pas quand ou Je déteste quand'")
+    }
+
+
+
+}
+
+// closeModal permet de remettre l'état la modale erreur à false
+const closeModal = () => {
+    setErrorVisible(false)
+}
 
 
 const CustomRadioButton = ({ label, selected, onSelect , icon}) => ( 
@@ -120,15 +190,21 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
 
 
 
+
+
+
  return (
     <>
 
     <Header showButton={false}/>
+     <KeyboardAvoidingView style={styles.container} 
+     behavior={Platform.OS === 'ios' ? 'position' : 'height'} >
+     {/* keyboardVerticalOffset={Platform.select({ ios: 0, android: 0 })} */}
+    
+    
+   
     <ScrollView contentContainerStyle={styles.scrollContainer}>
-    <KeyboardAvoidingView style={styles.container}  behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
-    <ScrollView >
-
-
+   
    
 
     <Text style={styles.title}>Publier une DCM  {props.test}</Text>
@@ -148,6 +224,7 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
          <View style={styles.sousCatDropDown}>
              <DropdownMenu 
              handleSelectItem={handleSelectSousCat}
+             valeurs={sousCategories}
              isDisable={isDisableSousCat} 
              placeHolderNotFocus='Choisis une sous-catégorie' 
              placeHolderFocus = 'Sous-catégorie...' />
@@ -155,14 +232,20 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
 
          <Text style={styles.textAbove}>Tu es : </Text>
          <View style={styles.iAmDropDown}>
-             <DropdownMenu isDisable={isDisableActors} 
+             <DropdownMenu 
+             handleSelectItem={handleSelectActorOrigin} 
+             valeurs={actors}
+             isDisable={isDisableActors} 
              placeHolderNotFocus='Choisis...' 
              placeHolderFocus = 'Choisis...'/>
          </View>
 
          <Text style={styles.textAbove}>Je balance sur : </Text>
          <View style={styles.balanceDropDown}>
-             <DropdownMenu isDisable={isDisableActors}
+             <DropdownMenu 
+             handleSelectItem={handleSelectActorTarget} 
+             valeurs={actors}
+             isDisable={isDisableActors}
              placeHolderNotFocus='Choisis...' 
              placeHolderFocus = 'Choisis...'/>
          </View>
@@ -177,14 +260,20 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
                 label='Coup de '
                 icon = {faHeart}
                 selected={hateOrLove === 'love'}  
-                onSelect={() => setHateOrLove('love')}/> 
+                onSelect={() => {setHateOrLove('love')
+                setPlaceHolderDCM("J'aime quand.../ J'adore quand...")}
+                }/> 
 
 
 
              <CustomRadioButton 
                 label="Coup de 😠"
                 selected={hateOrLove === 'hate'} 
-                onSelect={() => setHateOrLove('hate')} /> 
+                onSelect={() =>  {
+                    setHateOrLove('hate')
+                    setPlaceHolderDCM("Je n'aime pas quand.../ Je déteste quand...")
+                
+                } }/> 
 
 
 
@@ -192,14 +281,23 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
 
                  <View style={styles.textInput}>
                      <Text style={styles.yourDCM}>Ta DCM</Text>
+                      
                      <TextInput
                          style={styles.input}
                          multiline={true}
                          numberOfLines={8}
-                         onChangeText={setDcmText}
+                         onChangeText={(text)=> {setDcmText(text), setCompteur(text.length)}}
                          value={dcmText}
-                         placeholder="J'aime quand... / Je n'aime pas quand... / J'adore quand... / Je déteste quand..."
+                         maxLength={500}
+                         placeholder={placeHolderDCM}
+                         autoCapitalize= 'sentences'
+                         
                      />
+                 </View>
+
+
+                 <View style = {styles.compteur}>
+                    <Text>{compteur}/500</Text>
                  </View>
 
                  <View style={styles.anonymPart}>
@@ -216,9 +314,11 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
                      <Text style={styles.textAnonym}>Poster ma DCM anonymement</Text>
                  </View>
 
+                
+
                  <View style={styles.balanceContainer}>
-                     <TouchableOpacity style={styles.post}>
-                         {/* onPress={() => navigation.navigate('TabNavigator')}> */}
+                     <TouchableOpacity style={styles.post}  onPress={() => handlePostButton()}>
+                        
                          <Text style={styles.textPost}>Je Balance !</Text>
                      </TouchableOpacity>
                  </View>
@@ -227,8 +327,9 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
 
      
         </ScrollView>
+        
         </KeyboardAvoidingView>
-        </ScrollView>
+        
     
 
         </>
@@ -314,6 +415,7 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
 
     },
     input : {
+        height: 8 * 20,
         paddingHorizontal : 10,
         paddingVertical : 5,
         // height : '50%',
@@ -351,8 +453,14 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
         height : 50,
         marginBottom : 30,
     },
+    compteur : {
+        flexDirection : 'row-reverse',
+        marginRight : 25,
+        marginTop : -30,
+        marginBottom : 20,
 
-  
+    }
+    
 
 
   });
