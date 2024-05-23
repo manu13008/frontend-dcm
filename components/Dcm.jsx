@@ -6,12 +6,13 @@ import { faThumbsUp, faThumbsDown,faArrowRight } from "@fortawesome/free-solid-s
 const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 
 export default function Dcm(props) {
-    console.log(props.subCategory);
-
+    console.log(props);
+    const containerStyle = props.type 
+        ? [styles.dataContainer, styles.heart] : [styles.dataContainer, styles.rant];
     return (
        
-        
-        <View style={styles.dataContainer}>
+        <View style={containerStyle}>
+
             <View  style={styles.header}>
             {props.author && <Text style={styles.userName}>{props.author.username}</Text>}
             <Text style={styles.message}>{props.subCategory}</Text>
@@ -24,11 +25,13 @@ export default function Dcm(props) {
             </View>
             <Text style={styles.date}>{props.date}</Text>
             <View style={styles.iconsContainer}>
-            <Text>
-                <FontAwesomeIcon icon={faThumbsUp} size={20} style={styles.icon} />
+            <Text style={styles.iconText}>{props.likes}</Text>
+            <Text style={styles.icon}>
+                <FontAwesomeIcon icon={faThumbsUp} size={20} color='#DE3163' />
             </Text>
-            <Text>
-                <FontAwesomeIcon icon={faThumbsDown} size={20} style={styles.icon} />
+            <Text style={styles.iconText}>{props.dislikes}</Text>
+            <Text style={styles.icon}>
+                <FontAwesomeIcon icon={faThumbsDown} size={20} color='#0047AB'/>
             </Text>
             </View>
         </View> 
@@ -65,17 +68,17 @@ const styles = StyleSheet.create({
     },
     origins: {
         fontSize: 12,
-        color: '#888',
+        color: '#545455',
         marginRight:10,
     },
     target: {
         fontSize: 12,
-        color: '#888',
+        color: '#545455',
         marginLeft:10,
     },
     date: {
         fontSize: 12,
-        color: '#888',
+        color: '#545455',
     },
     cibleContainer:{
         flexDirection: 'row',
@@ -88,6 +91,17 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     icon: {
-        marginRight: 15,
+        marginHorizontal: 15,
+        
     },
+    iconText: {
+        // marginLeft: ,
+        
+    },
+    heart: {
+        backgroundColor: '#ffcccc', // Couleur de fond pour les Coups de ♥️
+      },
+      rant: {
+        backgroundColor: '#ffd1a9', // Couleur de fond pour les Coups de 😠
+      },
 });
