@@ -7,11 +7,12 @@ const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 
 export default function Dcm(props) {
     console.log(props);
-
+    const containerStyle = props.type 
+        ? [styles.dataContainer, styles.heart] : [styles.dataContainer, styles.rant];
     return (
        
-        
-        <View style={styles.dataContainer}>
+        <View style={containerStyle}>
+
             <View  style={styles.header}>
             {props.author && <Text style={styles.userName}>{props.author.username}</Text>}
             <Text style={styles.message}>{props.subCategory}</Text>
@@ -67,17 +68,17 @@ const styles = StyleSheet.create({
     },
     origins: {
         fontSize: 12,
-        color: '#888',
+        color: '#545455',
         marginRight:10,
     },
     target: {
         fontSize: 12,
-        color: '#888',
+        color: '#545455',
         marginLeft:10,
     },
     date: {
         fontSize: 12,
-        color: '#888',
+        color: '#545455',
     },
     cibleContainer:{
         flexDirection: 'row',
@@ -97,4 +98,10 @@ const styles = StyleSheet.create({
         // marginLeft: ,
         
     },
+    heart: {
+        backgroundColor: '#ffcccc', // Couleur de fond pour les Coups de ♥️
+      },
+      rant: {
+        backgroundColor: '#ffd1a9', // Couleur de fond pour les Coups de 😠
+      },
 });

@@ -13,8 +13,8 @@ const categories = [
   { key: "top", label: "Les Tops 🔥", endpoint: "/dcm/mostLiked" },
   { key: "latest", label: "Les Dernières ⏳",endpoint: "/dcm/lastDcm" },
   { key: "random", label: "Aléatoires 🎲", endpoint: "/dcm/random" },
-  { key: "favorite", label: "Coups de ♥️" },
-  { key: "rant", label: "Coups de 😠" ,endpoint: "/dcm//mostLikedHate" },
+  { key: "favorite", label: "Coups de ♥️" ,endpoint:"/dcm/mostLikedHeart" },
+  { key: "rant", label: "Coups de 😠" ,endpoint: "/dcm/mostLikedHate" },
 ];
 const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 const HomeScreen = () => {
@@ -46,7 +46,8 @@ const HomeScreen = () => {
       target={item.target}
       date={item.date}
       likes={item.likes.length}
-      dislikes={item.likes.length}
+      dislikes={item.dislikes.length}
+      type={item.type}
 
        />
   ));
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
     color: "red",
   },
   labelStyle: {
-    marginBottom:19,
+ 
     paddingBottom:10,
     alignItems:'center',
     borderBottomWidth: 1,
