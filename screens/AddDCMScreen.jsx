@@ -40,7 +40,7 @@ export default function AddDCMScreen(props) {
     // Gestion des erreurs 
     const [modalVisible, setModalVisible] = useState(false);
 
-    const BACKEND_ADDRESS = 'http://10.10.200.149:3000';
+    const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 // console.log('props : ', props)
 
     // Récupérer toutes les catégories dans la base de données
