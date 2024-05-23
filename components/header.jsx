@@ -1,35 +1,17 @@
 
-
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image, Modal, StyleSheet } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faBars, faPlus, faUser, faListAlt, faBook, faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faArrowLeft, faPlus, faUser, faListAlt, faBook, faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-
-
 
 const Header = ({ showButton = true }) => {
   const navigation = useNavigation();
-  // const [routeName, setRouteName] = ("")
-//  navigation.setOptions({ headerTitle: "Updated!" })
-
-// function test() {
-//   console.log()
-// }
-
-// useEffect(()=> {
-//   // setInterval(test, 3000)
-//   console.log("salut")
-//   if(navigation){
-//     console.log(navigation)
-//     // if(navigation.getCurrentRoute()){
-//     //   setRouteName(navigation.getCurrentRoute().name)
-//     //   console.log(routeName)
-//     // }
-//   }
-  
-// }, [])
+  const route = useRoute();
   const [menuVisible, setMenuVisible] = useState(false);
+  const handleNavigateToAddDCM = () => {
+    navigation.navigate('AddDCM');
+  };
 
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
@@ -38,8 +20,8 @@ const Header = ({ showButton = true }) => {
   return (
     <View>
       <View style={styles.container}>
-        <TouchableOpacity style={styles.burgerMenu} onPress={toggleMenu}>
-          <FontAwesomeIcon icon={faBars} size={30} style={styles.icon} />
+        <TouchableOpacity style={styles.burgerMenu} onPress={route.name === 'Home' ? toggleMenu : () => navigation.goBack()}>
+          <FontAwesomeIcon icon={route.name === 'Home' ? faBars : faArrowLeft} size={30} style={styles.icon} />
         </TouchableOpacity>
         <View style={{ ...styles.logoContainer, marginRight: showButton ? '' : 30 }}>
           <Image source={require("../assets/logo.png")} style={styles.logo} />
@@ -47,7 +29,7 @@ const Header = ({ showButton = true }) => {
 
         <View style={styles.buttonContainer}>
           {showButton && (
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AddDCM')}>
+            <TouchableOpacity style={styles.button} onPress={handleNavigateToAddDCM}>
               <FontAwesomeIcon style={styles.cross} icon={faPlus} size={20} />
               <Text style={styles.buttonText}> Je balance !</Text>
             </TouchableOpacity>
@@ -102,7 +84,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#ddd",
     paddingHorizontal: 5,
-    // marginTop: 15,
   },
   burgerMenu : {
     marginTop : 10,
@@ -111,7 +92,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-       marginTop: 20,
+    marginTop: 20,
   },
   logo: {
     width: 100,
@@ -167,6 +148,3 @@ const styles = StyleSheet.create({
 });
 
 export default Header;
-
-
-

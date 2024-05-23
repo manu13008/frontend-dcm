@@ -1,7 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
 
-
 // Redux
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
@@ -9,8 +8,6 @@ import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { combineReducers } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-import Header from './components/Header'
 
 /*NAVIGATION*/
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
@@ -23,6 +20,7 @@ import ProfileScreen from "./screens/ProfileScreen";
 import LoginScreen from "./screens/LoginScreen";
 import AddDCMScreen from "./screens/AddDCMScreen";
 import SignUpScreen from "./screens/SignUpScreen";
+import DCMCategory from "./screens/DCMCategory";
 
 // Persistance du store
 import user from "./reducers/user";
@@ -39,23 +37,13 @@ const persistor = persistStore(store);
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-
-
-
-
-
-
-
 const TabNavigator = () => {
-  
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused }) => {
           let iconName;
 
-
-          
           if (route.name === "Home") {
             iconName = require("./assets/home.png");
           } else if (route.name === "Categorie") {
@@ -65,8 +53,8 @@ const TabNavigator = () => {
           } else if (route.name === "Profil") {
             iconName = require("./assets/profil.png");
           }
-          if(route.name === 'AddDCM'){
-            return <Text style={{display: 'none', fontSize: 0}}>YO</Text>
+          if (route.name === "AddDCM") {
+            return <Text style={{ display: "none", fontSize: 0 }}>YO</Text>;
           }
 
           return (
@@ -113,8 +101,6 @@ const TabNavigator = () => {
 import { useCallback } from "react";
 import { useFonts } from "expo-font";
 
-
-
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
     "Gothic A1 Black": require("./assets/fonts/Gothic A1 Black.ttf"),
@@ -138,19 +124,15 @@ export default function App() {
     return null;
   }
 
-  
-
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
- 
-        
         <NavigationContainer>
-        {/* <Header/> */}
+          {/* <Header/> */}
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="TabNavigator" component={TabNavigator} />
-            
-            <Stack.Screen name="AddDCM" component={AddDCMScreen}  />
+            <Stack.Screen name="AddDCM" component={AddDCMScreen} />
+            <Stack.Screen name="DCMCategory" component={DCMCategory} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
