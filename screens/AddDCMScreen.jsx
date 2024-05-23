@@ -10,6 +10,8 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import ErrorModal from '../components/ErrorModal'
 
 
+
+
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
 
@@ -195,7 +197,6 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
 
  return (
     <>
-
     <Header showButton={false}/>
      <KeyboardAvoidingView style={styles.container} 
      behavior={Platform.OS === 'ios' ? 'position' : 'height'} >
@@ -206,9 +207,7 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
    
    
-
-<<<<<<< HEAD
-=======
+  
 
    
     {errorVisible &&
@@ -220,7 +219,6 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
       />}
    
 
->>>>>>> manu-front4
     <Text style={styles.title}>Publier une DCM  {props.test}</Text>
 
          <Text style={styles.textAbove}>Catégorie</Text>
@@ -345,7 +343,7 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
         </KeyboardAvoidingView>
         
     
-
+  
         </>
 
  );
