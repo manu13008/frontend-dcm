@@ -3,13 +3,11 @@ import React from 'react';
 import {SafeAreaView,  TextInput, TouchableOpacity} from 'react-native';
 import { useState , useEffect} from 'react';
 // import AntDesign from '@expo/vector-icons/AntDesign';
-import  DropdownMenu from '../components/DropdownMenu.jsx';
-import Header from '../components/Header.jsx';
+import  DropdownMenu from '../components/DropdownMenu';
+import Header from '../components/Header';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { RadioButton } from 'react-native-paper'; 
-
-
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -124,13 +122,11 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
 
  return (
     <>
+
     <Header showButton={false}/>
     <ScrollView contentContainerStyle={styles.scrollContainer}>
     <KeyboardAvoidingView style={styles.container}  behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
     <ScrollView >
-
-
-   
 
 
    
