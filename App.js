@@ -1,6 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9221183ea1730e7fa7c30a6bf8fff893a3c8901a
 // Redux
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
@@ -9,10 +13,14 @@ import { PersistGate } from "redux-persist/integration/react";
 import { combineReducers } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+<<<<<<< HEAD
 import Header from "./components/Header";
+=======
+import Header from './components/Header'
+>>>>>>> 9221183ea1730e7fa7c30a6bf8fff893a3c8901a
 
 /*NAVIGATION*/
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import CategoryScreen from "./screens/CategoryScreen";
@@ -38,13 +46,23 @@ const persistor = persistStore(store);
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+
+
+
+
+
+
+
 const TabNavigator = () => {
+  
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused }) => {
           let iconName;
 
+
+          
           if (route.name === "Home") {
             iconName = require("./assets/home.png");
           } else if (route.name === "Categorie") {
@@ -53,6 +71,9 @@ const TabNavigator = () => {
             iconName = require("./assets/bell.png");
           } else if (route.name === "Profil") {
             iconName = require("./assets/profil.png");
+          }
+          if(route.name === 'AddDCM'){
+            return <Text style={{display: 'none', fontSize: 0}}>YO</Text>
           }
 
           return (
@@ -122,13 +143,19 @@ export default function App() {
     return null;
   }
 
+  
+
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <Header />
+ 
+        
         <NavigationContainer>
+        {/* <Header/> */}
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="TabNavigator" component={TabNavigator} />
+            
+            <Stack.Screen name="AddDCM" component={AddDCMScreen}  />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

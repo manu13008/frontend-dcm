@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import ButtonPrimary from '../components/ButtonPrimary'
 import Input from '../components/Input'
+import Header from "../components/Header";
 
 import { useState } from "react";
 import { login } from "../reducers/user";
@@ -42,6 +43,8 @@ function LoginScreen({navigation}) {
     console.log(password)
   }
   return (
+    <>
+    <Header showButton={false}/>
     <View style={styles.container}>
        <Text style ={styles.errorMessage}>{errorMessage}</Text>
         <Input placeholder='E-mail' onChangeText={(value) => setEmail(value)} value={email}/>
@@ -51,6 +54,7 @@ function LoginScreen({navigation}) {
           <Text style={styles.text}>Pas encore membre ? <Text style={styles.link} onPress={() => navigation.navigate('SignUpScreen')}>M'inscrire</Text></Text>
         </View>
     </View>
+    </>
 
   );
 };
