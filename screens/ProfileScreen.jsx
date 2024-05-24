@@ -6,7 +6,7 @@ import Header from "../components/Header";
 const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 
 const ProfilScreen = () => {
-  const [categories, setCategories] = useState([]);
+
 
   const categoriesList = [
     "Mes DCM",
@@ -16,23 +16,10 @@ const ProfilScreen = () => {
   ];
 
   const navigation = useNavigation();
-
-  const handleCategoryPress = (categoryName) => { 
-    switch (categoryName) {
-      case "Mes DCM":
-        navigation.navigate("DCMScreen");
-        break;
-      case "Mes Tops (Likes)":
-        navigation.navigate("TopScreen");
-        break;
-      case "Mes Balance Préférées":
-        navigation.navigate("FavoriteTagsScreen");
-        break;
-      case "Mon Compte":
-        navigation.navigate("AccountScreen");
-        break;
-      default:
-        break;
+  const handleCategoryPress = (categoryName) => {
+    const screenName = categoryToScreenMap[categoryName];
+    if (screenName) {
+      navigation.navigate(screenName);
     }
   };
 
