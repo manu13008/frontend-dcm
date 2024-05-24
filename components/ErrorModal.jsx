@@ -16,7 +16,7 @@ export default function ErrorModal(props)  {
     
   
   return (
-       
+      <View style={styles.container}>
               <Modal
               animationType="slide"
               transparent={true}
@@ -33,6 +33,7 @@ export default function ErrorModal(props)  {
                 </View>
               </View>
             </Modal>
+            </View>
                 
                 )
             }
@@ -41,6 +42,11 @@ export default function ErrorModal(props)  {
 
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
     modalView: {
         margin: 30,
         backgroundColor: 'white',
@@ -54,14 +60,25 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
-        elevation: 5,
+        elevation: 10,
+      },
+      centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
+      },
+      titleModal : {
+        fontSize : 18,
+        fontWeight : 'bold',
+        marginBottom : 20,
       },
       modalText: {
-        marginBottom: 15,
+        marginBottom: 30,
         textAlign: 'center',
       },
       closeModal : {
-        backgroundColor : 'grey',
+        backgroundColor : 'lightblue',
         borderRadius : 10,
         paddingHorizontal : 15,
         paddingVertical : 10,
