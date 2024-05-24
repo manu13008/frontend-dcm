@@ -6,7 +6,8 @@ import { faThumbsUp, faThumbsDown,faArrowRight } from "@fortawesome/free-solid-s
 const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 
 export default function Dcm(props) {
-    console.log(props);
+
+    console.log(props.isAnonym);
     const containerStyle = props.type 
         ? [styles.dataContainer, styles.heart] : [styles.dataContainer, styles.rant];
     return (
@@ -14,7 +15,8 @@ export default function Dcm(props) {
         <View style={containerStyle}>
 
             <View  style={styles.header}>
-            {props.author && <Text style={styles.userName}>{props.author.username}</Text>}
+            {!props.isAnonym && props.author && <Text style={styles.userName}>{props.author.username}</Text>}
+            <Text>{props.isAnonym} </Text>
             <Text style={styles.message}>{props.subCategory}</Text>
             </View>
             <Text style={styles.message}>{props.content}</Text>
@@ -99,9 +101,9 @@ const styles = StyleSheet.create({
         
     },
     heart: {
-        backgroundColor: '#ffcccc', // Couleur de fond pour les Coups de ♥️
+        backgroundColor: '#ffcccc',
       },
       rant: {
-        backgroundColor: '#ffd1a9', // Couleur de fond pour les Coups de 😠
+        backgroundColor: '#ffd1a9', 
       },
 });
