@@ -8,37 +8,49 @@ import Header from '../components/Header';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import ErrorModal from '../components/ErrorModal'
-
-
-
-
+import { useNavigation } from "@react-navigation/native";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
+import { useSelector } from 'react-redux';
 
 export default function AddDCMScreen(props) {
+
+    const user = useSelector((state) => state.user);
+    console.log('user token',user)
+
+    const navigation = useNavigation();
+
 
     const [dcmText, setDcmText] = useState('');
     const [compteur, setCompteur]= useState('0')
     const [isDisableSousCat, setIsDisableSousCat] = useState(true)
     const [isDisableActors, setIsDisableActors] = useState(true)
-    const [anonym, setAnonym] = useState(false);
-    const [hateOrLove, setHateOrLove] = useState(null);
-    
+    const [placeHolderDCM, setPlaceHolderDCM]= useState("J'aime quand... / Je n'aime pas quand... / J'adore quand... / Je déteste quand...")
 
+    // Options possibles de l'utilisateur
+    const [hateOrLove, setHateOrLove] = useState(null);
+    const [anonym, setAnonym] = useState(user.token ? false : true);
+
+    // Selection utilisateur
     const[categorySelected, setCategorySelected] = useState('');
     const[sousCategorySelected, setSousCategorySelected] = useState('');
     const [actorOrigin, setActorOrigin] = useState('');
     const [actorTarget, setActorTarget] = useState('');
 
+    // Liste de choix possible pour l'utilisateur
     const [categories, setCategories] = useState([]);
     const [sousCategories, setSousCategories] = useState([]);
     const [actors, setActors] = useState([]);
 
-    const [placeHolderDCM, setPlaceHolderDCM]= useState("J'aime quand... / Je n'aime pas quand... / J'adore quand... / Je déteste quand...")
+   
 
+    // Gestion des erreurs
+    const [errorVisible, setErrorVisible] = useState(false)
+    const [titleModal, setTitleModal] = useState('')
+    const [messageModal, setMessageModal] = useState('') 
+    
 
-    // Gestion des erreurs 
-    const [modalVisible, setModalVisible] = useState(false);
+    
 
     const BACKEND_ADDRESS = 'http://192.168.1.141:3000';
 // console.log('props : ', props)
@@ -50,7 +62,7 @@ export default function AddDCMScreen(props) {
     .then((data) => {
         if (data) {
             // console.log('daaataaaaa',data.CategoryNames)
-            const cats = data.CategoryNames.map((cat, i) => {
+            const cats = data.CategoryNames.sort().map((cat, i) => {
                 return {label : cat, value : i}
             })
            setCategories(cats)
@@ -67,6 +79,7 @@ useEffect(() => {
 // Use Effect qui active le drop down menu de la sous cat
 useEffect(() => {
     setIsDisableSousCat(categorySelected ? false : true)
+    // setSousCategories([])
 }, [categorySelected])
 
 // Use Effect qui active les 2 drop down menu des actors
@@ -79,9 +92,9 @@ useEffect(() => {
 const getSousCategoriesFromCategory = async (categoryValue) => {
     let response = await fetch(`${BACKEND_ADDRESS}/sousCategory/oneCategory/${categoryValue}`)
     let responseData = await response.json()
-
-    const sousCats = responseData.sousCategory.map((sousCat, i) => {
-        return {label : sousCat.name, value : i, actors : sousCat.authors}
+    // console.log('sous cat avant' ,responseData)
+    const sousCats = responseData.sousCategory.sort((a, b) => a.name.localeCompare(b.name)).map((sousCat, i) => {
+        return {label : sousCat.name, value : i, actors : sousCat.authors , id_sousCat : sousCat._id}
     })
    setSousCategories(sousCats)
 }
@@ -90,10 +103,10 @@ const getSousCategoriesFromCategory = async (categoryValue) => {
 // J'update mon useState category selected
 // Je récupère les sous catégories
 const handleSelectCat = async (categoryValue) => {
-    setCategorySelected(categoryValue)  
+    setCategorySelected(categoryValue.label)  
     setSousCategorySelected('')
     setActors([]);
-    getSousCategoriesFromCategory(categoryValue)
+    getSousCategoriesFromCategory(categoryValue.label)
 }
 
   
@@ -102,20 +115,23 @@ const handleSelectCat = async (categoryValue) => {
 
 function getActors(sousCategories, sousCategoryValue){
     const res = sousCategories.find(sousCatObj => sousCatObj.label === sousCategoryValue);
-
-    const actors = res.actors.map((actor, i) => {
+    
+    const actors = res.actors.sort().map((actor, i) => {
         return {label : actor, value : i}
     })
-    return actors ? actors : "Nothing found";
+
+    return actors ? actors.sort() : "Nothing found";
   }
   
 
 // Que fais je après avoir sélectionné une sous catégorie
 const handleSelectSousCat = (sousCategoryValue) => {
+    
     setSousCategorySelected(sousCategoryValue) 
-    setActors(getActors(sousCategories, sousCategoryValue));
+    setActors(getActors(sousCategories, sousCategoryValue.label));
 
 }
+
 
 
 const handleSelectActorOrigin = (actorOrigin) => {
@@ -127,19 +143,12 @@ const handleSelectActorTarget = (actorTarget) => {
     setActorTarget(actorTarget);
 }
 
-console.log(dcmText)
 
 
 
 
 
-
-
-const [errorVisible, setErrorVisible] = useState(false)
-const [titleModal, setTitleModal] = useState('')
-const [messageModal, setMessageModal] = useState('')
-
-const handlePostButton = () => {
+const handlePostButton = async () => {
     console.log('Post in process')
     const regexLove = /^j'aime quand|^j'adore quand/i;
     const regexHate = /^je n'aime pas quand|^je déteste quand/i;
@@ -160,6 +169,33 @@ const handlePostButton = () => {
         setErrorVisible(true)
         setTitleModal("Tu t'es vu quand t'as bu ?" )
         setMessageModal("Commence ton coup de gueule par 'Je n'aime pas quand ou Je déteste quand'")
+    } else {
+
+        const data = {content : dcmText , subCategory : sousCategorySelected.id_sousCat,
+            origins : actorOrigin.label , target : actorTarget.label , type : hateOrLove , isAnonym : anonym
+        }
+
+
+        if (user.token) {
+            
+                }
+
+        let response = await fetch(`${BACKEND_ADDRESS}/dcm/send` , {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+               'Authorization': `Bearer ${user.token}`
+            },
+            body: JSON.stringify(data)
+    } )
+
+    let responseData = await response.json()
+    console.log('test post dcm' ,responseData)
+
+        setErrorVisible(true)
+        setTitleModal("DCM en cours de modération" )
+        setMessageModal("Merci d'avoir posté votre DCM. Celle-ci est en cours de modération et devrait apparaitre d'ici quelques minutes.")
+
     }
 
 
@@ -169,6 +205,9 @@ const handlePostButton = () => {
 // closeModal permet de remettre l'état la modale erreur à false
 const closeModal = () => {
     setErrorVisible(false)
+    if (titleModal == 'DCM en cours de modération') {
+        navigation.navigate('TabNavigator');
+    }   
 }
 
 
@@ -192,9 +231,11 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
 
 
 
+console.log('anonym', anonym , user.token)
 
-
-
+const test = (value) => {
+    console.log(value, anonym)
+}
  return (
     <>
     <Header showButton={false}/>
@@ -228,7 +269,9 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
              valeurs={categories}
              isDisable={false} 
              placeHolderNotFocus='Sélectionner une catégorie' 
-             placeHolderFocus = 'Catégorie...'  />
+             placeHolderFocus = 'Catégorie...'  
+             />
+             
          </View>
 
 
@@ -239,7 +282,9 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
              valeurs={sousCategories}
              isDisable={isDisableSousCat} 
              placeHolderNotFocus='Choisis une sous-catégorie' 
-             placeHolderFocus = 'Sous-catégorie...' />
+             placeHolderFocus = 'Sous-catégorie...' 
+             />
+             
          </View>
 
          <Text style={styles.textAbove}>Tu es : </Text>
@@ -249,7 +294,9 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
              valeurs={actors}
              isDisable={isDisableActors} 
              placeHolderNotFocus='Choisis...' 
-             placeHolderFocus = 'Choisis...'/>
+             placeHolderFocus = 'Choisis...'
+             />
+             
          </View>
 
          <Text style={styles.textAbove}>Je balance sur : </Text>
@@ -259,7 +306,9 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
              valeurs={actors}
              isDisable={isDisableActors}
              placeHolderNotFocus='Choisis...' 
-             placeHolderFocus = 'Choisis...'/>
+             placeHolderFocus = 'Choisis...'
+             />
+             
          </View>
 
          <View style={styles.buttons}>
@@ -321,7 +370,11 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
                          //   text="Custom Checkbox"
                          iconStyle={{ borderColor: "red" }}
                          innerIconStyle={{ borderWidth: 2 }}
-                         onPress={(isChecked) => setAnonym(isChecked)} // Anonym true si cochée, false si pas cochée (par défaut false)
+                        //  isChecked =  {user.token ? anonym : true }
+                         isChecked = {true}
+                        // onPress={(isChecked) =>true}
+                        onPress={(e) => test(e)}
+                        //  onPress={(isChecked) => user.token ?  setAnonym(true) : setAnonym(true) } // Anonym true si cochée, false si pas cochée (par défaut false)
                      />
                      <Text style={styles.textAnonym}>Poster ma DCM anonymement</Text>
                  </View>
@@ -476,4 +529,10 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
 
 
   });
+
+
+
+
+
+
 

@@ -23,28 +23,57 @@ const ProfilScreen = () => {
     }
   };
 
-  return (
-    <>
-      <Header showButton={false} />
-      <View style={styles.container}>
-        <ScrollView
-          contentContainerStyle={styles.scrollContainer}
-          showsVerticalScrollIndicator={false}
-        >  
-          {categoriesList.map((category, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.catItem}
-              onPress={() => handleCategoryPress(category)}
-            >
-              <Text style={styles.textCat}>{category}</Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-      </View>
-    </>
-  );
-};
+
+
+  const user = useSelector((state) => state.user);
+  console.log('USER',user)
+
+  const [showLogin, setShowLogin] = useState(true);
+
+  const handleScreen = () => {
+    setShowLogin(!showLogin)
+  }
+  if (!user.token) {
+    return (
+  
+      <>
+        { showLogin ? <SignUpScreen handleDisplay={handleScreen}/> : <LoginScreen handleDisplay={handleScreen} /> }
+        {/* <Text onPress={() => setShowLogin(!showLogin)}>
+          {showLogin ? "Go to Signup" : "Go to Login"}
+        </Text> */}
+        </>
+
+      
+    );
+  } else {
+
+
+    return (
+      <>
+        <Header showButton={false} />
+        <View style={styles.container}>
+          <ScrollView
+            contentContainerStyle={styles.scrollContainer}
+            showsVerticalScrollIndicator={false}
+          >  
+            {categoriesList.map((category, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.catItem}
+                onPress={() => handleCategoryPress(category)}
+              >
+                <Text style={styles.textCat}>{category}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+      </>
+    );
+  
+  }
+}
+
+
 
 const windowWidth = Dimensions.get('window').width;
 

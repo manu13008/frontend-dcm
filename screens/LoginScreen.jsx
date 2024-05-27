@@ -7,20 +7,21 @@ import Header from "../components/Header";
 import { useState } from "react";
 import { login } from "../reducers/user";
 import { useDispatch } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 
-
-function LoginScreen({navigation}) {
+function LoginScreen({handleDisplay}) {
 
   const [errorMessage, SetErrorMessage] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const dispatch = useDispatch()
-
+  const navigation = useNavigation();
 
   const handleLogin = () => {
-    fetch('http://10.20.2.12:3000/users/signin', {
+    console.log(email, password)
+    fetch('http://10.20.2.253:3000/users/signin', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({email: email, password: password})
@@ -29,9 +30,9 @@ function LoginScreen({navigation}) {
  .then(data => {
   console.log(data.result)
    if(data.result){
-      dispatch(login({email: data.email, token: data.token}))
+      dispatch(login({username: data.username, token: data.token}))
       console.log(data.token, data.email)
-      navigation.navigate('HomeScreen')
+      navigation.navigate('TabNavigator' , { screen: 'Home' })
    } else {
       SetErrorMessage(result.error)
    }
@@ -51,7 +52,7 @@ function LoginScreen({navigation}) {
         <Input placeholder='Mot de passe' onChangeText={(value) => setPassword(value)} value={password} />
         <ButtonPrimary text="Me Connecter" onPress={() => handleLogin()}/>
         <View>
-          <Text style={styles.text}>Pas encore membre ? <Text style={styles.link} onPress={() => navigation.navigate('SignUpScreen')}>M'inscrire</Text></Text>
+          <Text style={styles.text}>Pas encore membre ? <Text style={styles.link} onPress={() => handleDisplay()}>M'inscrire</Text></Text>
         </View>
     </View>
     </>
