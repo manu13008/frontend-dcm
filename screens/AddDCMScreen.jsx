@@ -20,12 +20,14 @@ export default function AddDCMScreen(props) {
 
     const navigation = useNavigation();
 
+    const BACKEND_ADDRESS = 'http://192.168.1.130:3000';
 
     const [dcmText, setDcmText] = useState('');
     const [compteur, setCompteur]= useState('0')
     const [isDisableSousCat, setIsDisableSousCat] = useState(true)
     const [isDisableActors, setIsDisableActors] = useState(true)
     const [placeHolderDCM, setPlaceHolderDCM]= useState("J'aime quand... / Je n'aime pas quand... / J'adore quand... / Je déteste quand...")
+
     // Options possibles de l'utilisateur
     const [hateOrLove, setHateOrLove] = useState(null);
     const [anonym, setAnonym] = useState(user.token ? false : true);
@@ -51,12 +53,14 @@ export default function AddDCMScreen(props) {
 
     
 
-    const BACKEND_ADDRESS = 'http://192.168.1.141:3000';
-// console.log('props : ', props)
 
     // Récupérer toutes les catégories dans la base de données
     const getAllCategories = () => {
+<<<<<<< HEAD
     fetch(`${BACKEND_ADDRESS}/category/all`)
+=======
+    fetch(`http://192.168.1.12:3000/category/all`)
+>>>>>>> dcm
     .then((response) => response.json())
     .then((data) => {
         if (data) {
@@ -75,7 +79,26 @@ useEffect(() => {
     getAllCategories()     
   }, []);
 
+<<<<<<< HEAD
 // Use Effect qui active le drop down menu de la sous cat
+=======
+
+
+const getCategoryId = async () => {
+    let response = await fetch(`http://192.168.1.12:3000/category/${category}`)
+    let idCat = await response.json()
+    return idCat.category.id;
+}
+
+const getSousCatOfCategoryId = async () => {
+    let response = await fetch(`http://192.168.1.12:3000/category/${category}`)
+    let idCat = await response.json()
+    return idCat.category.id;
+}
+
+
+
+>>>>>>> dcm
 useEffect(() => {
     setIsDisableSousCat(categorySelected ? false : true)
     // setSousCategories([])
@@ -528,10 +551,3 @@ const test = (value) => {
 
 
   });
-
-
-
-
-
-
-
