@@ -23,7 +23,7 @@ function SignUpScreen({ handleDisplay}) {
 
 
   const handleSignUp = () => {
-    fetch('http://10.20.2.8:3000/users/signup', {
+    fetch('http://192.168.1.130:3000/users/signup', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({username: pseudo, email: email, password: password})

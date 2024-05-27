@@ -3,7 +3,13 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Dimensions } from
 import { useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
 
-const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
+import LoginScreen from "./LoginScreen";
+import SignUpScreen from "./SignUpScreen";
+import { useSelector } from 'react-redux';
+
+// import { useNavigation } from "@react-navigation/native";
+
+const BACKEND_ADDRESS = 'http://192.168.1.130:3000';
 
 const ProfilScreen = () => {
 
@@ -23,31 +29,8 @@ const ProfilScreen = () => {
     }
   };
 
-  return (
-    <>
-      <Header showButton={false} />
-      <View style={styles.container}>
-        <ScrollView
-          contentContainerStyle={styles.scrollContainer}
-          showsVerticalScrollIndicator={false}
-        >  
-          {categoriesList.map((category, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.catItem}
-              onPress={() => handleCategoryPress(category)}
-            >
-              <Text style={styles.textCat}>{category}</Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-import LoginScreen from "./LoginScreen";
-import SignUpScreen from "./SignUpScreen";
-import { useSelector } from 'react-redux';
-import { useState } from "react";
-// import { useNavigation } from "@react-navigation/native";
 
-const ProfileScreen = () => {
+
   const user = useSelector((state) => state.user);
   console.log('USER',user)
 
@@ -70,27 +53,33 @@ const ProfileScreen = () => {
     );
   } else {
 
-    return (
-    <>
-      <Header showButton={false} />
-      <View style={styles.container}>
-        <Text>Welcome {user.username}</Text>
-        {/* Mettez ici votre caméra ou toute autre interface pour prendre des photos */}
-      </View>
-    </>
-  );
-  }
 
-  // return (
-  //   <>
-  //     <Header showButton={false} />
-  //     <View style={styles.container}>
-  //       <Text>ProfileScreen</Text>
-  //       {/* Mettez ici votre caméra ou toute autre interface pour prendre des photos */}
-  //     </View>
-  //   </>
-  // );
-};
+    return (
+      <>
+        <Header showButton={false} />
+        <View style={styles.container}>
+          <ScrollView
+            contentContainerStyle={styles.scrollContainer}
+            showsVerticalScrollIndicator={false}
+          >  
+            {categoriesList.map((category, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.catItem}
+                onPress={() => handleCategoryPress(category)}
+              >
+                <Text style={styles.textCat}>{category}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+      </>
+    );
+  
+  }
+}
+
+
 
 const windowWidth = Dimensions.get('window').width;
 
