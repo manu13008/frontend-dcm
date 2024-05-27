@@ -14,7 +14,6 @@ const ProfilScreen = () => {
     "Mes Balances Préférées",
     "Mon Compte"
   ];
-
   const navigation = useNavigation();
   const handleCategoryPress = (categoryName) => {
     const screenName = categoryToScreenMap[categoryName];

@@ -6,7 +6,6 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 import Header from "../components/Header";
 
 const BACKEND_ADDRESS = 'http://192.168.1.141:3000';
-
 const CategoryScreen = () => {
   const [categories, setCategories] = useState([]);
   const [searchText, setSearchText] = useState('');

@@ -26,7 +26,6 @@ export default function AddDCMScreen(props) {
     const [isDisableSousCat, setIsDisableSousCat] = useState(true)
     const [isDisableActors, setIsDisableActors] = useState(true)
     const [placeHolderDCM, setPlaceHolderDCM]= useState("J'aime quand... / Je n'aime pas quand... / J'adore quand... / Je déteste quand...")
-
     // Options possibles de l'utilisateur
     const [hateOrLove, setHateOrLove] = useState(null);
     const [anonym, setAnonym] = useState(user.token ? false : true);
