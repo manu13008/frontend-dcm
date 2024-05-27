@@ -17,10 +17,10 @@ function LoginScreen({navigation}) {
   const [password, setPassword] = useState('')
 
   const dispatch = useDispatch()
-
+  // const BACKEND_ADDRESS = 'http://192.168.1.12:3000';
 
   const handleLogin = () => {
-    fetch('http://10.20.2.12:3000/users/signin', {
+    fetch('http://10.20.2.253:3000/users/signup', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({email: email, password: password})

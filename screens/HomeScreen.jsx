@@ -77,7 +77,7 @@ const HomeScreen = () => {
       </View >
       <ScrollView  >
         <View style={styles.contentContainer}>     
-{renderData} 
+        {renderData} 
 </View>   
 </ScrollView >
 
@@ -132,3 +132,7 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
+
+
+
+

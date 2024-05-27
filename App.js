@@ -20,7 +20,7 @@ import ProfileScreen from "./screens/ProfileScreen";
 import LoginScreen from "./screens/LoginScreen";
 import AddDCMScreen from "./screens/AddDCMScreen";
 import SignUpScreen from "./screens/SignUpScreen";
-import DCMCategory from "./screens/DCMCategory";
+import DCMCategoryScreen from "./screens/DCMCategoryScreen";
 
 // Persistance du store
 import user from "./reducers/user";
@@ -132,7 +132,12 @@ export default function App() {
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="TabNavigator" component={TabNavigator} />
             <Stack.Screen name="AddDCM" component={AddDCMScreen} />
-            <Stack.Screen name="DCMCategory" component={DCMCategory} />
+            <Stack.Screen
+              name="DCMCategoryScreen"
+              component={DCMCategoryScreen}
+            />
+            <Stack.Screen name="LoginScreen" component={LoginScreen} />
+            <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
