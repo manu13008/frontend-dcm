@@ -3,17 +3,13 @@ import React from 'react';
 import { useState } from 'react';
 
 
-  
-
 export default function ErrorModal(props)  { 
 
     // const [modalVisible, setModalVisible] = useState(true);
-
-
     const closeErrorModal = () => {
         props.closeModal()
       };
-    
+  
   
   return (
       <View style={styles.container}>
@@ -27,6 +23,11 @@ export default function ErrorModal(props)  {
                 <View style={styles.modalView}>
                   <Text style={styles.titleModal}>{props.title}</Text>
                   <Text style={styles.modalText}>{props.message}</Text>
+
+                  {props.actionVisible && <TouchableOpacity style={styles.closeModal} onPress={props.actionToDo}>
+                  <Text>{props.actionToDoText}</Text>
+                  </TouchableOpacity>}
+
                   <TouchableOpacity style={styles.closeModal} onPress={closeErrorModal}>
                   <Text>{props.buttonText}</Text>
                   </TouchableOpacity>
@@ -82,6 +83,7 @@ const styles = StyleSheet.create({
         borderRadius : 10,
         paddingHorizontal : 15,
         paddingVertical : 10,
+        marginBottom : 15,
       }
 });
 

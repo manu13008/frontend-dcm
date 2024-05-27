@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 
 // import { useNavigation } from "@react-navigation/native";
 
-const BACKEND_ADDRESS = 'http://192.168.1.130:3000';
+const BACKEND_ADDRESS = 'http://10.20.2.8:3000';
 
 const ProfilScreen = () => {
 

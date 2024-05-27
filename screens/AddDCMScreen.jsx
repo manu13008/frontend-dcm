@@ -6,21 +6,22 @@ import { useState , useEffect} from 'react';
 import  DropdownMenu from '../components/DropdownMenu';
 import Header from '../components/Header';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import BouncyCheckbox from "react-native-bouncy-checkbox";
 import ErrorModal from '../components/ErrorModal'
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
 import { useSelector } from 'react-redux';
 
+import Checkbox from 'expo-checkbox';
+
 export default function AddDCMScreen(props) {
 
     const user = useSelector((state) => state.user);
-    console.log('user token',user)
+    // console.log('user token',user)
 
     const navigation = useNavigation();
 
-    const BACKEND_ADDRESS = 'http://192.168.1.130:3000';
+    const BACKEND_ADDRESS = 'http://10.20.2.8:3000';
 
     const [dcmText, setDcmText] = useState('');
     const [compteur, setCompteur]= useState('0')
@@ -43,7 +44,6 @@ export default function AddDCMScreen(props) {
     const [sousCategories, setSousCategories] = useState([]);
     const [actors, setActors] = useState([]);
 
-   
 
     // Gestion des erreurs
     const [errorVisible, setErrorVisible] = useState(false)
@@ -111,7 +111,7 @@ const handleSelectCat = async (categoryValue) => {
   
 
 
-
+// Fonction qui permet de récupérer tous les acteurs d'une sous catégorie pour populer les 2 dropdowns
 function getActors(sousCategories, sousCategoryValue){
     const res = sousCategories.find(sousCatObj => sousCatObj.label === sousCategoryValue);
     
@@ -124,6 +124,7 @@ function getActors(sousCategories, sousCategoryValue){
   
 
 // Que fais je après avoir sélectionné une sous catégorie
+// 1 je set 
 const handleSelectSousCat = (sousCategoryValue) => {
     
     setSousCategorySelected(sousCategoryValue) 
@@ -205,7 +206,7 @@ const handlePostButton = async () => {
 const closeModal = () => {
     setErrorVisible(false)
     if (titleModal == 'DCM en cours de modération') {
-        navigation.navigate('TabNavigator');
+        navigation.navigate('TabNavigator', { screen: 'HomeScreen' });
     }   
 }
 
@@ -226,15 +227,6 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
 ); 
 
 
-
-
-
-
-console.log('anonym', anonym , user.token)
-
-const test = (value) => {
-    console.log(value, anonym)
-}
  return (
     <>
     <Header showButton={false}/>
@@ -360,21 +352,25 @@ const test = (value) => {
                     <Text>{compteur}/500</Text>
                  </View>
 
+
+
+                 {/* <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked} />
+        <Text style={styles.paragraph}>Normal checkbox</Text> */}
+
+     
+
                  <View style={styles.anonymPart}>
-                     <BouncyCheckbox
+
+
+                     <Checkbox
                          style={styles.checkbox}
-                         size={25}
-                         fillColor="red"
-                         unFillColor="#FFFFFF"
-                         //   text="Custom Checkbox"
-                         iconStyle={{ borderColor: "red" }}
-                         innerIconStyle={{ borderWidth: 2 }}
-                        //  isChecked =  {user.token ? anonym : true }
-                         isChecked = {true}
-                        // onPress={(isChecked) =>true}
-                        onPress={(e) => test(e)}
-                        //  onPress={(isChecked) => user.token ?  setAnonym(true) : setAnonym(true) } // Anonym true si cochée, false si pas cochée (par défaut false)
+                         value={anonym}
+                         onValueChange={setAnonym}
+                         color={anonym ? '#0000FF' : undefined}
+                         disabled={user.token ? false : true}
+
                      />
+
                      <Text style={styles.textAnonym}>Poster ma DCM anonymement</Text>
                  </View>
 
@@ -499,7 +495,7 @@ const test = (value) => {
         
     },
     checkbox : {
-        marginBottom : 18,
+        marginRight : 18,
     },
     textPost : {
         fontSize : 23,
