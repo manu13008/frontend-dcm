@@ -3,7 +3,7 @@ import { View, Text, StyleSheet,ScrollView } from 'react-native';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faThumbsUp, faThumbsDown,faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-const BACKEND_ADDRESS = 'http://192.168.1.12:3000';
+const BACKEND_ADDRESS = 'http://10.20.2.253:3000';
 
 export default function Dcm(props) {
     console.log(props);

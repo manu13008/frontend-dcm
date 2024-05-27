@@ -32,7 +32,7 @@ console.log('props : ', props)
 
     // Récupérer toutes les catégories dans la base de données
     const getAllCategories = () => {
-    fetch(`http://192.168.1.12:3000/category/all`)
+    fetch(`http://10.20.2.253:3000/category/all`)
     .then((response) => response.json())
     .then((data) => {
         if (data) {
@@ -54,13 +54,13 @@ useEffect(() => {
 
 
 const getCategoryId = async () => {
-    let response = await fetch(`http://192.168.1.12:3000/category/${category}`)
+    let response = await fetch(`http://10.20.2.253:3000/category/${category}`)
     let idCat = await response.json()
     return idCat.category.id;
 }
 
 const getSousCatOfCategoryId = async () => {
-    let response = await fetch(`http://192.168.1.12:3000/category/${category}`)
+    let response = await fetch(`http://10.20.2.253:3000/category/${category}`)
     let idCat = await response.json()
     return idCat.category.id;
 }
