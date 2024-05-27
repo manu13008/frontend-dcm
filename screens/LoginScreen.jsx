@@ -21,7 +21,7 @@ function LoginScreen({handleDisplay}) {
 
   const handleLogin = () => {
     console.log(email, password)
-    fetch('http://10.20.2.248:3000/users/signin', {
+    fetch('http://10.20.2.8:3000/users/signin', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({email: email, password: password})
@@ -30,7 +30,7 @@ function LoginScreen({handleDisplay}) {
  .then(data => {
   console.log(data.result)
    if(data.result){
-      dispatch(login({username: data.username, token: data.token}))
+      dispatch(login({username: data.username, token: data.token, userId : data.id}))
       console.log(data.token, data.email)
       navigation.navigate('TabNavigator' , { screen: 'Home' })
    } else {

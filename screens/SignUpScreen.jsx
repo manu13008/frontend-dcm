@@ -22,7 +22,7 @@ function SignUpScreen({ handleDisplay}) {
 
 
   const handleSignUp = () => {
-    fetch('http://10.20.2.248:3000/users/signup', {
+    fetch('http://10.10.200.149:3000/users/signup', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({username: pseudo, email: email, password: password})
@@ -30,7 +30,7 @@ function SignUpScreen({ handleDisplay}) {
  .then(response => response.json())
  .then(data => {
    if(data.result){
-        dispatch(login({username: data.username, token: data.token}))
+        dispatch(login({username: data.username, token: data.token ,  userId : data.id}))
         navigation.navigate('TabNavigator' , {screen: 'Home'})
    } else {
       SetErrorMessage(data.error)
