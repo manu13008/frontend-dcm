@@ -56,11 +56,7 @@ export default function AddDCMScreen(props) {
 
     // Récupérer toutes les catégories dans la base de données
     const getAllCategories = () => {
-<<<<<<< HEAD
     fetch(`${BACKEND_ADDRESS}/category/all`)
-=======
-    fetch(`http://192.168.1.12:3000/category/all`)
->>>>>>> dcm
     .then((response) => response.json())
     .then((data) => {
         if (data) {
@@ -79,26 +75,7 @@ useEffect(() => {
     getAllCategories()     
   }, []);
 
-<<<<<<< HEAD
 // Use Effect qui active le drop down menu de la sous cat
-=======
-
-
-const getCategoryId = async () => {
-    let response = await fetch(`http://192.168.1.12:3000/category/${category}`)
-    let idCat = await response.json()
-    return idCat.category.id;
-}
-
-const getSousCatOfCategoryId = async () => {
-    let response = await fetch(`http://192.168.1.12:3000/category/${category}`)
-    let idCat = await response.json()
-    return idCat.category.id;
-}
-
-
-
->>>>>>> dcm
 useEffect(() => {
     setIsDisableSousCat(categorySelected ? false : true)
     // setSousCategories([])
