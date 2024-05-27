@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -113,3 +114,16 @@ const styles = StyleSheet.create({
 });
 
 export default ProfilScreen;
+=======
+import LoginScreen from './LoginScreen'
+
+function ProfileScreen ({navigation}){
+  return (
+    <LoginScreen />
+  )
+};
+
+export default ProfileScreen;
+
+
+>>>>>>> dcm

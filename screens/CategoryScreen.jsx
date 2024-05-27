@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 import Header from "../components/Header";
 
-const BACKEND_ADDRESS = 'http://192.168.1.130:3000';
+const BACKEND_ADDRESS = 'http://10.20.2.253:3000';
+
 
 const CategoryScreen = () => {
   const [categories, setCategories] = useState([]);
@@ -16,13 +17,14 @@ const CategoryScreen = () => {
     fetch(`${BACKEND_ADDRESS}/category/all`)
       .then((response) => response.json())
       .then((data) => {
+        console.log()
         setCategories(data.CategoryNames);
       });
   }, []);
 
 // fonction et Navigue sur categories versDcmCategoryScreen  
   const handleCategoryPress = (categoryName) => {
-    navigation.navigate("DCMCategory", { categoryName });
+    navigation.navigate("DCMCategoryScreen", { categoryName });
   };
 // recherche des nomscategories
   const filteredCategories = categories.filter(category =>
@@ -48,7 +50,7 @@ const CategoryScreen = () => {
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >  
-        {/* affichage des categories */}
+        {/* les categories */}
           {filteredCategories.map((category, index) => (
             <TouchableOpacity
               key={index}
@@ -64,7 +66,7 @@ const CategoryScreen = () => {
   );
 };
 
-const windowWidth = Dimensions.get('window').width;
+
 
 const styles = StyleSheet.create({
   container: {
@@ -95,7 +97,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   catItem: {
-    width: windowWidth * 0.8,
+    width: 200,
     marginBottom: 10,
     alignItems: "center",
     borderRadius: 10,
@@ -110,3 +112,7 @@ const styles = StyleSheet.create({
 });
 
 export default CategoryScreen;
+
+
+
+

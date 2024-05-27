@@ -8,7 +8,6 @@ const NotificationScreen = () => {
     <Header showButton={false}/>
     <View style={styles.container}>
       <Text>NotificationScreen</Text>
-      {/* Mettez ici votre caméra ou toute autre interface pour prendre des photos */}
     </View>
     </>
   );

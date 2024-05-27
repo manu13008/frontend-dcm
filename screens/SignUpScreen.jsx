@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TextInput } from "react-native";
 import ButtonPrimary from '../components/ButtonPrimary'
 import Input from '../components/Input'
 import Header from "../components/Header";
-
 import { useState } from "react";
 import { login } from "../reducers/user";
 import { useDispatch } from "react-redux";
@@ -23,7 +22,7 @@ function SignUpScreen({ handleDisplay}) {
 
 
   const handleSignUp = () => {
-    fetch('http://192.168.1.130:3000/users/signup', {
+    fetch('http://10.20.2.253:3000/users/signup', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({username: pseudo, email: email, password: password})
@@ -52,8 +51,7 @@ function SignUpScreen({ handleDisplay}) {
           <Text style={styles.text}>Déjà membre ? <Text style={styles.link} onPress={() => handleDisplay()}>Me connecter</Text></Text>
         </View>
     </View>
-    </>
-
+</>
   );
 };
 

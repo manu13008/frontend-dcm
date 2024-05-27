@@ -21,7 +21,7 @@ function LoginScreen({handleDisplay}) {
 
   const handleLogin = () => {
     console.log(email, password)
-    fetch('http://192.168.1.130:3000/users/signin', {
+    fetch('http://10.20.2.253:3000/users/signin', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({email: email, password: password})

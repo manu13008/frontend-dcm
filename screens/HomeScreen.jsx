@@ -11,7 +11,7 @@ const categories = [
   { key: "rant", label: "Coups de 😠", endpoint: "/dcm/mostLikedHate" },
 ];
 
-const BACKEND_ADDRESS = 'http://192.168.1.130:3000';
+const BACKEND_ADDRESS = 'http://10.20.2.253:3000';
 
 const HomeScreen = () => {
   const [data, setData] = useState([]);
@@ -165,3 +165,7 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
+
+
+
+
