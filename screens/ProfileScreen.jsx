@@ -6,12 +6,13 @@ import Header from "../components/Header";
 import LoginScreen from "./LoginScreen";
 import SignUpScreen from "./SignUpScreen";
 import { useSelector } from 'react-redux';
+import MyDcmScreen from "./MyDcmScreen";
 
 // import { useNavigation } from "@react-navigation/native";
 
 const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 
-const ProfilScreen = () => {
+export default function ProfilScreen({navigation }) {
 
 
   const categoriesList = [
@@ -20,15 +21,21 @@ const ProfilScreen = () => {
     "Mes Balances Préférées",
     "Mon Compte"
   ];
+  const categoryToScreenMap = {
+    "Mes DCM": "MyDcmScreen",
+    "Mes Tops 🔥": "topScreen",
+    "Mes Balances Préférées": "favoriteBalancesScreen",
+    "Mon Compte": "accountScreen"
+  };
 
-  const navigation = useNavigation();
+
   const handleCategoryPress = (categoryName) => {
     const screenName = categoryToScreenMap[categoryName];
     if (screenName) {
       navigation.navigate(screenName);
     }
   };
-
+  
 
 
   const user = useSelector((state) => state.user);
@@ -112,4 +119,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfilScreen;

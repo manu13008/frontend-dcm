@@ -29,11 +29,11 @@ export default function Dcm(props) {
             <View style={styles.iconsContainer}>
             <Text style={styles.iconText}>{props.likes}</Text>
             <Text style={styles.icon}>
-                <FontAwesomeIcon icon={faThumbsUp} size={20} color='#DE3163' />
+                <FontAwesomeIcon icon={faThumbsUp} size={20} color='#0047AB' />
             </Text>
             <Text style={styles.iconText}>{props.dislikes}</Text>
             <Text style={styles.icon}>
-                <FontAwesomeIcon icon={faThumbsDown} size={20} color='#0047AB'/>
+                <FontAwesomeIcon icon={faThumbsDown} size={20} color='#DE3163'/>
             </Text>
             </View>
         </View> 
