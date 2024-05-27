@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Dimensions } from
 import { useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
 
-const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
+const BACKEND_ADDRESS = 'http://192.168.1.141:3000';
 
 const ProfilScreen = () => {
 
