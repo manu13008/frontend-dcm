@@ -3,7 +3,13 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Dimensions } from
 import { useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
 
-const BACKEND_ADDRESS = 'http://192.168.1.141:3000';
+import LoginScreen from "./LoginScreen";
+import SignUpScreen from "./SignUpScreen";
+import { useSelector } from 'react-redux';
+
+// import { useNavigation } from "@react-navigation/native";
+
+const BACKEND_ADDRESS = 'http://192.168.1.130:3000';
 
 const ProfilScreen = () => {
 
@@ -14,6 +20,7 @@ const ProfilScreen = () => {
     "Mes Balances Préférées",
     "Mon Compte"
   ];
+
   const navigation = useNavigation();
   const handleCategoryPress = (categoryName) => {
     const screenName = categoryToScreenMap[categoryName];
