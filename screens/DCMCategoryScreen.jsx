@@ -4,7 +4,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft';
 
-const BACKEND_ADDRESS = 'http://10.20.2.253:3000';
+const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 
 const DCMCategoryScreen = () => {
   const navigation = useNavigation();

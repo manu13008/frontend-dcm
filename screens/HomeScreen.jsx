@@ -11,11 +11,7 @@ const categories = [
   { key: "rant", label: "Coups de 😠", endpoint: "/dcm/mostLikedHate" },
 ];
 
-<<<<<<< HEAD
-const BACKEND_ADDRESS = 'http://192.168.1.141:3000';
-=======
-const BACKEND_ADDRESS = 'http://10.20.2.253:3000';
->>>>>>> 075f862e094b8fce115bb6cc7f8ca6bf7c6645f1
+const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 
 const HomeScreen = () => {
   const [data, setData] = useState([]);

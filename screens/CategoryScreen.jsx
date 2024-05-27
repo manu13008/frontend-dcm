@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 import Header from "../components/Header";
 
-const BACKEND_ADDRESS = 'http://10.20.2.253:3000';
+const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 
 
 const CategoryScreen = () => {
