@@ -14,7 +14,9 @@ const categories = [
   { key: "rant", label: "Coups de 😠", endpoint: "/dcm/mostLikedHate" },
 ];
 
-const BACKEND_ADDRESS = 'http://10.10.200.149:3000';
+const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
+// 'http://10.10.200.149:3000';
+
 
 const HomeScreen = () => {
   const [data, setData] = useState([]);
