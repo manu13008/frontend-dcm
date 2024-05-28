@@ -47,7 +47,6 @@ const MyDcmScreen = () => {
     );
   });
 
-
   return (
     <>
       <Header showButton={false} />
