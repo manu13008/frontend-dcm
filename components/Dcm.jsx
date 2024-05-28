@@ -34,7 +34,8 @@ export default function Dcm(props) {
                     'Authorization': `Bearer ${user.token}`
                 },
                 body: JSON.stringify({
-                    dcmId: dcmId  
+                    dcmId: dcmId  ,
+                    username : user.username
                 }),
             })
             .then(response => response.json())
@@ -103,11 +104,11 @@ export default function Dcm(props) {
             <Text style={styles.iconText}>{likes}</Text>
             <TouchableOpacity style={styles.icon}  onPress= {() => handleLikeOrDislike('like',props.id) }>
                 {/* <FontAwesomeIcon icon={faThumbsUp} style={styles.thumbsUp} size={20} color='#DE3163' /> */}
-                <FontAwesomeIcon icon={faThumbsUp}  style={styles.thumbsUp} size={40}  color={isLiked ? '#0047AB':  'grey'  } />
+                <FontAwesomeIcon icon={faThumbsUp}  style={styles.thumbsUp} size={isLiked ? 25 : 20}  color={isLiked ? '#0047AB':  'grey'  } />
                 </TouchableOpacity>
             <Text style={styles.iconText}>{dislikes}</Text>
             <TouchableOpacity style={styles.icon}  onPress= {() => handleLikeOrDislike('dislike',props.id)}>
-                <FontAwesomeIcon icon={faThumbsDown} size={40}  color={isDisliked ?  '#DE3163' :'grey'  }  />
+                <FontAwesomeIcon icon={faThumbsDown} size={isDisliked ? 25 : 20}  color={ isDisliked ? '#DE3163' : 'grey' }  />
             </TouchableOpacity>
             </View>
         </View> 

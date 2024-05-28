@@ -71,6 +71,8 @@ export default function AddDCMScreen(props) {
   
 })}
 
+// console.log('categories',categories)
+
 
 // Use effect qui charge toutes les catégories de la base de données
 useEffect(() => {

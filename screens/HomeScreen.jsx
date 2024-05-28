@@ -19,32 +19,74 @@ const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
 
 
 const HomeScreen = () => {
+
+  // UseState des data et des onglets sélectionnés
   const [data, setData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(categories[1].endpoint);
   const [selectedCategoryLabel, setSelectedCategoryLabel] = useState(categories[1].label);
 
 
   const user = useSelector((state) => state.user);
-  console.log(user)
+  // console.log(user)
 
   // UseState de chargement pendant le fetch
   const [loading, setLoading] = useState(true);
   // UseState de automatic refresh quand je scroll vers le bas en étant tout en haut
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
+
+  // Automatic Scroll
+const [page, setPage] = useState(0);
+const [loadingMore, setLoadingMore] = useState(false);
+
+console.log(page)
+
+  // useEffect(() => {
+  //   setLoading(true);
+  //   fetch(`${BACKEND_ADDRESS}${selectedCategory}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setData(data.data);
+  //       setLoading(false);
+  //     });
+  // }, [selectedCategory, refreshing]);
+
+
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${BACKEND_ADDRESS}${selectedCategory}`)
+    fetchData(page);
+  }, [selectedCategory, refreshing]);
+  
+
+
+  useEffect(() => {
+    if (page > 0) {
+      setLoadingMore(true);
+      fetchData(page);
+    }
+  }, [page]);
+  
+  const fetchData = (page) => {
+    fetch(`${BACKEND_ADDRESS}${selectedCategory}?page=${page}`)
       .then((response) => response.json())
       .then((data) => {
-        setData(data.data);
+        if (page === 0) {
+          setData(data.data);
+        } else {
+          setData((prevData) => [...prevData, ...data.data]);
+        }
         setLoading(false);
+        setLoadingMore(false);
       });
-  }, [selectedCategory, refreshing]);
+  };
+
+
 
   const handleCategoryPress = (category) => {
     setSelectedCategory(category.endpoint);
     setSelectedCategoryLabel(category.label);
+    setPage(0)
   };
 
   const renderData = data.map((item, i) => (
@@ -69,12 +111,19 @@ const HomeScreen = () => {
 
 // Fonction qui controle le refresh "automatique"
 const onRefresh = () => {
+setPage(0);
 setRefreshing(true);
 setTimeout(() => {
-  setRefreshing(false);
+setRefreshing(false);
+
 },100); []}
 
 
+// Fonction qui permet de capter qu'on est en bas de la page
+const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+  const paddingToBottom = 20;
+  return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
+};
 
   return (
     <>
@@ -102,12 +151,23 @@ setTimeout(() => {
         
         <ScrollView contentContainerStyle={styles.contentContainer} 
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />}>
-        {loading ? (
+          <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />}
+          onMomentumScrollEnd={({ nativeEvent }) => {
+            if (isCloseToBottom(nativeEvent)) {
+              setPage((prevPage) => prevPage + 1);
+            }
+          }}
+          >
+        {/* {loading ? (
     <ActivityIndicator style={styles.loading} size="large" color="#0000ff" /> // Affiche l'indicateur de chargement
   ) : (
     renderData
-  )}
+  )} */}
+
+
+{loading ? (<ActivityIndicator style={styles.loading} size="large" color="#0000ff" /> ) : ( renderData  )}
+{loadingMore && <ActivityIndicator style={styles.loadingMore} size="small" color="#0000ff" />}
+  
           <View style={styles.bottomSpacer} />
         </ScrollView>
       </View>
@@ -208,6 +268,9 @@ const styles = StyleSheet.create({
   loading : {
     marginTop: 200,
     
+  },
+  loadingMore: {
+    marginVertical: 20,
   }
 });
 
