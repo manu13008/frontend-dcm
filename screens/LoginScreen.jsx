@@ -9,7 +9,7 @@ import { login } from "../reducers/user";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 
-
+const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
 function LoginScreen({handleDisplay}) {
 
   const [errorMessage, SetErrorMessage] = useState('')
@@ -21,7 +21,7 @@ function LoginScreen({handleDisplay}) {
 
   const handleLogin = () => {
     console.log(email, password)
-    fetch('http://10.20.2.248:3000/users/signin', {
+    fetch(`${BACKEND_ADDRESS}/users/signin`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({email: email, password: password})

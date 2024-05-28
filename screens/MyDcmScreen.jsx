@@ -6,7 +6,7 @@ import Dcm from "../components/Dcm";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useSelector } from "react-redux";
 
-const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
+const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
 
 const MyDcmScreen = () => {
   const [data, setData] = useState([]);
@@ -39,6 +39,10 @@ const MyDcmScreen = () => {
           likes={item.likes.length}
           dislikes={item.dislikes.length}
           type={item.type}
+          isAnonym={item.isAnonym}
+          id={item._id}
+          isLiked={item.likes.includes(user.userId)}
+          isDisliked={item.dislikes.includes(user.userId)}
         />
         <TouchableOpacity onPress={() => deleteItem(item.id)}>
           <FontAwesome5 name="trash-alt" size={20} color='#DE3163' style={styles.trashIcon} />

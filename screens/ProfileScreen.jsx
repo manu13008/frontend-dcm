@@ -10,7 +10,7 @@ import MyDcmScreen from "./MyDcmScreen";
 
 // import { useNavigation } from "@react-navigation/native";
 
-const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
+const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
 
 export default function ProfilScreen({navigation }) {
 

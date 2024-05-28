@@ -7,8 +7,8 @@ import ErrorModal from '../components/ErrorModal'
 
 
 
-const BACKEND_ADDRESS = 'http://10.10.200.149:3000';
-
+// const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
+const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
 export default function Dcm(props) {
 
 
@@ -95,11 +95,11 @@ export default function Dcm(props) {
             <Text style={styles.iconText}>{likes}</Text>
             <TouchableOpacity style={styles.icon}  onPress= {() => handleLikeOrDislike('like',props.id) }>
                 {/* <FontAwesomeIcon icon={faThumbsUp} style={styles.thumbsUp} size={20} color='#DE3163' /> */}
-                <FontAwesomeIcon icon={faThumbsUp}  style={styles.thumbsUp} size={40}  color={isLiked ? '#0047AB':  'grey'  } />
+                <FontAwesomeIcon icon={faThumbsUp}  style={styles.thumbsUp} size={25}  color={isLiked ? '#0047AB':  'grey'  } />
                 </TouchableOpacity>
             <Text style={styles.iconText}>{dislikes}</Text>
             <TouchableOpacity style={styles.icon}  onPress= {() => handleLikeOrDislike('dislike',props.id)}>
-                <FontAwesomeIcon icon={faThumbsDown} size={40}  color={isDisliked ?  '#DE3163' :'grey'  }  />
+                <FontAwesomeIcon icon={faThumbsDown} size={25}  color={isDisliked ?  '#DE3163' :'grey'  }  />
             </TouchableOpacity>
             </View>
         </View> 
