@@ -18,11 +18,11 @@ function SignUpScreen({ handleDisplay}) {
 
   const navigation = useNavigation();
   
-
+  const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
 
 
   const handleSignUp = () => {
-    fetch('http://10.10.200.149:3000/users/signup', {
+    fetch(`${BACKEND_ADDRESS}/users/signup`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({username: pseudo, email: email, password: password})

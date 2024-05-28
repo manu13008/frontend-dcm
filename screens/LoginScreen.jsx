@@ -16,12 +16,14 @@ function LoginScreen({handleDisplay}) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+
+  const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
   const dispatch = useDispatch()
   const navigation = useNavigation();
 
   const handleLogin = () => {
     console.log(email, password)
-    fetch('http://10.20.2.8:3000/users/signin', {
+    fetch(`${BACKEND_ADDRESS}/users/signin`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({email: email, password: password})
