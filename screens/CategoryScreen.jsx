@@ -5,60 +5,75 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 import Header from "../components/Header";
 
+<<<<<<< HEAD
 const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
+=======
+<<<<<<< HEAD
+const BACKEND_ADDRESS = 'http://10.20.2.253:3000';
+=======
+// const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
+
+const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
+>>>>>>> 095c710a95709143763541439d148ccc384e5864
+>>>>>>> 4f805b3cc7ea5b9a1fcd007255f44af600c322b8
 
 
 const CategoryScreen = () => {
   const [categories, setCategories] = useState([]);
   const [searchText, setSearchText] = useState('');
   const navigation = useNavigation();
-// recuperation de toutes les categories
-  useEffect(() => {
-    fetch(`${BACKEND_ADDRESS}/category/all`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log()
-        setCategories(data.CategoryNames);
-      });
-  }, []);
 
-// fonction et Navigue sur categories versDcmCategoryScreen  
-  const handleCategoryPress = (categoryName) => {
-    navigation.navigate("DCMCategoryScreen", { categoryName });
-  };
-// recherche des nomscategories
-  const filteredCategories = categories.filter(category =>
-    category.toLowerCase().includes(searchText.toLowerCase())
-  );
+                    
+                  // recuperation de toutes les categories
+                    useEffect(() => {
+                      fetch(`${BACKEND_ADDRESS}/category/all`)
+                        .then((response) => response.json())
+                        .then((data) => {
+                          console.log()
+                          setCategories(data.CategoryNames);
+                        });
+                    }, []);
+
+
+                  // fonction et Navigue sur categories versDcmCategoryScreen  
+                    const handleCategoryPress = (categoryName) => {
+                      navigation.navigate("DCMCategoryScreen", { categoryName });
+                    };
+                  // recherche des nomscategories
+                    const filteredCategories = categories.filter(category =>
+                      category.toLowerCase().includes(searchText.toLowerCase())
+                    );
 
   return (
     <>
       <Header showButton={false} />
       <View style={styles.container}>
         <View style={styles.searchBar}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Rechercher une catégorie..."
-            value={searchText}
-            onChangeText={setSearchText}
-          />
-          <TouchableOpacity style={styles.searchIcon}>
-            <FontAwesomeIcon icon={faSearch} size={20} color="#0468BE" />
-          </TouchableOpacity>
-        </View>
-        <ScrollView
-          contentContainerStyle={styles.scrollContainer}
-          showsVerticalScrollIndicator={false}
-        >  
-        {/* les categories */}
-          {filteredCategories.map((category, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.catItem}
-              onPress={() => handleCategoryPress(category)}
-            >
-              <Text style={styles.textCat}>{category}</Text>
-            </TouchableOpacity>
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Rechercher une catégorie..."
+                value={searchText}
+                onChangeText={setSearchText}
+              />
+
+              <TouchableOpacity style={styles.searchIcon}>
+                <FontAwesomeIcon icon={faSearch} size={20} color="#0468BE" />
+              </TouchableOpacity>
+              </View>
+
+
+            <ScrollView
+              contentContainerStyle={styles.scrollContainer}
+              showsVerticalScrollIndicator={false}
+            >  
+              {filteredCategories.map((category, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.catItem}
+                  onPress={() => handleCategoryPress(category)}
+                >
+                  <Text style={styles.textCat}>{category}</Text>
+                </TouchableOpacity>
           ))}
         </ScrollView>
       </View>

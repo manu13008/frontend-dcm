@@ -4,19 +4,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faThumbsUp, faThumbsDown,faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from 'react-redux';
 import ErrorModal from '../components/ErrorModal'
+import { useNavigation } from "@react-navigation/native";
 
 
 
-// const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
+
 export default function Dcm(props) {
 
 
     const user = useSelector((state) => state.user);
+    const navigation = useNavigation();
 
+    // State des compteurs likes et dislikes
     const [likes, setLikes] = useState(props.likes); 
     const [dislikes, setDislikes] = useState(props.dislikes); 
-
+    
+    // State des couleurs des ThumbsUp && Down
     const [isLiked, setIsLiked] = useState(props.isLiked)
     const [isDisliked, setIsDisliked] = useState(props.isDisliked)
 
@@ -36,9 +40,12 @@ export default function Dcm(props) {
             })
             .then(response => response.json())
             .then(data => {
+
+                // J'update le compteur de likes et dislikes du DCM liké ou disliké
                 setLikes(data.dcm.likes.length)
                 setDislikes(data.dcm.dislikes.length)
 
+                // Je gère les couleurs d'affichage des dcm Likés ou Dislikés
                 setIsLiked(data.dcm.likes.includes(user.userId))
                 setIsDisliked(data.dcm.dislikes.includes(user.userId))
             })
@@ -52,14 +59,16 @@ export default function Dcm(props) {
 
 
     const redirectSignUpSignIn = () => {
-
-        console.log('Manu le bosssss')
+        
+        
+        navigation.navigate('TabNavigator', { screen: 'Profil' });
+        setErrorVisible(false)
+        
     }
 
 
 
-    // console.log(props.isAnonym);
-    console.log(props.id)
+
     const containerStyle = props.type 
         ? [styles.dataContainer, styles.heart] : [styles.dataContainer, styles.rant];
     return (

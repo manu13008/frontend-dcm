@@ -16,6 +16,8 @@ function LoginScreen({handleDisplay}) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+
+  const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
   const dispatch = useDispatch()
   const navigation = useNavigation();
 
