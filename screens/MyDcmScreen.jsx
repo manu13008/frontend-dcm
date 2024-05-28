@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 // const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 
 const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
+console.log(BACKEND_ADDRESS);
 
 const MyDcmScreen = () => {
   const [data, setData] = useState([]);
@@ -26,11 +27,28 @@ const MyDcmScreen = () => {
       });
   }, [user.username]);
 
-
-  const testData = data.map((item, i) => {
+  const deleteItem = (id) => {
+    fetch(`${BACKEND_ADDRESS}/dcm/deletedcm/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${user.token}`
+      }
+    })
+    .then(response => response.json())
+    .then(result => {
+      console.log(result)
+      if (result.result) {
+        setData(data.filter(item => item._id !== id));
+      } else {
+        console.error(result.error);
+      }
+    })
+  }
+  const testData = data.map((item) => {
     console.log('Élément :', item.subCategory);
     return (
-      <View key={i} style={styles.dcmContainer}>
+      <View key={item._id} style={styles.dcmContainer}>
         <Dcm
           subCategory={item.subCategory && item.subCategory.name}
           author={item.author}
@@ -46,7 +64,7 @@ const MyDcmScreen = () => {
           isLiked={item.likes.includes(user.userId)}
           isDisliked={item.dislikes.includes(user.userId)}
         />
-        <TouchableOpacity onPress={() => deleteItem(item.id)}>
+        <TouchableOpacity onPress={() => deleteItem(item._id)}>
           <FontAwesome5 name="trash-alt" size={20} color='#DE3163' style={styles.trashIcon} />
         </TouchableOpacity>
       </View>
