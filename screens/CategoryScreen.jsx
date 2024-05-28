@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 import Header from "../components/Header";
 
+
 const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
 
 const CategoryScreen = () => {
@@ -18,7 +19,7 @@ const CategoryScreen = () => {
                       fetch(`${BACKEND_ADDRESS}/category/all`)
                         .then((response) => response.json())
                         .then((data) => {
-                          console.log()
+                          console.log("MARQUEUN TRUC:",data)
                           setCategories(data.CategoryNames);
                         });
                     }, []);

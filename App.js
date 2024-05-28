@@ -21,7 +21,7 @@ import LoginScreen from "./screens/LoginScreen";
 import AddDCMScreen from "./screens/AddDCMScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import DCMCategoryScreen from "./screens/DCMCategoryScreen";
-
+import CguScreen from "./screens/CguScreen";
 // Persistance du store
 import user from "./reducers/user";
 const reducers = combineReducers({ user });
@@ -142,6 +142,9 @@ export default function App() {
             <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
             <Stack.Screen name="MyDcmScreen" component={MyDcmScreen} />
             <Stack.Screen name="MyTopsDcmScreen" component={MyTopsDcmScreen} />
+            <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
+            <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+            <Stack.Screen name="CguScreen" component={CguScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

@@ -19,7 +19,12 @@ const Header = ({ showButton = true }) => {
   console.log('user token',user)
   const dispatch = useDispatch();
 
-
+  const handleProfilePress = () => {
+    navigation.navigate('ProfileScreen');
+};
+const handleCguPress = () => {
+  navigation.navigate('CguScreen');
+};
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
   };
@@ -53,15 +58,15 @@ const Header = ({ showButton = true }) => {
         >
           <TouchableOpacity style={styles.modalOverlay} onPress={toggleMenu}>
             <View style={styles.modalContent}>
-              <TouchableOpacity style={styles.menuItem} onPress={() => console.log("Profil")}>
+              <TouchableOpacity style={styles.menuItem} onPress={handleProfilePress}>
                 <FontAwesomeIcon icon={faUser} size={20} style={styles.menuIcon} />
                 <Text style={styles.menuText}>Profil</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.menuItem} onPress={() => console.log("Catégorie")}>
-                <FontAwesomeIcon icon={faListAlt} size={20} style={styles.menuIcon} />
-                <Text style={styles.menuText}>Catégorie</Text>
+              <TouchableOpacity style={styles.menuItem} >
+              <FontAwesomeIcon icon={faListAlt} size={20} style={styles.menuIcon} />
+               <Text style={styles.menuText}>Catégories</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.menuItem} onPress={() => console.log("CGU")}>
+              <TouchableOpacity style={styles.menuItem} onPress={handleCguPress}>
                 <FontAwesomeIcon icon={faBook} size={20} style={styles.menuIcon} />
                 <Text style={styles.menuText}>CGU</Text>
               </TouchableOpacity>
@@ -94,6 +99,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#ddd",
     paddingHorizontal: 5,
+    paddingTop:10,
   },
   burgerMenu : {
     marginTop : 10,
