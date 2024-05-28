@@ -7,30 +7,19 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 
 
 
-
-  
-
 export default function DropdownMenu(props)  { 
 
-  // const data = [
-  //   { label: 'Item 1', value: '1' },
-  //   { label: 'Item 2', value: '2' },
-  //   { label: 'Item 3', value: '3' },
-  //   { label: 'Item 4', value: '4' },
-  //   { label: 'Item 5', value: '5' },
-  //   { label: 'Item 6', value: '6' },
-  //   { label: 'Item 7', value: '7' },
-  //   { label: 'Item 8', value: '8' },
-  // ];
 
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
-  // const [isDisable, setIsDisable] = useState(false)
+
     
 
 useEffect(() => {
-  console.log("valeurs ", props.valeurs);
+  // console.log("valeurs ", props.valeurs);
+  setValue(null)
 }, [props.valeurs])
+
   return (
                 <Dropdown
                 style={[styles.dropdown, isFocus && { borderColor: 'blue' } , props.isDisable && {backgroundColor : 'grey'}]}
@@ -40,10 +29,8 @@ useEffect(() => {
                 iconStyle={styles.iconStyle}
                 // A modifier
                 disable={props.isDisable}
-                // backgroundColor={!isAble? 'blue' : 'blue'}
                 // A modifier
                 data={props.valeurs ? props.valeurs : []}
-                // data={data}
                 search
                 maxHeight={300}
                 
@@ -57,7 +44,7 @@ useEffect(() => {
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
                   setValue(item.value);
-                 props.handleSelectItem(item.label)
+                 props.handleSelectItem(item)
                   setIsFocus(false);
                 }}
                 // renderLeftIcon={() => (
@@ -77,22 +64,6 @@ useEffect(() => {
             }
         
  
-
-
-// 	// 	fetch(`http://localhost:3000/users/canBookmark/${user.token}`)
-// 	// 		.then(response => response.json())
-// 	// 		.then(data => {
-// 	// 			if (data.result && data.canBookmark) {
-// 	// 				if (props.isBookmarked) {
-// 	// 					dispatch(removeBookmark(props));
-// 	// 				} else {
-// 	// 					dispatch(addBookmark(props));
-// 	// 				}
-// 	// 			}
-// 	// 		});
-// 	// }
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -123,10 +94,12 @@ const styles = StyleSheet.create({
   },
   placeholderStyle: {
     fontSize: 16,
+    textAlign : 'center',
    
   },
   selectedTextStyle: {
     fontSize: 16,
+    textAlign : 'center',
    
   },
   iconStyle: {

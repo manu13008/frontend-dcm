@@ -100,6 +100,7 @@ const TabNavigator = () => {
 /*FONTS*/
 import { useCallback } from "react";
 import { useFonts } from "expo-font";
+import MyDcmScreen from "./screens/MyDcmScreen";
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
@@ -138,6 +139,8 @@ export default function App() {
             />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+            <Stack.Screen name="MyDcmScreen" component={MyDcmScreen} />
+
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

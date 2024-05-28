@@ -4,6 +4,8 @@ import { View, Text, TouchableOpacity, Image, Modal, StyleSheet } from "react-na
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faBars, faArrowLeft, faPlus, faUser, faListAlt, faBook, faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from '../reducers/user';
 
 const Header = ({ showButton = true }) => {
   const navigation = useNavigation();
@@ -12,6 +14,11 @@ const Header = ({ showButton = true }) => {
   const handleNavigateToAddDCM = () => {
     navigation.navigate('AddDCM');
   };
+  
+  const user = useSelector((state) => state.user);
+  console.log('user token',user)
+  const dispatch = useDispatch();
+
 
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
@@ -62,7 +69,10 @@ const Header = ({ showButton = true }) => {
                 <FontAwesomeIcon icon={faCog} size={20} style={styles.menuIcon} />
                 <Text style={styles.menuText}>Paramètres</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.menuItem} onPress={() => console.log("Déconnexion")}>
+              <TouchableOpacity style={styles.menuItem} onPress={() => {
+               dispatch(logout())
+               toggleMenu() }
+              }>
                 <FontAwesomeIcon icon={faSignOutAlt} size={20} style={styles.menuIcon} />
                 <Text style={styles.menuText}>Déconnexion</Text>
               </TouchableOpacity>
