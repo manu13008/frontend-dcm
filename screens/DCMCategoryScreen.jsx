@@ -142,18 +142,6 @@ const DCMCategoryScreen = () => {
           {data && data.map((item, index) => ( 
             <View style={styles.contentContainer}  >
               {renderData}
-              {/* <Dcm
-                key={i}
-                subCategory={item.subCategory && item.subCategory.name}
-                author={item.author}
-                content={item.content}
-                origins={item.origins}
-                target={item.target}
-                date={item.date}
-                likes={item.likes.length}
-                dislikes={item.dislikes.length}
-                type={item.type}
-              /> */}
             </View>
           ))}
         </ScrollView>
