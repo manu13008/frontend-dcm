@@ -23,7 +23,7 @@ export default function ProfilScreen({navigation }) {
   ];
   const categoryToScreenMap = {
     "Mes DCM": "MyDcmScreen",
-    "Mes Tops 🔥": "topScreen",
+    "Mes Tops 🔥": "MyTopsDcmScreen",
     "Mes Balances Préférées": "favoriteBalancesScreen",
     "Mon Compte": "accountScreen"
   };

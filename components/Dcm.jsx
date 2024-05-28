@@ -89,8 +89,11 @@ export default function Dcm(props) {
                    />}
 
             <View  style={styles.header}>
-            {!props.isAnonym && props.author && <Text style={styles.userName}>{props.author.username}</Text>}
-            <Text>{props.isAnonym} </Text>
+            {props.isAnonym ? (
+                    <Text style={styles.userName}>Oops une balance anonyme </Text>
+                ) : (
+                    props.author && <Text style={styles.userName}>{props.author.username}</Text>
+                )}
             <Text style={styles.message}>{props.subCategory}</Text>
             </View>
             <Text style={styles.message}>{props.content}</Text>
