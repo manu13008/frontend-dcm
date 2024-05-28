@@ -20,18 +20,9 @@ export default function AddDCMScreen(props) {
     // console.log('user token',user)
 
     const navigation = useNavigation();
-<<<<<<< HEAD
-    const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
-=======
-
-<<<<<<< HEAD
-    const BACKEND_ADDRESS = 'http://10.20.2.253:3000';
-=======
-    // const BACKEND_ADDRESS = 'http://10.20.2.8:3000';
 
     const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
->>>>>>> 095c710a95709143763541439d148ccc384e5864
->>>>>>> 4f805b3cc7ea5b9a1fcd007255f44af600c322b8
+
 
     const [dcmText, setDcmText] = useState('');
     const [compteur, setCompteur]= useState('0')

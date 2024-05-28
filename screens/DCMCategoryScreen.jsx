@@ -35,7 +35,7 @@ const DCMCategoryScreen = () => {
 
 
                   const renderData = data.map((item, i) => (
-                    // console.log("test : ", item.subCategory), 
+                    console.log("test : ", item), 
                     <Dcm
                      subCategory={item.subCategory && item.subCategory.name}
                       author={item.author/* && <Text style={styles.userName}>{item.author.username}</Text>*/ }
