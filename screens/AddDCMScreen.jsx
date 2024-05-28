@@ -21,7 +21,7 @@ export default function AddDCMScreen(props) {
 
     const navigation = useNavigation();
 
-    const BACKEND_ADDRESS = 'http://10.20.2.8:3000';
+    const BACKEND_ADDRESS = 'http://10.20.2.253:3000';
 
     const [dcmText, setDcmText] = useState('');
     const [compteur, setCompteur]= useState('0')

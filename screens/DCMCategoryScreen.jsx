@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft';
 import Dcm from "../components/Dcm";
 
-const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
+const BACKEND_ADDRESS = 'http://10.20.2.253:3000';
 
 const DCMCategoryScreen = () => {
   const navigation = useNavigation();
@@ -50,7 +50,7 @@ const DCMCategoryScreen = () => {
 
 
 
-                  
+
                   const fetchAllDCMs = () => {
                     const allDCMs = [];
                     const promises = [];
@@ -133,7 +133,7 @@ const DCMCategoryScreen = () => {
                 ]}
                 onPress={() => handleSubCategoryPress(subCategory.name)}
               >
-                <Text style={styles.navButtonText}>{subCategory.name}</Text>
+                <Text style={[styles.navButtonTextstyle, styles.selectedCategoryText]}>{subCategory.name}</Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
@@ -197,8 +197,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   selectedCategoryText: {
-    fontSize: 16,
     fontWeight: 'bold',
+    color: '#FFF',
+    fontSize: 18,
+    textShadowColor: 'rgba(0, 0, 0, 0.80)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
   },
   navButtonText: {
     fontSize: 16,
