@@ -36,27 +36,24 @@ const HomeScreen = () => {
     setSelectedCategory(category.endpoint);
     setSelectedCategoryLabel(category.label); // Utiliser le label de la catégorie sélectionnée
   };
+  const renderData = data.map((item, i) => (
+    // console.log("test : ", item.subCategory),
+    
+    <Dcm key={i}  subCategory={item.subCategory && item.subCategory.name}
+      author={item.author/* && <Text style={styles.userName}>{item.author.username}</Text>*/ }
+      content={item.content}
+      origins={item.origins}
+      target={item.target}
+      date={item.date}
+      likes={item.likes.length}
+      dislikes={item.dislikes.length}
+      type={item.type}
 
+       />
+  ));
+ 
 
-
-  const renderData = data.length > 0 ? (
-    data.map((item, i) => (
-      <Dcm
-        key={i}
-        subCategory={item.subCategory && item.subCategory.name}
-        author={item.author}
-        content={item.content}
-        origins={item.origins}
-        target={item.target}
-        date={item.date}
-        likes={item.likes.length}
-        dislikes={item.dislikes.length}
-        type={item.type}
-      />
-    ))
-  ) : (
-    <Text>Aucune donnée à afficher.</Text>
-  );
+  console.log("ca marche ", selectedCategory )
 
   return (
     <>

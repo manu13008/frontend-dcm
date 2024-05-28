@@ -48,6 +48,9 @@ const DCMCategoryScreen = () => {
                        />
                   ));
 
+
+
+                  
                   const fetchAllDCMs = () => {
                     const allDCMs = [];
                     const promises = [];
