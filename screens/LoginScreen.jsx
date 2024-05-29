@@ -51,7 +51,7 @@ function LoginScreen({handleDisplay}) {
     <View style={styles.container}>
        <Text style ={styles.errorMessage}>{errorMessage}</Text>
         <Input placeholder='E-mail' onChangeText={(value) => setEmail(value)} value={email}/>
-        <Input placeholder='Mot de passe' onChangeText={(value) => setPassword(value)} value={password} />
+        <Input secureTextEntry={true} placeholder='Mot de passe' onChangeText={(value) => setPassword(value)} value={password} />
         <ButtonPrimary text="Me Connecter" onPress={() => handleLogin()}/>
         <View>
           <Text style={styles.text}>Pas encore membre ? <Text style={styles.link} onPress={() => handleDisplay()}>M'inscrire</Text></Text>

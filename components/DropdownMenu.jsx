@@ -10,15 +10,24 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 export default function DropdownMenu(props)  { 
 
 
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState('');
   const [isFocus, setIsFocus] = useState(false);
 
+  // const test = props.valeurs.map((item)=> {
+  //   return {label : item.label , value : item.value}
+  // })
     
 
 useEffect(() => {
   // console.log("valeurs ", props.valeurs);
-  setValue(null)
+  setValue('')
 }, [props.valeurs])
+
+  
+// useEffect(() => {
+//   console.log('props.valeurs:', props.valeurs);
+// }, [props]);
+
 
   return (
                 <Dropdown
@@ -33,7 +42,7 @@ useEffect(() => {
                 data={props.valeurs ? props.valeurs : []}
                 search
                 maxHeight={300}
-                
+                  
                 // A modifier
                 labelField="label"
                 valueField="value"
@@ -44,6 +53,7 @@ useEffect(() => {
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
                   setValue(item.value);
+                  
                  props.handleSelectItem(item)
                   setIsFocus(false);
                 }}

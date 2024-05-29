@@ -57,7 +57,7 @@ export default function AddDCMScreen(props) {
 
     // Récupérer toutes les catégories dans la base de données
     const getAllCategories = () => {
-    fetch(`http://10.20.2.253:3000/category/all`)
+    fetch(`${BACKEND_ADDRESS}/category/all`)
     .then((response) => response.json())
     .then((data) => {
         if (data) {
@@ -70,7 +70,7 @@ export default function AddDCMScreen(props) {
   
 })}
 
-// console.log('categories',categories)
+console.log('categories',categories)
 
 
 // Use effect qui charge toutes les catégories de la base de données
@@ -81,13 +81,13 @@ useEffect(() => {
 
 
 const getCategoryId = async () => {
-    let response = await fetch(`http://10.20.2.253:3000/category/${category}`)
+    let response = await fetch(`${BACKEND_ADDRESS}/category/${category}`)
     let idCat = await response.json()
     return idCat.category.id;
 }
 
 const getSousCatOfCategoryId = async () => {
-    let response = await fetch(`http://10.20.2.253:3000/category/${category}`)
+    let response = await fetch(`${BACKEND_ADDRESS}/category/${category}`)
     let idCat = await response.json()
     return idCat.category.id;
 }
@@ -125,6 +125,7 @@ const handleSelectCat = async (categoryValue) => {
     setActors([]);
     getSousCategoriesFromCategory(categoryValue.label)
 }
+
 
   
 
@@ -190,7 +191,7 @@ const handlePostButton = async () => {
     } else {
 
         const data = {content : dcmText , subCategory : sousCategorySelected.id_sousCat,
-            origins : actorOrigin.label , target : actorTarget.label , type : hateOrLove , isAnonym : anonym
+            origins : actorOrigin.label , target : actorTarget.label , type : (hateOrLove==='love' ? true : false)  , isAnonym : anonym
         }
 
 
@@ -266,22 +267,23 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
         title={titleModal}
         message={messageModal}
         buttonText = "Ok j'ai compris !"
-      />}
+      />} 
    
 
     <Text style={styles.title}>Publier une DCM  {props.test}</Text>
 
          <Text style={styles.textAbove}>Catégorie</Text>
-         <View style={styles.catDropDown}>
+         {categories && <View style={styles.catDropDown}>
              <DropdownMenu  
              handleSelectItem={handleSelectCat} 
-             valeurs={categories}
+             valeurs={ categories}
              isDisable={false} 
              placeHolderNotFocus='Sélectionner une catégorie' 
              placeHolderFocus = 'Catégorie...'  
              />
              
-         </View>
+         </View>}
+        
 
 
          <Text style={styles.textAbove}>Sous-Catégorie</Text>

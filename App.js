@@ -64,6 +64,7 @@ const TabNavigator = () => {
                 width: 20,
                 height: 20,
                 tintColor: focused ? "#0F056B" : "#0468BE",
+                opacity : focused ? 1 : 0.7,
               }}
             />
           );

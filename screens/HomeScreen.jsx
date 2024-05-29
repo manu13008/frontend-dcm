@@ -39,7 +39,7 @@ const HomeScreen = () => {
 const [page, setPage] = useState(0);
 const [loadingMore, setLoadingMore] = useState(false);
 
-console.log(page)
+// console.log(page)
 
   // useEffect(() => {
   //   setLoading(true);

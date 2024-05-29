@@ -16,7 +16,7 @@ const Header = ({ showButton = true }) => {
   };
   
   const user = useSelector((state) => state.user);
-  console.log('user token',user)
+  // console.log('user token',user)
   const dispatch = useDispatch();
 
   const handleProfilePress = () => {
@@ -74,12 +74,25 @@ const handleCguPress = () => {
                 <FontAwesomeIcon icon={faCog} size={20} style={styles.menuIcon} />
                 <Text style={styles.menuText}>Paramètres</Text>
               </TouchableOpacity>
+
+
               <TouchableOpacity style={styles.menuItem} onPress={() => {
-               dispatch(logout())
-               toggleMenu() }
+                if (user.token) {
+                  dispatch(logout()) 
+                  toggleMenu()
+                } else {
+                  navigation.navigate('TabNavigator' , { screen: 'Profil' })
+                  toggleMenu()
+                }
+              }
+               
+               
               }>
+
+                
                 <FontAwesomeIcon icon={faSignOutAlt} size={20} style={styles.menuIcon} />
-                <Text style={styles.menuText}>Déconnexion</Text>
+                {user.token ? <Text style={styles.menuText}>Déconnexion</Text> : 
+                 <Text style={styles.menuText}>Sign In / Sign Up</Text> } 
               </TouchableOpacity>
             </View>
           </TouchableOpacity>
