@@ -13,11 +13,12 @@ export default function DropdownMenu(props)  {
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
 
-    
+  // console.log("props : ", props)
+  // console.log("value : ", value)
 
 useEffect(() => {
   // console.log("valeurs ", props.valeurs);
-  setValue(null)
+  // setValue(null) 
 }, [props.valeurs])
 
   return (
@@ -43,6 +44,7 @@ useEffect(() => {
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
+                  // console.log("selected : ", item.value, item.label)
                   setValue(item.value);
                  props.handleSelectItem(item)
                   setIsFocus(false);

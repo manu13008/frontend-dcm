@@ -3,8 +3,9 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Modal} fro
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft';
-import { Dropdown } from 'react-native-element-dropdown';
+import DropdownMenu from "../components/DropdownMenu";
 import Dcm from "../components/Dcm";
+import { RadioButton } from 'react-native-paper';
 
 // const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 
@@ -15,30 +16,27 @@ const DCMCategoryScreen = () => {
   const route = useRoute();
   const { categoryName } = route.params;
   const [data, setData] = useState([]);
+  const [allData, setAllData] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
   const [selectedFilter, setSelectedFitler] = useState([]);
-  const [filterDcm, SetFilterDcm] = useState([]);
-  const [applyFilter, SetApplyFilter ]= useState([]);
   const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
   const [authors, setAuthors] = useState([]); 
   const [selectedAuthor, setSelectedAuthor] = useState(null);
-const [selectedSubCategoryByAuthor,setSelectedSubCategoryByAuthor] =useState([]);
+  const [selectedValueGroup1, setSelectedValueGroup1] = useState(null);
+  const [selectedValueGroup2, setSelectedValueGroup2] = useState(null);
 
-
+// console.log("selectedAuthor : ", selectedAuthor);
                 const toggleFilterModal = () => {
                   setIsFilterModalVisible(!isFilterModalVisible);
                 };
-
-
-
-
 
                   // recuperation DES sous-catégories barre navigaton
                   useEffect(() => {
                     fetch(`${BACKEND_ADDRESS}/sousCategory/oneCategory/${categoryName}`)
                       .then((response) => response.json())
                       .then((data) => { 
+                     
                         if (data.result) {
                           setSubCategories(data.sousCategory);
                         } else {
@@ -49,8 +47,9 @@ const [selectedSubCategoryByAuthor,setSelectedSubCategoryByAuthor] =useState([])
                   }, [categoryName]);
 
 
+
+                  // console.log("data : ", data)
                   const renderData = data.map((item, i) => (
-                 
                     <Dcm
                     key={i}
                      subCategory={item.subCategory && item.subCategory.name}
@@ -90,6 +89,7 @@ const [selectedSubCategoryByAuthor,setSelectedSubCategoryByAuthor] =useState([])
                     Promise.all(promises)
                       .then(() => {
                         setData(allDCMs);
+                        setAllData(allDCMs)
                       })
                       .catch(() => console.log("Erreur lors de la récupération des DCMs de toutes les sous-catégories"));
                   };
@@ -102,137 +102,206 @@ const [selectedSubCategoryByAuthor,setSelectedSubCategoryByAuthor] =useState([])
                        }
                 }, [subCategories, selectedSubCategory]);
 
-
-
                   // recupere les dcm pour la sous-catégorie sélectionnée
                   useEffect(() => {
+
                     if (selectedSubCategory) {   // Vérifie si une sous-catégorie est sélectionnée
+
                       // récupérer les dcm 
                       fetch(`${BACKEND_ADDRESS}/dcm/${selectedSubCategory}`)
                         .then((response) => response.json())
                         .then((data) => {
+                          // console.log(data.dcm[0], "DATA DE SOUS CATEGORY ICI !!!");
                           if (data.result) {
                             setData(data.dcm);
-                            SetApplyFilter(data.dcm)              // MOFICATION ICI !!!
-                          } else {
-                            console.log("Erreur lors de la récupération des DCMs:");
+                            setAllData(data.dcm)
+
+                            const subCategoryAuthors = [...new Set(data.dcm.flatMap(dcm => dcm.subCategory.authors))];
+                            setAuthors(subCategoryAuthors); 
+                            // console.log(subCategoryAuthors, "LES DCM SOUS CATEGORIE PAR AUTHORS!!");
+                          } else {                         
+                            // console.log("Erreur lors de la récupération des DCMs:");
                           }
                         })
                         .catch(() => console.log("Erreur lors de recuperation DCMs:"));
                     }
-                  }, [selectedSubCategory]);       
-              // Fonction pour gérer le clic sur une sous-catégorie
-                const handleSubCategoryPress = (subCategoryName) => {
-              // Mis a jour selectedSubCategory avec le nom de la sous-catégorie cliquée
-                setSelectedSubCategory(subCategoryName);
-              };
+                  }, [selectedSubCategory]);   
 
-            // BOUCLE INFINI DE CACA
-              useEffect(() => {
-                if (selectedSubCategoryByAuthor) {
-                  fetch(`${BACKEND_ADDRESS}/authors/${selectedSubCategory}`)
-                    .then(response => response.json())
-                    .then(data => {
-                      console.log(data,"VOIR LES DATAS ICI !!!!!!!!!!!!!!!!!!!");
-                      if (data.result) {
-                        setAuthors(data.authors);
+
+                     // Filtrer les dcms par auteur
+                    useEffect(() => {
+                      // console.log('test manu')
+                      if (selectedAuthor) {
+                        const filteredDataByAuthor = allData.filter(dcm => {
+                          console.log("dcm : ", dcm.content, dcm.origins, dcm.target)
+                          console.log("selectedAuthor : ", selectedAuthor)
+                          return dcm.origins === selectedAuthor || dcm.target === selectedAuthor
+                        
+                        }  );
+                        setData(filteredDataByAuthor);
                       } else {
-                        console.log("E");
+                        fetchAllDCMs();
                       }
-                    })
-                    .catch(() => console.log("Erreur "));
-                }
-              }, [selectedSubCategoryByAuthor]);
+                    }, [selectedAuthor]);
+
+                  
+                  
+                    const handleSelectAuthor = async (item) => {
+                      setSelectedAuthor(item.label); 
+                    };
+                    // console.log(selectedAuthor,"ici cest selected author ");
 
 
-              const renderAuthorsDropdown = () => {
-                return (
-                  <View style={styles.dropdownContainer}>
-                    <Dropdown
-                      label="Auteur"
-                      items={authors.map(author => ({ label: authors, value: authors }))}
-                      onChangeItem={(item) => {
-                        setSelectedAuthor(item.value);
-                      }}
-                      defaultIndex={0} 
-                      style={isFilterModalVisible ? styles.dropdownOpen : styles.dropdown}
-                    />
+
+
+                // Fonction pour gérer le clic sur une sous-catégorie
+                  const handleSubCategoryPress = (subCategoryName) => {
+                // Mis a jour selectedSubCategory avec le nom de la sous-catégorie cliquée
+                  setSelectedSubCategory(subCategoryName);
+                };
+
+                const handleFilterValidation = () => {
+                  // Appliquer le filtre
+                  setIsFilterModalVisible(false); // Fermer le modal après validation
+                };
+
+                            
+                const handlePressGroup1 = (value) => {
+                  setSelectedValueGroup1(selectedValueGroup1 === value ? null : value);
+                };
+
+                const handlePressGroup2 = (value) => {
+                  setSelectedValueGroup2(selectedValueGroup2 === value ? null : value);
+                };
+
+                    
+  
+              return (
+                <>
+                  <View style={styles.header}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                      <FontAwesomeIcon icon={faArrowLeft} size={24} />
+                    </TouchableOpacity>
+                    <Text style={styles.headerTitle}>{categoryName}</Text>
                   </View>
-                );
-              };
+                  <View style={styles.MainContainer}>
+                    <View style={styles.headerContainer}>
+                      <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        style={styles.navBar}
+                      >
+                        {subCategories.map((subCategory, index) => (
+                          <TouchableOpacity
+                            key={index}
+                            style={[
+                              styles.navButton,
+                              selectedSubCategory === subCategory.name && styles.selectedCategoryText
+                            ]}
+                            
+                            onPress={() =>  handleSubCategoryPress(subCategory.name)}
+                          >
+                      
+                            <Text style={styles.selectedCategoryText}>{subCategory.name}</Text>
+                        
+                          </TouchableOpacity>
+                        ))}
+                      </ScrollView>
+                    </View>
+                    <ScrollView>
 
-
-
-
-
-
-  return (
-    <>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <FontAwesomeIcon icon={faArrowLeft} size={24} />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>{categoryName}</Text>
-      </View>
-      <View style={styles.MainContainer}>
-        <View style={styles.headerContainer}>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.navBar}
-          >
-            {subCategories.map((subCategory, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styles.navButton,
-                  selectedSubCategory === subCategory.name && styles.selectedCategoryText
-                ]}
-                
-                onPress={() =>  handleSubCategoryPress(subCategory.name)}
-              >
-          
-                <Text style={styles.selectedCategoryText}>{subCategory.name}</Text>
-            
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
-        <ScrollView>
-          {data && data.map((item, index) => ( 
-            <View style={styles.contentContainer}  >
-        
-
-
-              <View>
-              <TouchableOpacity onPress={toggleFilterModal}>
-            
-                       {selectedSubCategory && (
-          <Image source={require('../assets/filter.jpg')} style={styles.filterIcon} />
-        )}    
-        </TouchableOpacity>
-        </View>
-
-        
-              {renderData}
-                                                            
+                <View style={styles.contentContainer}>
+                    <View>
+                    <TouchableOpacity onPress={toggleFilterModal}>
+                            {selectedSubCategory && (
+                  <Image source={require('../assets/filter.jpg')} style={styles.filterIcon} />
+                  )}    
+                  </TouchableOpacity>
+             </View>
+               {/* rendu des dcms */}
+              {renderData}                                                         
                             <Modal
                 animationType="none"
                 transparent={true}
                 visible={isFilterModalVisible}
                 onRequestClose={toggleFilterModal}
-              >
+              > 
+
                 <View style={styles.modalOverlay}>
                   <View style={styles.modalContainer}>
-                    {renderAuthorsDropdown()}
-                    <TouchableOpacity onPress={toggleFilterModal} style={styles.closeButton}>
+                  <View style={styles.catDropDown}>
+                          <DropdownMenu  
+                          style={styles.dropdown}
+                          handleSelectItem={handleSelectAuthor} 
+                          valeurs={authors.sort().map((author,i )=> ({ label: author, value: i }))}
+                          placeHolderNotFocus="Sélectionner un acteur"
+                          placeHolderFocus="Search..."
+                        />                      
+                          </View>
+
+
+                       <View style={styles.containerRadioButton}>
+                           <View style={styles.radioButton}>
+                             <RadioButton.Android
+                            value="option1"
+                            status={selectedValueGroup1 === 'option1' ? 'checked' : 'unchecked'}
+                            onPress={() => handlePressGroup1('option1')}
+                            color="#007BFF"
+                          />
+                           <Text style={styles.radioLabel}>
+                            Les Balanceurs
+                            </Text>
+                      </View>
+
+                        <View style={styles.radioButton}>
+                              <RadioButton.Android
+                                value="option2"
+                                status={selectedValueGroup1 === 'option2' ? 'checked' : 'unchecked'}
+                                onPress={() => handlePressGroup1('option2')}
+                                color="#007BFF"
+                              />
+                              <Text style={styles.radioLabel}>
+                                Les Balancés
+                              </Text>
+                       </View>
+
+                       <View style={styles.radioButton}>
+                              <RadioButton.Android
+                                value="option3"
+                                status={selectedValueGroup2 === 'option3' ? 'checked' : 'unchecked'}
+                                onPress={() => handlePressGroup2('option3')}
+                                color="#007BFF"
+                              />
+                              <Text style={styles.radioLabel}>
+                                Les coup de Coeur ❤️
+                              </Text>
+                      </View>
+
+                            <View style={styles.radioButton}>
+                       <RadioButton.Android
+                                value="option4"
+                                status={selectedValueGroup2 === 'option4' ? 'checked' : 'unchecked'}
+                                onPress={() => handlePressGroup2('option4')}
+                                color="#007BFF"
+                       />
+                              <Text style={styles.radioLabel}>
+                                Les coup de gueule 😠
+                              </Text>
+                            </View>
+                          </View>
+
+
+             <TouchableOpacity onPress={toggleFilterModal} style={styles.closeButton}>
                       <Text style={styles.closeButtonText}>X</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={handleFilterValidation} style={styles.filterButton}>
+                   <Text style={styles.filterButtonText}>Valider</Text>
+             </TouchableOpacity>
                   </View>
                 </View>
               </Modal>
             </View>
-          ))}
+          
         </ScrollView>
       </View>
     </>
@@ -306,13 +375,6 @@ const styles = StyleSheet.create({
   },
 
 
-
-
-
-
-
-
-
   modalOverlay: {
     flex: 1,
     justifyContent: 'center',
@@ -344,87 +406,70 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize:15,
   },
-
-  dropdownContainer: {
-    width: '80%',
+  filterButton: {
+    backgroundColor: '#0468BE',
+    padding: 10,
+    paddingHorizontal:40,
+    borderRadius: 5,
     marginTop: 20,
-    marginBottom: 20,
+    alignSelf: 'center', 
   },
+  filterButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize:20,
+  },
+  catDropDown : {
+    width : 200,
+    marginLeft: 'auto',
+    marginRight : 'auto',
+
+},
   dropdown: {
+    marginTop:30,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 4,
     padding: 10,
+    width: '80%',
+  
   },
-  dropdownOpen: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 4,
-    padding: 10,
-    maxHeight: 150, 
-    overflowY: 'scroll', 
-  },
-});
+
+  containerRadioButton: { 
+    marginTop:5,
+}, 
+
+  radioGroup: { 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: 'space-around', 
+    marginTop: 20, 
+    borderRadius: 8, 
+    backgroundColor: 'white', 
+    padding: 5, 
+    elevation: 4, 
+    shadowColor: '#000', 
+    shadowOffset: { 
+        width: 0, 
+        height: 2, 
+    }, 
+    shadowOpacity: 0.25, 
+    shadowRadius: 3.84, 
+}, 
+radioButton: { 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+}, 
+radioLabel: { 
+    marginLeft: 8, 
+    fontSize: 16, 
+    color: '#333', 
+}, 
+}); 
+
 
 export default DCMCategoryScreen;
-
-
-// useEffect(() => {
-//   if (selectedSubCategory) {
-//     fetch(`${BACKEND_ADDRESS}/authors/${selectedSubCategory}`)
-//       .then(response => response.json())
-//       .then(data => {
-//         if (data.result) {
-//           setAuthors(data.authors);
-//         } else {
-//           console.log("Erreur lors de la récupération des auteurs:");
-//         }
-//       })
-//       .catch(() => console.log("Erreur lors de la récupération des auteurs"));
-//   }
-// }, [selectedSubCategory]);
-
-// const renderAuthorsDropdown = () => {
-//   return (
-//     <Dropdown
-//       label="Auteur"
-//       items={authors.map(author => ({ label: author, value: author }))}
-//       onChangeItem={(item) => {
-//         setSelectedAuthor(item.value);
-//       }}
-//       defaultIndex={0} // Sélectionner le premier auteur par défaut
-//     />
-//   );
-// };
-
-
-
-
-// <Modal
-// animationType="none"
-// transparent={true}
-// visible={isFilterModalVisible}
-// onRequestClose={toggleFilterModal}
-// >
-// <View style={styles.modalOverlay}>
-//   <View style={styles.modalContainer}>
-//     {renderAuthorsDropdown()}
-//     <TouchableOpacity onPress={toggleFilterModal} style={styles.closeButton}>
-//       <Text style={styles.closeButtonText}>X</Text>
-//     </TouchableOpacity>
-//   </View>
-// </View>
-// </Modal>
-// </View>
-// ))}
-// </ScrollView>
-// </View>
-// </>
-// );
-// };
-
-
-
 
 
 
