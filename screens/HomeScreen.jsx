@@ -59,7 +59,7 @@ console.log(page)
   }, [page]);
 
   const fetchData = (page) => {
-    fetch(${BACKEND_ADDRESS}${selectedCategory}?page=${page})
+    fetch(`${BACKEND_ADDRESS}${selectedCategory}?page=${page}`)
       .then((response) => response.json())
       .then((data) => {
         if (page === 0) {

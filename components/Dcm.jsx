@@ -6,10 +6,6 @@ import { useSelector } from 'react-redux';
 import ErrorModal from '../components/ErrorModal'
 import { useNavigation } from "@react-navigation/native";
 
-<<<<<<< HEAD
-
-=======
->>>>>>> categorydcm
 
 const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
 
