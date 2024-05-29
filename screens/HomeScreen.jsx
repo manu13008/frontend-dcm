@@ -5,11 +5,11 @@ import Dcm from "../components/Dcm";
 import { useSelector } from 'react-redux';
 
 const categories = [
-  { key: "top", label: "Les Tops :fire:", endpoint: "/dcm/mostLiked" },
-  { key: "latest", label: "Les Dernières :hourglass_flowing_sand:", endpoint: "/dcm/lastDcm" },
-  { key: "random", label: "Aléatoires :game_die:", endpoint: "/dcm/random" },
-  { key: "favorite", label: "Coups de :hearts:", endpoint: "/dcm/mostLikedHeart" },
-  { key: "rant", label: "Coups de :angry:", endpoint: "/dcm/mostLikedHate" },
+  { key: "top", label: "Les Tops 🔥", endpoint: "/dcm/mostLiked" },
+  { key: "latest", label: "Les Dernières ⏳", endpoint: "/dcm/lastDcm" },
+  { key: "random", label: "Aléatoires 🎲", endpoint: "/dcm/random" },
+  { key: "favorite", label: "Coups de ♥️", endpoint: "/dcm/mostLikedHeart" },
+  { key: "rant", label: "Coups de 😠", endpoint: "/dcm/mostLikedHate" },
 ];
 
 const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
