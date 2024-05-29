@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     userName: {
-        fontSize: 18,
+        fontSize: 15,
         fontWeight: 'bold',
         color: '#333',
     },
