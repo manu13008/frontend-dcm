@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Header from "../components/Header";
 import Dcm from "../components/Dcm";
-import { useSelector } from 'react-redux';
-
-
 
 const categories = [
   { key: "top", label: "Les Tops 🔥", endpoint: "/dcm/mostLiked" },
@@ -14,37 +11,19 @@ const categories = [
   { key: "rant", label: "Coups de 😠", endpoint: "/dcm/mostLikedHate" },
 ];
 
-<<<<<<< HEAD
-const BACKEND_ADDRESS = 'http://10.20.2.253:3000';
-=======
 const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
-// 'http://10.10.200.149:3000';
-
->>>>>>> 095c710a95709143763541439d148ccc384e5864
-
 const HomeScreen = () => {
   const [data, setData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(categories[1].endpoint);
   const [selectedCategoryLabel, setSelectedCategoryLabel] = useState(categories[1].label);
 
-
-  const user = useSelector((state) => state.user);
-  console.log(user)
-
-  // UseState de chargement pendant le fetch
-  const [loading, setLoading] = useState(true);
-  // UseState de automatic refresh quand je scroll vers le bas en étant tout en haut
-  const [refreshing, setRefreshing] = React.useState(false);
-
   useEffect(() => {
-    setLoading(true);
     fetch(`${BACKEND_ADDRESS}${selectedCategory}`)
       .then((response) => response.json())
       .then((data) => {
         setData(data.data);
-        setLoading(false);
       });
-  }, [selectedCategory, refreshing]);
+  }, [selectedCategory]);
 
   const handleCategoryPress = (category) => {
     setSelectedCategory(category.endpoint);
@@ -63,55 +42,28 @@ const HomeScreen = () => {
       dislikes={item.dislikes.length}
       type={item.type}
       isAnonym={item.isAnonym}
-      id={item._id}
-      isLiked={item.likes.includes(user.userId)}
-      isDisliked={item.dislikes.includes(user.userId)}
     />
   ));
-
-
-
-// Fonction qui controle le refresh "automatique"
-const onRefresh = () => {
-setRefreshing(true);
-setTimeout(() => {
-  setRefreshing(false);
-},100); []}
-
-
 
   return (
     <>
       <Header />
       <View style={styles.MainContainer}>
-
-      
-
         <View style={styles.headerContainer}>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
             style={styles.navBar}
           >
-
-
             {categories.map((category) => (
               <TouchableOpacity key={category.key} style={[styles.navButtonText, selectedCategory === category.endpoint && styles.navButtonSelected]} onPress={() => handleCategoryPress(category)}>
                 <Text style={[styles.navButtonText, selectedCategory === category.endpoint && styles.navButtonSelected]}>{category.label}</Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
-          
         </View>
-        
-        <ScrollView contentContainerStyle={styles.contentContainer} 
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />}>
-        {loading ? (
-    <ActivityIndicator style={styles.loading} size="large" color="#0000ff" /> // Affiche l'indicateur de chargement
-  ) : (
-    renderData
-  )}
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+          {renderData}
           <View style={styles.bottomSpacer} />
         </ScrollView>
       </View>
@@ -209,13 +161,10 @@ const styles = StyleSheet.create({
   rant: {
     backgroundColor: '#ffd1a9',
   },
-  loading : {
-    marginTop: 200,
-    
-  }
 });
 
 export default HomeScreen;
+
 
 
 

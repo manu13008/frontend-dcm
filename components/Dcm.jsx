@@ -6,12 +6,8 @@ import { useSelector } from 'react-redux';
 import ErrorModal from '../components/ErrorModal'
 import { useNavigation } from "@react-navigation/native";
 
-<<<<<<< HEAD
-const BACKEND_ADDRESS = 'http://10.20.2.253:3000';
-=======
 
 const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
->>>>>>> 095c710a95709143763541439d148ccc384e5864
 
 export default function Dcm(props) {
 

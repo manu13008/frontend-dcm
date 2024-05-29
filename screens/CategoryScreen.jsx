@@ -5,13 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 import Header from "../components/Header";
 
-<<<<<<< HEAD
-const BACKEND_ADDRESS = 'http://10.20.2.253:3000';
-=======
 // const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 
 const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
->>>>>>> 095c710a95709143763541439d148ccc384e5864
 
 
 const CategoryScreen = () => {
@@ -25,7 +21,7 @@ const CategoryScreen = () => {
                       fetch(`${BACKEND_ADDRESS}/category/all`)
                         .then((response) => response.json())
                         .then((data) => {
-                          console.log()
+                          console.log(data)
                           setCategories(data.CategoryNames);
                         });
                     }, []);
@@ -34,11 +30,18 @@ const CategoryScreen = () => {
                   // fonction et Navigue sur categories versDcmCategoryScreen  
                     const handleCategoryPress = (categoryName) => {
                       navigation.navigate("DCMCategoryScreen", { categoryName });
+                    
                     };
-                  // recherche des nomscategories
-                    const filteredCategories = categories.filter(category =>
-                      category.toLowerCase().includes(searchText.toLowerCase())
-                    );
+                  //recherche des nomscategories
+                  const filteredCategories = categories.filter(category => {
+                    if (typeof category === 'string') {
+                      return category.toLowerCase().includes(searchText.toLowerCase());
+                    }
+                    return false;
+                  });
+
+console.log('cate',filteredCategories)
+
 
   return (
     <>
@@ -51,7 +54,7 @@ const CategoryScreen = () => {
                 value={searchText}
                 onChangeText={setSearchText}
               />
-
+              
               <TouchableOpacity style={styles.searchIcon}>
                 <FontAwesomeIcon icon={faSearch} size={20} color="#0468BE" />
               </TouchableOpacity>
@@ -60,7 +63,7 @@ const CategoryScreen = () => {
 
             <ScrollView
               contentContainerStyle={styles.scrollContainer}
-              showsVerticalScrollIndicator={false}
+              showsVerticalScrollIndicator={false} 
             >  
               {filteredCategories.map((category, index) => (
                 <TouchableOpacity
@@ -123,6 +126,7 @@ const styles = StyleSheet.create({
 });
 
 export default CategoryScreen;
+
 
 
 
