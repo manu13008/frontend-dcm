@@ -79,6 +79,7 @@ console.log(page)
   };
 
   const renderData = data.map((item, i) => (
+    console.log(item),
     <Dcm key={i}
       subCategory={item.subCategory && item.subCategory.name}
       author={item.author}
@@ -110,7 +111,7 @@ const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
   const paddingToBottom = 20;
   return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
 };
-
+console.log(renderData.type)
   return (
     <>
       <Header />

@@ -58,7 +58,7 @@ export default function AddDCMScreen(props) {
 
     // Récupérer toutes les catégories dans la base de données
     const getAllCategories = () => {
-    fetch(`http://10.20.2.253:3000/category/all`)
+    fetch(`${BACKEND_ADDRESS}/category/all`)
     .then((response) => response.json())
     .then((data) => {
         if (data) {
@@ -82,13 +82,13 @@ useEffect(() => {
 
 
 const getCategoryId = async () => {
-    let response = await fetch(`http://10.20.2.253:3000/category/${category}`)
+    let response = await fetch(`${BACKEND_ADDRESS}/category/${category}`)
     let idCat = await response.json()
     return idCat.category.id;
 }
 
 const getSousCatOfCategoryId = async () => {
-    let response = await fetch(`http://10.20.2.253:3000/category/${category}`)
+    let response = await fetch(`${BACKEND_ADDRESS}/category/${category}`)
     let idCat = await response.json()
     return idCat.category.id;
 }
@@ -169,8 +169,8 @@ const handleSelectActorTarget = (actorTarget) => {
 
 const handlePostButton = async () => {
     console.log('Post in process')
-    const regexLove = /^j'aime quand|^j'adore quand/i;
-    const regexHate = /^je n'aime pas quand|^je déteste quand/i;
+    const regexLove = /^j'aime quand|^j'adore quand|^j’aime quand|^j’adore quand/i;
+    const regexHate = /^je n'aime pas quand|^je déteste quand|^je n’aime pas quand|^je déteste quand/i;
     if (!categorySelected || !sousCategorySelected || !actorOrigin || !actorTarget) {
         setErrorVisible(true)
         setTitleModal('Action impossible !')
@@ -191,7 +191,7 @@ const handlePostButton = async () => {
     } else {
 
         const data = {content : dcmText , subCategory : sousCategorySelected.id_sousCat,
-            origins : actorOrigin.label , target : actorTarget.label , type : hateOrLove , isAnonym : anonym
+            origins : actorOrigin.label , target : actorTarget.label , type : (hateOrLove==="love"?true:false) , isAnonym : anonym
         }
 
 

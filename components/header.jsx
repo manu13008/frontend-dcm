@@ -22,6 +22,9 @@ const Header = ({ showButton = true }) => {
   const handleProfilePress = () => {
     navigation.navigate('ProfileScreen');
 };
+const handleCatePress = () => {
+  navigation.navigate('CategoryScreen');
+};
 const handleCguPress = () => {
   navigation.navigate('CguScreen');
 };
@@ -62,7 +65,7 @@ const handleCguPress = () => {
                 <FontAwesomeIcon icon={faUser} size={20} style={styles.menuIcon} />
                 <Text style={styles.menuText}>Profil</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.menuItem} >
+              <TouchableOpacity style={styles.menuItem} onPress={handleCatePress} >
               <FontAwesomeIcon icon={faListAlt} size={20} style={styles.menuIcon} />
                <Text style={styles.menuText}>Catégories</Text>
               </TouchableOpacity>
