@@ -5,11 +5,11 @@ import Dcm from "../components/Dcm";
 import { useSelector } from 'react-redux';
 
 const categories = [
-  { key: "top", label: "Les Tops :fire:", endpoint: "/dcm/mostLiked" },
-  { key: "latest", label: "Les Dernières :hourglass_flowing_sand:", endpoint: "/dcm/lastDcm" },
-  { key: "random", label: "Aléatoires :game_die:", endpoint: "/dcm/random" },
-  { key: "favorite", label: "Coups de :hearts:", endpoint: "/dcm/mostLikedHeart" },
-  { key: "rant", label: "Coups de :angry:", endpoint: "/dcm/mostLikedHate" },
+  { key: "top", label: "Les Tops 🔥", endpoint: "/dcm/mostLiked" },
+  { key: "latest", label: "Les Dernières ⏳", endpoint: "/dcm/lastDcm" },
+  { key: "random", label: "Aléatoires 🎲", endpoint: "/dcm/random" },
+  { key: "favorite", label: "Coups de ♥️", endpoint: "/dcm/mostLikedHeart" },
+  { key: "rant", label: "Coups de 😠", endpoint: "/dcm/mostLikedHate" },
 ];
 
 const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
@@ -62,8 +62,10 @@ const [loadingMore, setLoadingMore] = useState(false);
     fetch(`${BACKEND_ADDRESS}${selectedCategory}?page=${page}`)
       .then((response) => response.json())
       .then((data) => {
+        console.log("STP LA DATA:", data);
         if (page === 0) {
           setData(data.data);
+          console.log("STP LA DATA:", data.data);
         } else {
           setData((prevData) => [...prevData, ...data.data]);
         }
@@ -79,6 +81,7 @@ const [loadingMore, setLoadingMore] = useState(false);
   };
 
   const renderData = data.map((item, i) => (
+    // console.log("ICI",item),
     <Dcm key={i}
       subCategory={item.subCategory && item.subCategory.name}
       author={item.author}
@@ -110,7 +113,6 @@ const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
   const paddingToBottom = 20;
   return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
 };
-
   return (
     <>
       <Header />

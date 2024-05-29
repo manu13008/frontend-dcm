@@ -31,7 +31,7 @@ useEffect(() => {
 
   return (
                 <Dropdown
-                style={[styles.dropdown, isFocus && { borderColor: 'blue' } , props.isDisable && {backgroundColor : 'grey'}]}
+                style={[styles.dropdown, isFocus && { borderColor: 'blue' } , props.isDisable && {backgroundColor : '#cdcdd1'}]}
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}

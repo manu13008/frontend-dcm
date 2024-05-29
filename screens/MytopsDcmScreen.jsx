@@ -21,11 +21,11 @@ const MyTopsDcmScreen = () => {
     fetch(`${BACKEND_ADDRESS}/dcm/likes/${user.username}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log('tutestrompe', data)
-        setData(data.dcm || []);
+        console.log('tutestrompe', data);
+        const sortedData = (data.dcm || []).sort((a, b) => b.likes.length - a.likes.length);
+        setData(sortedData.reverse());
       });
   }, [refreshing]);
-
 
 
   const testData = data.map((item) => {

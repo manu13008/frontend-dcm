@@ -170,8 +170,8 @@ const handleSelectActorTarget = (actorTarget) => {
 
 const handlePostButton = async () => {
     console.log('Post in process')
-    const regexLove = /^j'aime quand|^j'adore quand/i;
-    const regexHate = /^je n'aime pas quand|^je déteste quand/i;
+    const regexLove = /^j'aime quand|^j'adore quand|^j’aime quand|^j’adore quand/i;
+    const regexHate = /^je n'aime pas quand|^je déteste quand|^je n’aime pas quand|^je déteste quand/i;
     if (!categorySelected || !sousCategorySelected || !actorOrigin || !actorTarget) {
         setErrorVisible(true)
         setTitleModal('Action impossible !')
@@ -249,12 +249,11 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
 
  return (
     <>
-    <Header showButton={false}/>
-     <KeyboardAvoidingView style={styles.container} 
-     behavior={Platform.OS === 'ios' ? 'position' : 'height'} >
+   
+     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'position' : 'height'} >
      {/* keyboardVerticalOffset={Platform.select({ ios: 0, android: 0 })} */}
     
-    
+     <Header showButton={false}/>
    
     <ScrollView contentContainerStyle={styles.scrollContainer}>
    
@@ -434,7 +433,6 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
     },
     catDropDown : {
         width : 300,
-        
         marginLeft: 'auto',
         marginRight : 'auto',
 
@@ -455,15 +453,17 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
         marginRight : 'auto',
     },
     textAbove : {
-        fontWeight : 'bold',
+        fontWeight : '16',
         marginLeft: 'auto',
         marginRight : 'auto',
         marginTop : '3%',
     }, 
-    title : {
-        fontSize : 20,
-        marginLeft: 'auto',
-        marginRight : 'auto',
+    title: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#333',
+        marginBottom: 12,
+        textAlign: 'center',
     },
     buttons : {
         flexDirection : 'row',
@@ -476,9 +476,9 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
     radioButton: { 
         flexDirection: 'row', 
         alignItems: 'center', 
-        borderRadius : 10,
+        borderRadius : 5,
         paddingHorizontal : 10,
-        borderWidth : 2,
+        borderWidth : 1,
     }, 
 
   
@@ -505,7 +505,7 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
         width : '90%',
         textAlignVertical: 'top',
         marginBottom : 10,
-        borderWidth : 2,
+        borderWidth : 1,
        
     },
     anonymPart : {
@@ -525,10 +525,9 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
     },
     post : {
         backgroundColor : 'blue',
-        
         margin: 'auto',
         borderRadius : 10,
-        paddingHorizontal : 10,
+        padding : 10,
     },
     balanceContainer : {
         height : 50,
@@ -540,8 +539,17 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
         marginTop : -30,
         marginBottom : 20,
 
-    }
-    
-
+    },
+    button: {
+        backgroundColor: '#007BFF',
+        paddingVertical: 15,
+        borderRadius: 5,
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: '#FFF',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
 
   });

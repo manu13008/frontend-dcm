@@ -23,7 +23,8 @@ const MyDcmScreen = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log('tutestrompe', data)
-        setData(data.dcm || []);
+        const sortedData = (data.dcm || []).sort((a, b) => b.likes.length - a.likes.length);
+        setData(sortedData.reverse());
       });
   }, [user.username]);
 
