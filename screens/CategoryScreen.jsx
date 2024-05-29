@@ -5,15 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 import Header from "../components/Header";
 
-<<<<<<< HEAD
-
-const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
-=======
 // const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 
 const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
 
->>>>>>> categorydcm
 
 const CategoryScreen = () => {
   const [categories, setCategories] = useState([]);
@@ -26,11 +21,7 @@ const CategoryScreen = () => {
                       fetch(`${BACKEND_ADDRESS}/category/all`)
                         .then((response) => response.json())
                         .then((data) => {
-<<<<<<< HEAD
-                          console.log("MARQUEUN TRUC:",data)
-=======
                           console.log(data)
->>>>>>> categorydcm
                           setCategories(data.CategoryNames);
                         });
                     }, []);

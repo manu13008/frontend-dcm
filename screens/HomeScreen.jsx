@@ -1,32 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, RefreshControl } from 'react-native';
 import Header from "../components/Header";
 import Dcm from "../components/Dcm";
+import { useSelector } from 'react-redux';
 
 const categories = [
-  { key: "top", label: "Les Tops 🔥", endpoint: "/dcm/mostLiked" },
-  { key: "latest", label: "Les Dernières ⏳", endpoint: "/dcm/lastDcm" },
-  { key: "random", label: "Aléatoires 🎲", endpoint: "/dcm/random" },
-  { key: "favorite", label: "Coups de ♥️", endpoint: "/dcm/mostLikedHeart" },
-  { key: "rant", label: "Coups de 😠", endpoint: "/dcm/mostLikedHate" },
+  { key: "top", label: "Les Tops :fire:", endpoint: "/dcm/mostLiked" },
+  { key: "latest", label: "Les Dernières :hourglass_flowing_sand:", endpoint: "/dcm/lastDcm" },
+  { key: "random", label: "Aléatoires :game_die:", endpoint: "/dcm/random" },
+  { key: "favorite", label: "Coups de :hearts:", endpoint: "/dcm/mostLikedHeart" },
+  { key: "rant", label: "Coups de :angry:", endpoint: "/dcm/mostLikedHate" },
 ];
 
-<<<<<<< HEAD
-
-
 const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
 
-=======
-const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
->>>>>>> categorydcm
 const HomeScreen = () => {
 
   // UseState des data et des onglets sélectionnés
   const [data, setData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(categories[1].endpoint);
   const [selectedCategoryLabel, setSelectedCategoryLabel] = useState(categories[1].label);
-
-<<<<<<< HEAD
 
   const user = useSelector((state) => state.user);
   // console.log(user)
@@ -36,7 +29,6 @@ const HomeScreen = () => {
   // UseState de automatic refresh quand je scroll vers le bas en étant tout en haut
   const [refreshing, setRefreshing] = useState(false);
 
-
   // Automatic Scroll
 const [page, setPage] = useState(0);
 const [loadingMore, setLoadingMore] = useState(false);
@@ -45,7 +37,7 @@ console.log(page)
 
   // useEffect(() => {
   //   setLoading(true);
-  //   fetch(`${BACKEND_ADDRESS}${selectedCategory}`)
+  //   fetch(${BACKEND_ADDRESS}${selectedCategory})
   //     .then((response) => response.json())
   //     .then((data) => {
   //       setData(data.data);
@@ -53,14 +45,11 @@ console.log(page)
   //     });
   // }, [selectedCategory, refreshing]);
 
-
-
   useEffect(() => {
     setLoading(true);
     fetchData(page);
   }, [selectedCategory, refreshing]);
   
-
 
   useEffect(() => {
     if (page > 0) {
@@ -68,9 +57,9 @@ console.log(page)
       fetchData(page);
     }
   }, [page]);
-  
+
   const fetchData = (page) => {
-    fetch(`${BACKEND_ADDRESS}${selectedCategory}?page=${page}`)
+    fetch(${BACKEND_ADDRESS}${selectedCategory}?page=${page})
       .then((response) => response.json())
       .then((data) => {
         if (page === 0) {
@@ -82,17 +71,6 @@ console.log(page)
         setLoadingMore(false);
       });
   };
-
-
-=======
-  useEffect(() => {
-    fetch(`${BACKEND_ADDRESS}${selectedCategory}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data.data);
-      });
-  }, [selectedCategory]);
->>>>>>> categorydcm
 
   const handleCategoryPress = (category) => {
     setSelectedCategory(category.endpoint);
@@ -112,11 +90,11 @@ console.log(page)
       dislikes={item.dislikes.length}
       type={item.type}
       isAnonym={item.isAnonym}
+      id={item._id}
+      isLiked={item.likes.includes(user.userId)}
+      isDisliked={item.dislikes.includes(user.userId)}
     />
   ));
-
-<<<<<<< HEAD
-
 
 // Fonction qui controle le refresh "automatique"
 const onRefresh = () => {
@@ -127,57 +105,54 @@ setRefreshing(false);
 
 },100); []}
 
-
 // Fonction qui permet de capter qu'on est en bas de la page
 const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
   const paddingToBottom = 20;
   return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
 };
 
-=======
->>>>>>> categorydcm
   return (
     <>
       <Header />
       <View style={styles.MainContainer}>
-        <View style={styles.headerContainer}>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.navBar}
-          >
-            {categories.map((category) => (
-              <TouchableOpacity key={category.key} style={[styles.navButtonText, selectedCategory === category.endpoint && styles.navButtonSelected]} onPress={() => handleCategoryPress(category)}>
-                <Text style={[styles.navButtonText, selectedCategory === category.endpoint && styles.navButtonSelected]}>{category.label}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
-<<<<<<< HEAD
-        
-        <ScrollView contentContainerStyle={styles.contentContainer} 
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />}
-          onMomentumScrollEnd={({ nativeEvent }) => {
-            if (isCloseToBottom(nativeEvent)) {
-              setPage((prevPage) => prevPage + 1);
-            }
-          }}
-          >
-        {/* {loading ? (
-    <ActivityIndicator style={styles.loading} size="large" color="#0000ff" /> // Affiche l'indicateur de chargement
+
+  
+
+    <View style={styles.headerContainer}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.navBar}
+      >
+
+
+        {categories.map((category) => (
+          <TouchableOpacity key={category.key} style={[styles.navButtonText, selectedCategory === category.endpoint && styles.navButtonSelected]} onPress={() => handleCategoryPress(category)}>
+            <Text style={[styles.navButtonText, selectedCategory === category.endpoint && styles.navButtonSelected]}>{category.label}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+      
+    </View>
+    
+    <ScrollView contentContainerStyle={styles.contentContainer} 
+    refreshControl={
+      <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />}
+      onMomentumScrollEnd={({ nativeEvent }) => {
+        if (isCloseToBottom(nativeEvent)) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      }}
+      >
+    {/* {loading ? (
+<ActivityIndicator style={styles.loading} size="large" color="#0000ff" /> // Affiche l'indicateur de chargement
   ) : (
     renderData
   )} */}
 
-
 {loading ? (<ActivityIndicator style={styles.loading} size="large" color="#0000ff" /> ) : ( renderData  )}
 {loadingMore && <ActivityIndicator style={styles.loadingMore} size="small" color="#0000ff" />}
-  
-=======
-        <ScrollView contentContainerStyle={styles.contentContainer}>
-          {renderData}
->>>>>>> categorydcm
+
           <View style={styles.bottomSpacer} />
         </ScrollView>
       </View>
@@ -275,20 +250,13 @@ const styles = StyleSheet.create({
   rant: {
     backgroundColor: '#ffd1a9',
   },
-<<<<<<< HEAD
   loading : {
     marginTop: 200,
-    
+
   },
   loadingMore: {
     marginVertical: 20,
   }
-=======
->>>>>>> categorydcm
 });
 
 export default HomeScreen;
-
-
-
-

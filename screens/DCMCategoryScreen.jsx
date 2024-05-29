@@ -6,15 +6,9 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft';
 import { Dropdown } from 'react-native-element-dropdown';
 import Dcm from "../components/Dcm";
 
-<<<<<<< HEAD
-
-const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
-
-=======
 // const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 
 const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
->>>>>>> categorydcm
 
 const DCMCategoryScreen = () => {
   const navigation = useNavigation();
@@ -56,11 +50,7 @@ const [selectedSubCategoryByAuthor,setSelectedSubCategoryByAuthor] =useState([])
 
 
                   const renderData = data.map((item, i) => (
-<<<<<<< HEAD
-                    console.log("test : ", item), 
-=======
                  
->>>>>>> categorydcm
                     <Dcm
                     key={i}
                      subCategory={item.subCategory && item.subCategory.name}
