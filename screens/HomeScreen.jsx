@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Header from "../components/Header";
 import Dcm from "../components/Dcm";
-import { useSelector } from 'react-redux';
-
-
 
 const categories = [
   { key: "top", label: "Les Tops 🔥", endpoint: "/dcm/mostLiked" },
@@ -14,10 +11,14 @@ const categories = [
   { key: "rant", label: "Coups de 😠", endpoint: "/dcm/mostLikedHate" },
 ];
 
+<<<<<<< HEAD
 
 
 const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
 
+=======
+const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
+>>>>>>> categorydcm
 const HomeScreen = () => {
 
   // UseState des data et des onglets sélectionnés
@@ -25,6 +26,7 @@ const HomeScreen = () => {
   const [selectedCategory, setSelectedCategory] = useState(categories[1].endpoint);
   const [selectedCategoryLabel, setSelectedCategoryLabel] = useState(categories[1].label);
 
+<<<<<<< HEAD
 
   const user = useSelector((state) => state.user);
   // console.log(user)
@@ -82,6 +84,15 @@ console.log(page)
   };
 
 
+=======
+  useEffect(() => {
+    fetch(`${BACKEND_ADDRESS}${selectedCategory}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data.data);
+      });
+  }, [selectedCategory]);
+>>>>>>> categorydcm
 
   const handleCategoryPress = (category) => {
     setSelectedCategory(category.endpoint);
@@ -101,12 +112,10 @@ console.log(page)
       dislikes={item.dislikes.length}
       type={item.type}
       isAnonym={item.isAnonym}
-      id={item._id}
-      isLiked={item.likes.includes(user.userId)}
-      isDisliked={item.dislikes.includes(user.userId)}
     />
   ));
 
+<<<<<<< HEAD
 
 
 // Fonction qui controle le refresh "automatique"
@@ -125,29 +134,26 @@ const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
   return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
 };
 
+=======
+>>>>>>> categorydcm
   return (
     <>
       <Header />
       <View style={styles.MainContainer}>
-
-      
-
         <View style={styles.headerContainer}>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
             style={styles.navBar}
           >
-
-
             {categories.map((category) => (
               <TouchableOpacity key={category.key} style={[styles.navButtonText, selectedCategory === category.endpoint && styles.navButtonSelected]} onPress={() => handleCategoryPress(category)}>
                 <Text style={[styles.navButtonText, selectedCategory === category.endpoint && styles.navButtonSelected]}>{category.label}</Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
-          
         </View>
+<<<<<<< HEAD
         
         <ScrollView contentContainerStyle={styles.contentContainer} 
         refreshControl={
@@ -168,6 +174,10 @@ const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
 {loading ? (<ActivityIndicator style={styles.loading} size="large" color="#0000ff" /> ) : ( renderData  )}
 {loadingMore && <ActivityIndicator style={styles.loadingMore} size="small" color="#0000ff" />}
   
+=======
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+          {renderData}
+>>>>>>> categorydcm
           <View style={styles.bottomSpacer} />
         </ScrollView>
       </View>
@@ -265,6 +275,7 @@ const styles = StyleSheet.create({
   rant: {
     backgroundColor: '#ffd1a9',
   },
+<<<<<<< HEAD
   loading : {
     marginTop: 200,
     
@@ -272,9 +283,12 @@ const styles = StyleSheet.create({
   loadingMore: {
     marginVertical: 20,
   }
+=======
+>>>>>>> categorydcm
 });
 
 export default HomeScreen;
+
 
 
 
