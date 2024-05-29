@@ -45,7 +45,7 @@ function SignUpScreen({ handleDisplay}) {
        <Text style ={styles.errorMessage}>{errorMessage}</Text>
         <Input placeholder='E-mail' onChangeText={(value) => setEmail(value)} value={email}/>
         <Input placeholder='Pseudo' onChangeText={(value) => setPseudo(value)} value={pseudo} />
-        <Input placeholder='Mot de passe' onChangeText={(value) => setPassword(value)} value={password} />
+        <Input secureTextEntry={true} placeholder='Mot de passe' onChangeText={(value) => setPassword(value)} value={password} />
         <ButtonPrimary text="Je m'inscris" onPress={() => handleSignUp()}/>
         <View>
           <Text style={styles.text}>Déjà membre ? <Text style={styles.link} onPress={() => handleDisplay()}>Me connecter</Text></Text>
