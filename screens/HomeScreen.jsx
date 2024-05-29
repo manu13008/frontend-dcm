@@ -62,8 +62,10 @@ console.log(page)
     fetch(`${BACKEND_ADDRESS}${selectedCategory}?page=${page}`)
       .then((response) => response.json())
       .then((data) => {
+        console.log("STP LA DATA:", data);
         if (page === 0) {
           setData(data.data);
+          console.log("STP LA DATA:", data.data);
         } else {
           setData((prevData) => [...prevData, ...data.data]);
         }
@@ -79,7 +81,7 @@ console.log(page)
   };
 
   const renderData = data.map((item, i) => (
-    console.log(item),
+    // console.log("ICI",item),
     <Dcm key={i}
       subCategory={item.subCategory && item.subCategory.name}
       author={item.author}
@@ -111,7 +113,6 @@ const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
   const paddingToBottom = 20;
   return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom;
 };
-console.log(renderData.type)
   return (
     <>
       <Header />
