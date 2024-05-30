@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
+import { Badge } from 'react-native-elements';
 
 // Redux
 import { Provider } from "react-redux";
@@ -21,6 +22,7 @@ import LoginScreen from "./screens/LoginScreen";
 import AddDCMScreen from "./screens/AddDCMScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import DCMCategoryScreen from "./screens/DCMCategoryScreen";
+import UniqueDCMScreen from "./screens/UniqueDCMScreen";
 import CguScreen from "./screens/CguScreen";
 // Persistance du store
 import user from "./reducers/user";
@@ -36,6 +38,11 @@ const persistor = persistStore(store);
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
+
+// Notifications
+// const notifications = useSelector(state => state.notifications);
+const notifications = [1,2,3];
 
 const TabNavigator = () => {
   return (
@@ -58,6 +65,7 @@ const TabNavigator = () => {
           }
 
           return (
+            <View>
             <Image
               source={iconName}
               style={{
@@ -67,6 +75,15 @@ const TabNavigator = () => {
                 opacity : focused ? 1 : 0.7,
               }}
             />
+
+            {route.name === 'Notification' && notifications.length > 0 && (
+              <Badge
+                status="error"
+                value={notifications.length}
+                containerStyle={{ position: 'absolute', top: -4, right: -4 }}
+              />
+            )}
+            </View>
           );
         },
         tabBarShowLabel: false,
@@ -146,6 +163,7 @@ export default function App() {
             <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
             <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
             <Stack.Screen name="CguScreen" component={CguScreen} />
+            <Stack.Screen name="UniqueDCMScreen" component={UniqueDCMScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
