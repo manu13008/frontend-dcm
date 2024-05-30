@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Platform } from "react-native";
 import ButtonPrimary from '../components/ButtonPrimary'
 import Input from '../components/Input'
 import Header from "../components/Header";
@@ -40,6 +40,7 @@ function SignUpScreen({ handleDisplay}) {
 
   return (
     <>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'position' : 'height'} >
     <Header showButton={false}/>
     <View style={styles.container}>
        <Text style ={styles.errorMessage}>{errorMessage}</Text>
@@ -51,6 +52,7 @@ function SignUpScreen({ handleDisplay}) {
           <Text style={styles.text}>Déjà membre ? <Text style={styles.link} onPress={() => handleDisplay()}>Me connecter</Text></Text>
         </View>
     </View>
+    </KeyboardAvoidingView>
 </>
   );
 };

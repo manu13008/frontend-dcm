@@ -22,6 +22,7 @@ import AddDCMScreen from "./screens/AddDCMScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import DCMCategoryScreen from "./screens/DCMCategoryScreen";
 import CguScreen from "./screens/CguScreen";
+import AccountScreen from "./screens/AccountScreen";
 // Persistance du store
 import user from "./reducers/user";
 const reducers = combineReducers({ user });
@@ -45,13 +46,13 @@ const TabNavigator = () => {
           let iconName;
 
           if (route.name === "Home") {
-            iconName = require("./assets/home.png");
+            iconName = require("./assets/accueil.png");
           } else if (route.name === "Categorie") {
-            iconName = require("./assets/menu.png");
+            iconName = require("./assets/menues.png");
           } else if (route.name === "Notification") {
-            iconName = require("./assets/bell.png");
+            iconName = require("./assets/notif.png");
           } else if (route.name === "Profil") {
-            iconName = require("./assets/profil.png");
+            iconName = require("./assets/profiles.png");
           }
           if (route.name === "AddDCM") {
             return <Text style={{ display: "none", fontSize: 0 }}>YO</Text>;
@@ -61,9 +62,9 @@ const TabNavigator = () => {
             <Image
               source={iconName}
               style={{
-                width: 20,
-                height: 20,
-                tintColor: focused ? "#0F056B" : "#0468BE",
+                width: 30,
+                height: 30,
+                tintColor: focused ? "#0F056B" : "#065597",
                 opacity : focused ? 1 : 0.7,
               }}
             />
@@ -146,6 +147,9 @@ export default function App() {
             <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
             <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
             <Stack.Screen name="CguScreen" component={CguScreen} />
+            <Stack.Screen name="AddDCMScreen" component={AddDCMScreen} />
+            <Stack.Screen name="HomeScreen" component={HomeScreen} />
+            <Stack.Screen name="AccountScreen" component={AccountScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
