@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { Badge } from 'react-native-elements';
+import ForNotifOnly from "./components/ForNotifOnly";
 
 // Redux
 import { Provider } from "react-redux";
@@ -42,7 +42,7 @@ const Stack = createNativeStackNavigator();
 
 // Notifications
 // const notifications = useSelector(state => state.notifications);
-const notifications = [1,2,3];
+// const notifications = [1,2,3];
 
 const TabNavigator = () => {
   return (
@@ -76,12 +76,12 @@ const TabNavigator = () => {
               }}
             />
 
-            {route.name === 'Notification' && notifications.length > 0 && (
-              <Badge
-                status="error"
-                value={notifications.length}
-                containerStyle={{ position: 'absolute', top: -4, right: -4 }}
-              />
+            {route.name === 'Notification' && ( 
+            <ForNotifOnly  containerStyle={{ position: 'absolute', top: -10, right: -10 ,
+             color : 'white' , fontWeight : 900, backgroundColor : 'red',
+             fontSize : 10, borderRadius : 12, padding : 4}}/>
+             
+
             )}
             </View>
           );
