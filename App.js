@@ -10,6 +10,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { combineReducers } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 /*NAVIGATION*/
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -24,10 +25,17 @@ import SignUpScreen from "./screens/SignUpScreen";
 import DCMCategoryScreen from "./screens/DCMCategoryScreen";
 import UniqueDCMScreen from "./screens/UniqueDCMScreen";
 import CguScreen from "./screens/CguScreen";
+
+
+
 // Persistance du store
-import user from "./reducers/user";
-const reducers = combineReducers({ user });
+
+const reducers = combineReducers({ user  });
 const persistConfig = { key: "dcm-app", storage: AsyncStorage };
+import user from "./reducers/user";
+
+
+
 
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
@@ -39,12 +47,25 @@ const persistor = persistStore(store);
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-
+// const userConnected = useSelector((state) => state.user);
 // Notifications
 // const notifications = useSelector(state => state.notifications);
 const notifications = [1,2,3];
 
+
+  
+import ForNotifOnly from "./components/ForNotifOnly";
+
+
+
+
 const TabNavigator = () => {
+
+  // const userConnected = useSelector((state) => state.user);
+  // console.log(userConnected)
+  
+
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -77,11 +98,12 @@ const TabNavigator = () => {
             />
 
             {route.name === 'Notification' && notifications.length > 0 && (
-              <Badge
-                status="error"
-                value={notifications.length}
-                containerStyle={{ position: 'absolute', top: -4, right: -4 }}
-              />
+              <ForNotifOnly containerStyle={{ position: 'absolute', top: -10, right: -10 , color : 'white' , fontWeight : 'bold', backgroundColor : 'red',fontSize : 8, borderRadius : '100%', padding : 4}}/>
+              // <Badge
+              //   status="error"
+              //   value={notifications.length}
+              //   containerStyle={{ position: 'absolute', top: -10, right: -4 }}
+              // />
             )}
             </View>
           );

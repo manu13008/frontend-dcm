@@ -28,6 +28,18 @@ const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
   }, [isFocused]);
 
 
+  useEffect(() => {
+    if (user.token) {
+      const intervalId = setInterval(fetchNotifications, 10000); // 10000ms = 10s
+
+      return () => clearInterval(intervalId); // Cleanup interval on component unmount
+    }
+  }, [user.token]);
+
+  
+
+
+
 
 
 
