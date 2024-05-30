@@ -6,6 +6,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft';
 import DropdownMenu from "../components/DropdownMenu";
 import Dcm from "../components/Dcm";
 import { RadioButton } from 'react-native-paper';
+import { useSelector } from "react-redux";
 
 // const BACKEND_ADDRESS = 'http://10.20.2.248:3000';
 
@@ -25,6 +26,11 @@ const DCMCategoryScreen = () => {
   const [selectedAuthor, setSelectedAuthor] = useState(null);
   const [selectedValueGroup1, setSelectedValueGroup1] = useState(null);
   const [selectedValueGroup2, setSelectedValueGroup2] = useState(null);
+
+  const user = useSelector((state) => {
+    console.log('utilisateur:', state.user);
+    return state.user;
+  });
 
 // console.log("selectedAuthor : ", selectedAuthor);
                 const toggleFilterModal = () => {
@@ -61,6 +67,10 @@ const DCMCategoryScreen = () => {
                       likes={item.likes.length}
                       dislikes={item.dislikes.length}
                       type={item.type}
+                      isAnonym={item.isAnonym}
+                      id={item._id}
+                      isLiked={item.likes.includes(user.userId)}
+                      isDisliked={item.dislikes.includes(user.userId)}
                 
                        />
                   ));
