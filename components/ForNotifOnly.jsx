@@ -2,14 +2,11 @@ import React from 'react';
 import { Text } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useEffect,useState } from 'react';
-import { StyleSheet } from 'react-native';
 
 
 
-
-// const ForNotifOnly = ({containerStyle, notifNumber}) => {
   export default function ForNotifOnly(props)  { 
-  // const ForNotifOnly = (props) => {
+
   
 const [notifNumber, setNotifNumber] = useState(0);
 const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
@@ -23,7 +20,7 @@ const user = useSelector(state => state.user);
     console.log('Nombre de notifications' ,notifNumber)
       const intervalId = setInterval(fetchNotifications, 3000); // 10000ms = 10s
 
-      return () => clearInterval(intervalId); // Cleanup interval on component unmount
+      return () => clearInterval(intervalId); // Cleanup interval 
     }
     }
   , []);

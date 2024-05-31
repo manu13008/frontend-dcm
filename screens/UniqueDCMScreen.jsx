@@ -1,6 +1,6 @@
 import Header from "../components/Header";
 import {  useRoute } from "@react-navigation/native";
-import { View, Text, TouchableOpacity, FlatList , StyleSheet} from 'react-native';
+import { View} from 'react-native';
 import { useSelector } from 'react-redux';
 import Dcm from "../components/Dcm";
 

@@ -24,7 +24,7 @@ const BACKEND_ADDRESS = process.env.EXPO_PUBLIC_BACKEND_ADDRESS
     if (user.token) {
       fetchNotifications();
 
-      setTimeout(() => markNotificationsAsRead(), 6000)
+      setTimeout(() => markNotificationsAsRead(), 3000)
 
     setTimeout(() => fetchNotifications(), 2000)
 
@@ -82,7 +82,6 @@ console.log('Data mark notifications as read', data)
 
 
   const handleNotifPress = (dcm) => {
-    // console.log("HELLOOOOOOOOOOOOOO",dcm)
     navigation.navigate('UniqueDCMScreen', {dcm});
   }
 
