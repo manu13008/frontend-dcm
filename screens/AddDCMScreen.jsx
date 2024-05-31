@@ -1,4 +1,6 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
+import { LogBox } from 'react-native';
+    LogBox.ignoreAllLogs()
 import React from 'react';
 import {  TextInput, TouchableOpacity} from 'react-native';
 import { useState , useEffect} from 'react';
