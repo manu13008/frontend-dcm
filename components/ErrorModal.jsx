@@ -5,11 +5,9 @@ import { useState } from 'react';
 
 export default function ErrorModal(props)  { 
 
-    // const [modalVisible, setModalVisible] = useState(true);
     const closeErrorModal = () => {
         props.closeModal()
       };
-  
   
   return (
       <View style={styles.container}>

@@ -87,12 +87,7 @@ const handleCguPress = () => {
                   navigation.navigate('TabNavigator' , { screen: 'Profil' })
                   toggleMenu()
                 }
-              }
-               
-               
-              }>
-
-                
+              }}>
                 <FontAwesomeIcon icon={faSignOutAlt} size={20} style={styles.menuIcon} />
                 {user.token ? <Text style={styles.menuText}>Déconnexion</Text> : 
                  <Text style={styles.menuText}>Sign In / Sign Up</Text> } 

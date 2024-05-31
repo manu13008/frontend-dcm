@@ -9,23 +9,11 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function DropdownMenu(props)  { 
 
-
   const [value, setValue] = useState('');
   const [isFocus, setIsFocus] = useState(false);
 
-  // console.log("props : ", props)
-  // console.log("value : ", value)
-
 useEffect(() => {
-  // console.log("valeurs ", props.valeurs);
-  // setValue(null) 
 }, [props.valeurs])
-
-  
-// useEffect(() => {
-//   console.log('props.valeurs:', props.valeurs);
-// }, [props]);
-
 
   return (
                 <Dropdown
@@ -56,24 +44,9 @@ useEffect(() => {
                  props.handleSelectItem(item)
                   setIsFocus(false);
                 }}
-                // renderLeftIcon={() => (
-                //   <AntDesign
-                //     style={styles.icon}
-                //     color={isFocus ? 'blue' : 'black'}
-                //     name="Safety"
-                //     size={20}
-                   
-                //   />
-                // )}
-              />
-                
-                )
-                
-            
-            }
-        
- 
-
+              /> 
+                )}
+    
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',

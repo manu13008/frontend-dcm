@@ -59,21 +59,16 @@ export default function Dcm(props) {
 
 
     const redirectSignUpSignIn = () => {
-        
-        
         navigation.navigate('TabNavigator', { screen: 'Profil' });
         setErrorVisible(false)
         
     }
-
     const formatElapsedTime = (dateString) => {
         const currentDate = new Date();
         const publicationDate = new Date(dateString);
         const elapsedMilliseconds = currentDate.getTime() - publicationDate.getTime();
         const elapsedDays = Math.floor(elapsedMilliseconds / (1000 * 60 * 60 * 24));
         // console.log("Elapsed days:", elapsedDays); 
-    
-        
         if (elapsedDays === 0) {
             const elapsedHours = Math.floor(elapsedMilliseconds / (1000 * 60 * 60));
             if (elapsedHours === 0) {
@@ -89,14 +84,10 @@ export default function Dcm(props) {
         }
     };
     
-    
     const containerStyle = props.type 
         ? [styles.dataContainer, styles.heart] : [styles.dataContainer, styles.rant];
     return (
-       
         <View style={containerStyle}>
-
-
             {errorVisible &&
                 <ErrorModal
                      closeModal = {() => setErrorVisible(false)}
@@ -108,7 +99,6 @@ export default function Dcm(props) {
                      actionToDo={redirectSignUpSignIn}
                      actionToDoText="M'inscrire / Me Connecter"
                    />}
-
             <View  style={styles.header}>
             {props.isAnonym ? (
                     <Text style={styles.userNameAno}>Oops une balance {"\n"} anonyme </Text>
