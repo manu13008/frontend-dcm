@@ -46,7 +46,7 @@ function LoginScreen({handleDisplay}) {
   }
   return (
     <>
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'position' : 'height'} >
+    {/* <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'position' : 'height'} > */}
     <Header showButton={false}/>
     <View style={styles.container}>
        <Text style ={styles.errorMessage}>{errorMessage}</Text>
@@ -57,7 +57,7 @@ function LoginScreen({handleDisplay}) {
           <Text style={styles.text}>Pas encore membre ? <Text style={styles.link} onPress={() => handleDisplay()}>M'inscrire</Text></Text>
         </View>
     </View>
-    </KeyboardAvoidingView>
+    {/* </KeyboardAvoidingView> */}
     </>
 
   );
