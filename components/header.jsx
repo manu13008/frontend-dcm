@@ -32,19 +32,31 @@ const handleCguPress = () => {
     setMenuVisible(!menuVisible);
   };
 
+  const handleMenuPress = () => {
+    if (route.name !== 'Home') {
+      navigation.navigate("TabNavigator", { screen: "HomeScreen" });
+    } else {
+      toggleMenu();
+    }
+  };
+
+    console.log('Current route name:', route.name);
+
   return (
     <View>
       <View style={styles.container}>
-        <TouchableOpacity style={styles.burgerMenu} onPress={route.name === 'Home' ? toggleMenu : () => navigation.goBack()}>
+        {/* <TouchableOpacity style={styles.burgerMenu} onPress={route.name !== 'Home' ? navigation.navigate("TabNavigator", {screen : "HomeScreen"}) : setMenuVisible(!menuVisible) }> */}
+        <TouchableOpacity style={styles.burgerMenu}  onPress={() => handleMenuPress()}>
+       
           <FontAwesomeIcon icon={route.name === 'Home' ? faBars : faArrowLeft} size={30} style={styles.icon} color={"#0468BE"}/>
         </TouchableOpacity>
         <View style={{ ...styles.logoContainer, marginRight: showButton ? '' : 30 }}>
           <Image source={require("../assets/logo.png")} style={styles.logo} />
         </View>
-
+     
         <View style={styles.buttonContainer}>
           {showButton && (
-            <TouchableOpacity style={styles.button} onPress={handleNavigateToAddDCM}>
+            <TouchableOpacity style={styles.button} onPress={() => handleNavigateToAddDCM()}>
               <FontAwesomeIcon style={styles.cross} icon={faPlus} size={20} />
               <Text style={styles.buttonText}> Je balance !</Text>
             </TouchableOpacity>
@@ -59,17 +71,17 @@ const handleCguPress = () => {
           visible={menuVisible}
           onRequestClose={toggleMenu}
         >
-          <TouchableOpacity style={styles.modalOverlay} onPress={toggleMenu}>
+          <TouchableOpacity style={styles.modalOverlay} onPress={() => toggleMenu()}>
             <View style={styles.modalContent}>
-              <TouchableOpacity style={styles.menuItem} onPress={handleProfilePress}>
+              <TouchableOpacity style={styles.menuItem} onPress={() => handleProfilePress()}>
                 <FontAwesomeIcon icon={faUser} size={20} style={styles.menuIcon} />
                 <Text style={styles.menuText}>Profil</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.menuItem} onPress={handleCatePress} >
+              <TouchableOpacity style={styles.menuItem} onPress={() => handleCatePress()} >
               <FontAwesomeIcon icon={faListAlt} size={20} style={styles.menuIcon} />
                <Text style={styles.menuText}>Catégories</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.menuItem} onPress={handleCguPress}>
+              <TouchableOpacity style={styles.menuItem} onPress={() => handleCguPress()}>
                 <FontAwesomeIcon icon={faBook} size={20} style={styles.menuIcon} />
                 <Text style={styles.menuText}>CGU</Text>
               </TouchableOpacity>
@@ -119,6 +131,7 @@ const styles = StyleSheet.create({
   },
   burgerMenu : {
     marginTop : 10,
+    marginLeft:10,
   },
   logoContainer: {
     flex: 1,

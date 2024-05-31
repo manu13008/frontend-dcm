@@ -1,3 +1,5 @@
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
 import React from 'react';
 import {  TextInput, TouchableOpacity} from 'react-native';
@@ -524,7 +526,7 @@ const CustomRadioButton = ({ label, selected, onSelect , icon}) => (
         fontWeight : 'bold',
     },
     post : {
-        backgroundColor : 'blue',
+        backgroundColor : "#0468BE",
         margin: 'auto',
         borderRadius : 10,
         padding : 10,
