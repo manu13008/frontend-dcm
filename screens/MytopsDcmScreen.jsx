@@ -23,10 +23,9 @@ const MyTopsDcmScreen = () => {
       .then((data) => {
         console.log('tutestrompe', data);
         const sortedData = (data.dcm || []).sort((a, b) => b.likes.length - a.likes.length);
-        setData(sortedData.reverse());
+        setData(sortedData);
       });
   }, [refreshing]);
-
 
   const testData = data.map((item) => {
     console.log('Élément :', item.subCategory);

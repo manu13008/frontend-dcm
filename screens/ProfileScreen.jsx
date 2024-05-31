@@ -25,7 +25,7 @@ export default function ProfilScreen({navigation }) {
     "Mes DCM": "MyDcmScreen",
     "Mes Tops 🔥": "MyTopsDcmScreen",
     "Mes Balances Préférées": "favoriteBalancesScreen",
-    "Mon Compte": "accountScreen"
+    "Mon Compte": "AccountScreen"
   };
 
 
