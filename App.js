@@ -166,6 +166,7 @@ export default function App() {
             <Stack.Screen name="CguScreen" component={CguScreen} />
             <Stack.Screen name="AddDCMScreen" component={AddDCMScreen} />
             <Stack.Screen name="AccountScreen" component={AccountScreen} />
+            <Stack.Screen name="UniqueDCMScreen" component={UniqueDCMScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
