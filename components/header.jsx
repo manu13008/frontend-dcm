@@ -36,7 +36,7 @@ const handleCguPress = () => {
     <View>
       <View style={styles.container}>
         <TouchableOpacity style={styles.burgerMenu} onPress={route.name === 'Home' ? toggleMenu : () => navigation.goBack()}>
-          <FontAwesomeIcon icon={route.name === 'Home' ? faBars : faArrowLeft} size={30} style={styles.icon} />
+          <FontAwesomeIcon icon={route.name === 'Home' ? faBars : faArrowLeft} size={30} style={styles.icon} color={"#0468BE"}/>
         </TouchableOpacity>
         <View style={{ ...styles.logoContainer, marginRight: showButton ? '' : 30 }}>
           <Image source={require("../assets/logo.png")} style={styles.logo} />

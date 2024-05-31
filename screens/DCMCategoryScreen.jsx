@@ -20,20 +20,26 @@ const DCMCategoryScreen = () => {
   const [allData, setAllData] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
-  const [selectedFilter, setSelectedFitler] = useState([]);
+
   const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
   const [authors, setAuthors] = useState([]); 
   const [selectedAuthor, setSelectedAuthor] = useState(null);
   const [selectedValueGroup1, setSelectedValueGroup1] = useState(null);
   const [selectedValueGroup2, setSelectedValueGroup2] = useState(null);
 
-  const user = useSelector((state) => {
-    console.log('utilisateur:', state.user);
-    return state.user;
-  });
+  const [changeSubCat, setChangeSubCat] = useState(true)
 
-// console.log("selectedAuthor : ", selectedAuthor);
+          const user = useSelector((state) => {
+            // console.log('utilisateur:', state.user);
+            return state.user;
+          });
+
+
+            // console.log("selectedAuthor : ", selectedAuthor);
                 const toggleFilterModal = () => {
+                  setSelectedAuthor('')
+                  setSelectedValueGroup1(null)
+                  setSelectedValueGroup2(null)
                   setIsFilterModalVisible(!isFilterModalVisible);
                 };
 
@@ -46,37 +52,11 @@ const DCMCategoryScreen = () => {
                         if (data.result) {
                           setSubCategories(data.sousCategory);
                         } else {
-                          console.log("Erreur lors de la récupération des sous-catégories:");
+                          // console.log("Erreur lors de la récupération des sous-catégories:");
                         }
                       })
                       .catch(() => console.log("Erreur recuperation sub-categories:"));
                   }, [categoryName]);
-
-
-
-                  // console.log("data : ", data)
-                  const renderData = data.map((item, i) => (
-                    <Dcm
-                    key={i}
-                     subCategory={item.subCategory && item.subCategory.name}
-                      author={item.author }
-                      content={item.content}
-                      origins={item.origins}
-                      target={item.target}
-                      date={item.date}
-                      likes={item.likes.length}
-                      dislikes={item.dislikes.length}
-                      type={item.type}
-                      isAnonym={item.isAnonym}
-                      id={item._id}
-                      isLiked={item.likes.includes(user.userId)}
-                      isDisliked={item.dislikes.includes(user.userId)}
-                
-                       />
-                  ));
-
-
-
 
                   const fetchAllDCMs = () => {
                     const allDCMs = [];
@@ -105,27 +85,25 @@ const DCMCategoryScreen = () => {
                   };
                   
 
-                // recuoation de  toutes les sous-catégories
-                useEffect(() => {
-                  if (subCategories.length > 0 && !selectedSubCategory) {
-                            fetchAllDCMs();
-                       }
-                }, [subCategories, selectedSubCategory]);
 
+                // recuoation de  toutes les sous-catégories
+                  useEffect(() => {
+                    if (subCategories.length > 0 && !selectedSubCategory) {
+                              fetchAllDCMs();
+                        }
+                  }, [subCategories, selectedSubCategory]);
                   // recupere les dcm pour la sous-catégorie sélectionnée
                   useEffect(() => {
-
                     if (selectedSubCategory) {   // Vérifie si une sous-catégorie est sélectionnée
-
                       // récupérer les dcm 
+                      console.log('je vais fetcher')
                       fetch(`${BACKEND_ADDRESS}/dcm/${selectedSubCategory}`)
                         .then((response) => response.json())
                         .then((data) => {
                           // console.log(data.dcm[0], "DATA DE SOUS CATEGORY ICI !!!");
-                          if (data.result) {
-                            setData(data.dcm);
-                            setAllData(data.dcm)
-
+                                if (data.result) {
+                                  setData(data.dcm);
+                                  setAllData(data.dcm)
                             const subCategoryAuthors = [...new Set(data.dcm.flatMap(dcm => dcm.subCategory.authors))];
                             setAuthors(subCategoryAuthors); 
                             // console.log(subCategoryAuthors, "LES DCM SOUS CATEGORIE PAR AUTHORS!!");
@@ -135,16 +113,25 @@ const DCMCategoryScreen = () => {
                         })
                         .catch(() => console.log("Erreur lors de recuperation DCMs:"));
                     }
-                  }, [selectedSubCategory]);   
+                  }, [selectedSubCategory, changeSubCat]);   
 
+  
+                    // Fonction pour gérer le clic sur une sous-catégorie
+                    const handleSubCategoryPress = (subCategoryName) => {
+                      // Mis a jour selectedSubCategory avec le nom de la sous-catégorie cliquée
+                        setSelectedSubCategory(subCategoryName);
+                        setChangeSubCat(!changeSubCat)
+                        
+                      };
+  
 
                      // Filtrer les dcms par auteur
-                    useEffect(() => {
+                     useEffect(() => {
                       // console.log('test manu')
                       if (selectedAuthor) {
                         const filteredDataByAuthor = allData.filter(dcm => {
-                          console.log("dcm : ", dcm.content, dcm.origins, dcm.target)
-                          console.log("selectedAuthor : ", selectedAuthor)
+                          // console.log("dcm : ", dcm.content, dcm.origins, dcm.target)
+                          // console.log("selectedAuthor : ", selectedAuthor)
                           return dcm.origins === selectedAuthor || dcm.target === selectedAuthor
                         
                         }  );
@@ -154,70 +141,142 @@ const DCMCategoryScreen = () => {
                       }
                     }, [selectedAuthor]);
 
-                  
-                  
-                    const handleSelectAuthor = async (item) => {
-                      setSelectedAuthor(item.label); 
+
+
+
+                    const handleFilterValidation = () => {
+                      let filteredData = allData;
+                      console.log("selectedAuthor : ",selectedAuthor)
+
+
+                      if (selectedValueGroup1=== null && selectedValueGroup2=== null  && selectedAuthor === ''){
+                        console.log('ok')
+                      }
+                      else if (selectedValueGroup1 === 'option1') {
+                        console.log("option 1");
+                        filteredData = filteredData.filter(dcm => {
+                          // // console.log(dcm.origins === selectedAuthor, dcm.content, dcm.origins, dcm.target,selectedAuthor)
+                          // console.log("dcm.origins === selectedAuthor", dcm.origins === selectedAuthor)
+                          // console.log("dcm.content : ", dcm.content)
+                          // console.log("dcm.origins : ", dcm.origins)
+                          // console.log("dcm.target : ", dcm.target)
+                          // console.log("selectedAuthor : ", selectedAuthor)
+                        return dcm.origins === selectedAuthor
+                        });
+                      } else if (selectedValueGroup1 === 'option2') {
+                        console.log("filteredData : ", filteredData)
+                        filteredData = filteredData.filter(dcm => {
+                          console.log(dcm.target === selectedAuthor, dcm.content, dcm.origins, dcm.target,selectedAuthor)
+                          return (dcm.target === selectedAuthor)
+                        });
+                        console.log("option 2");
+                      } else if (selectedAuthor && selectedValueGroup1=== null ) {
+                        console.log("option 12")
+                        filteredData = filteredData.filter(dcm => dcm.origins === selectedAuthor || dcm.target === selectedAuthor)
+                      }
+
+                      if (selectedValueGroup2 === 'option3') {
+                        console.log("option 3");
+                        filteredData = filteredData.filter(dcm => dcm.type === true);
+                      } else if (selectedValueGroup2 === 'option4') {
+                        console.log("option 4");
+                        filteredData = filteredData.filter(dcm => dcm.type === false);
+                      } 
+
+                     
+
+
+                      setData(filteredData)
+                      setIsFilterModalVisible(false);  // FERMETURE DU MODAL APRES VALIDATION
                     };
-                    // console.log(selectedAuthor,"ici cest selected author ");
 
 
 
 
-                // Fonction pour gérer le clic sur une sous-catégorie
-                  const handleSubCategoryPress = (subCategoryName) => {
-                // Mis a jour selectedSubCategory avec le nom de la sous-catégorie cliquée
-                  setSelectedSubCategory(subCategoryName);
-                };
 
-                const handleFilterValidation = () => {
-                  // Appliquer le filtre
-                  setIsFilterModalVisible(false); // Fermer le modal après validation
-                };
 
-                            
-                const handlePressGroup1 = (value) => {
-                  setSelectedValueGroup1(selectedValueGroup1 === value ? null : value);
-                };
 
-                const handlePressGroup2 = (value) => {
-                  setSelectedValueGroup2(selectedValueGroup2 === value ? null : value);
-                };
 
                     
+                    const handleSelectAuthor = async (item) => {
+                      console.log("item : ", item)
+                      setSelectedAuthor(item.label); 
+                    };
+                    // console.log(selectedAuthor,"ici cest selected author ")
+
+
+                    // const handleValidationAndAuthorSelection = () => {
+                    //   handleFilterValidation();
+                    //   handleSelectAuthor();
+                    // };
+                                          
+                    const handlePressGroup1 = (value) => {
+                      console.log('valuuuuue',value)
+                      setSelectedValueGroup1(selectedValueGroup1 === value ? null : value);
+                    };
+
+                    const handlePressGroup2 = (value) => {
+                      console.log('valuuuuue',value)
+                      setSelectedValueGroup2(selectedValueGroup2 === value ? null : value);
+                    };      
+
+                    // console.log("data : ", data)
+                    const renderData = data.map((item, i) => (
+                      <Dcm
+                      key={i}
+                       subCategory={item.subCategory && item.subCategory.name}
+                        author={item.author }
+                        content={item.content}
+                        origins={item.origins}
+                        target={item.target}
+                        date={item.date}
+                        likes={item.likes.length}
+                        dislikes={item.dislikes.length}
+                        type={item.type}
+                        isAnonym={item.isAnonym}
+                        id={item._id}
+                        isLiked={item.likes.includes(user.userId)}
+                        isDisliked={item.dislikes.includes(user.userId)}
+                  
+                         />
+                    ));
   
+            
+               
               return (
                 <>
                   <View style={styles.header}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                      <FontAwesomeIcon icon={faArrowLeft} size={24} />
+                      <FontAwesomeIcon icon={faArrowLeft} size={24} color={"#0468BE"} />
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}>{categoryName}</Text>
                   </View>
                   <View style={styles.MainContainer}>
-                    <View style={styles.headerContainer}>
-                      <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        style={styles.navBar}
-                      >
-                        {subCategories.map((subCategory, index) => (
-                          <TouchableOpacity
-                            key={index}
-                            style={[
-                              styles.navButton,
-                              selectedSubCategory === subCategory.name && styles.selectedCategoryText
-                            ]}
-                            
-                            onPress={() =>  handleSubCategoryPress(subCategory.name)}
-                          >
-                      
-                            <Text style={styles.selectedCategoryText}>{subCategory.name}</Text>
-                        
-                          </TouchableOpacity>
-                        ))}
-                      </ScrollView>
-                    </View>
+                  <View style={styles.headerContainer}>
+                    <ScrollView
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                      style={styles.navBar}
+                    >
+                      {subCategories.map((subCategory, index) => (
+                        <TouchableOpacity
+                          key={index}
+                          style={[
+                            styles.navButton,
+                            selectedSubCategory === subCategory.name && styles.selectedNavButton,
+                          ]}
+                          onPress={() => handleSubCategoryPress(subCategory.name)}
+                        >
+                          <Text style={[
+                            styles.navButtonText,
+                            selectedSubCategory === subCategory.name && styles.selectedCategoryText,
+                          ]}>
+                            {subCategory.name}
+                          </Text>
+                        </TouchableOpacity>
+                      ))}
+                    </ScrollView>
+                  </View>
                     <ScrollView>
 
                 <View style={styles.contentContainer}>
@@ -230,90 +289,103 @@ const DCMCategoryScreen = () => {
              </View>
                {/* rendu des dcms */}
               {renderData}                                                         
-                            <Modal
-                animationType="none"
-                transparent={true}
-                visible={isFilterModalVisible}
-                onRequestClose={toggleFilterModal}
-              > 
-
-                <View style={styles.modalOverlay}>
-                  <View style={styles.modalContainer}>
-                  <View style={styles.catDropDown}>
-                          <DropdownMenu  
-                          style={styles.dropdown}
-                          handleSelectItem={handleSelectAuthor} 
-                          valeurs={authors.sort().map((author,i )=> ({ label: author, value: i }))}
-                          placeHolderNotFocus="Sélectionner un acteur"
-                          placeHolderFocus="Search..."
-                        />                      
-                          </View>
-
-
-                       <View style={styles.containerRadioButton}>
-                           <View style={styles.radioButton}>
-                             <RadioButton.Android
-                            value="option1"
-                            status={selectedValueGroup1 === 'option1' ? 'checked' : 'unchecked'}
-                            onPress={() => handlePressGroup1('option1')}
-                            color="#007BFF"
+                                <Modal
+                    animationType="none"
+                    transparent={true}
+                    visible={isFilterModalVisible}
+                    onRequestClose={toggleFilterModal}
+                  >
+                    <View style={styles.modalOverlay}>
+                      <View style={styles.modalContainer}>
+                        <View style={styles.catDropDown}>
+                          <DropdownMenu
+                            style={styles.dropdown}
+                            handleSelectItem={handleSelectAuthor}
+                            valeurs={authors.sort().map((author, i) => ({ label: author, value: i }))}
+                            placeHolderNotFocus="Sélectionner un acteur"
+                            placeHolderFocus="Search..."
                           />
-                           <Text style={styles.radioLabel}>
-                            Les Balanceurs
-                            </Text>
-                      </View>
+                        </View>
 
-                        <View style={styles.radioButton}>
-                              <RadioButton.Android
-                                value="option2"
-                                status={selectedValueGroup1 === 'option2' ? 'checked' : 'unchecked'}
-                                onPress={() => handlePressGroup1('option2')}
-                                color="#007BFF"
-                              />
-                              <Text style={styles.radioLabel}>
-                                Les Balancés
-                              </Text>
-                       </View>
+                        <ScrollView>
+                          <Text style={styles.modalTitle}>Sélectionner une option</Text>
 
-                       <View style={styles.radioButton}>
-                              <RadioButton.Android
-                                value="option3"
-                                status={selectedValueGroup2 === 'option3' ? 'checked' : 'unchecked'}
-                                onPress={() => handlePressGroup2('option3')}
-                                color="#007BFF"
-                              />
-                              <Text style={styles.radioLabel}>
-                                Les coup de Coeur ❤️
-                              </Text>
-                      </View>
+                          <View style={styles.containerRadioButton}>
+                            <View style={styles.radioGroup}>
+                              <View style={styles.radioButton}>
+                                {/* ORIGINS */}
+                                <RadioButton.Android
+                                  value="option1"
+                                  status={selectedValueGroup1 === 'option1' ? 'checked' : 'unchecked'}
+                                  onPress={() => handlePressGroup1('option1')}
+                                  color="red"
+                                  uncheckedColor="#0468BE"
+                                  disabled={selectedAuthor ? false : true}
+                                />
+                                <Text style={styles.radioLabel}>
+                                  Les Balanceurs
+                                </Text>
+                              </View>
 
-                            <View style={styles.radioButton}>
-                       <RadioButton.Android
-                                value="option4"
-                                status={selectedValueGroup2 === 'option4' ? 'checked' : 'unchecked'}
-                                onPress={() => handlePressGroup2('option4')}
-                                color="#007BFF"
-                       />
-                              <Text style={styles.radioLabel}>
-                                Les coup de gueule 😠
-                              </Text>
+                              <View style={styles.radioButton}>
+                                {/* TARGET */}
+                                <RadioButton.Android
+                                  value="option2"
+                                  status={selectedValueGroup1 === 'option2' ? 'checked' : 'unchecked'}
+                                  onPress={() => handlePressGroup1('option2')}
+                                  color="red"
+                                  uncheckedColor="#0468BE"
+                                  disabled={selectedAuthor ? false : true}
+                                />
+                                <Text style={styles.radioLabel}>
+                                  Les Balancé(e)s
+                                </Text>
+                              </View>
+                            </View>
+
+                            <View style={styles.radioGroup}>
+                              {/* TYPE: TRUE */}
+                              <View style={styles.radioButton}>
+                                <RadioButton.Android
+                                  value="option3"
+                                  status={selectedValueGroup2 === 'option3' ? 'checked' : 'unchecked'}
+                                  onPress={() => handlePressGroup2('option3')}
+                                  color="red"
+                                  uncheckedColor="#0468BE"
+                                />
+                                <Text style={styles.radioLabel}>
+                                  Les coups de Coeurs ❤️
+                                </Text>
+                              </View>
+                              {/* TYPE : FALSE */}
+                              <View style={styles.radioButton}>
+                                <RadioButton.Android 
+                                  value="option4"
+                                  status={selectedValueGroup2 === 'option4' ? 'checked' : 'unchecked'}
+                                  onPress={() => handlePressGroup2('option4')}
+                                  color="red"
+                                  uncheckedColor="#0468BE"
+                                />
+                                <Text style={styles.radioLabel}>
+                                  Les coups de Gueules 😠
+                                </Text>
+                              </View>
                             </View>
                           </View>
+                        </ScrollView>
 
-
-             <TouchableOpacity onPress={toggleFilterModal} style={styles.closeButton}>
-                      <Text style={styles.closeButtonText}>X</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={handleFilterValidation} style={styles.filterButton}>
-                   <Text style={styles.filterButtonText}>Valider</Text>
-             </TouchableOpacity>
-                  </View>
-                </View>
-              </Modal>
-            </View>
-          
-        </ScrollView>
-      </View>
+                        <TouchableOpacity onPress={toggleFilterModal} style={styles.closeButton}>
+                          <Text style={styles.closeButtonText}>X</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={ handleFilterValidation} style={styles.filterButton}>
+                          <Text style={styles.filterButtonText}>Valider</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </Modal>
+               </View>
+           </ScrollView>
+       </View>
     </>
   );
 };
@@ -328,14 +400,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FFF",
     marginTop: 20,
-    paddingVertical: 15,
-    paddingHorizontal: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
   },
   headerTitle: {
     color: "#0468BE",
     fontSize: 25,
     fontFamily: "Gothic A1 Bold",
-    marginLeft: 20,
+    marginLeft: 15,
+    textShadowOffset: { width: 0.5, height: 0.5 },
+    textShadowRadius: 3,
+    marginBottom:5,
   },
   headerContainer: {
     paddingVertical: 5,
@@ -345,20 +420,27 @@ const styles = StyleSheet.create({
   },
   navBar: {
     flexDirection: "row",
-    paddingVertical: 20,
-
+    paddingVertical: 10,
   },
   navButton: {
     paddingHorizontal: 20,
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 1,
+    borderColor: '#FFF',
+    borderRadius: 20,
+    paddingVertical: 7,
+    paddingHorizontal: 15,
+    marginHorizontal: 5,
+  },
+  selectedNavButton: {
+    backgroundColor: '#FFF',
   },
   selectedCategoryText: {
     fontWeight: 'bold',
-    color: '#FFF',
+    color: '#0468BE',
     fontSize: 18,
-    textShadowColor: 'rgba(0, 0, 0, 0.80)',
-    textShadowOffset: { width: 1, height: 1 },
+    textShadowOffset: { width: 0.5, height: 0.5 },
     textShadowRadius: 3,
   },
   navButtonText: {
@@ -366,39 +448,48 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontWeight: "bold",
   },
-  buttonPress:{
-    borderBottomColor:"#FFF",
-    borderBottomWidth:"0.5"
+  buttonPress: {
+    borderBottomColor: "#FFF",
+    borderBottomWidth: 0.5,
   },
   contentContainer: {
     alignItems: 'center',
   },
-  textPressed:{
+  textPressed: {
     textDecorationLine: "underline",
-    textDecorationColor:"#FFF",
-    marginTop:5,
+    textDecorationColor: "#FFF",
+    marginTop: 5,
   },
-  filterIcon:{
-    width:60,
-    height:60,
-    marginLeft:300,
+  filterIcon: {
+    width: 60,
+    height: 60,
+    marginLeft: 300,
   },
-
 
   modalOverlay: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContainer: {
-    width: '80%',
-    height: '40%',
+    width: '90%',
+    maxHeight: '80%',
     backgroundColor: 'white',
     borderRadius: 10,
-    borderColor:'#0468BE',
-    borderWidth:2,
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderColor: '#0468BE',
+    borderWidth: 2,
+    padding: 20,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 20,
+    color: '#333',
   },
   closeButton: {
     position: 'absolute',
@@ -414,69 +505,69 @@ const styles = StyleSheet.create({
   closeButtonText: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize:15,
+    fontSize: 15,
   },
   filterButton: {
     backgroundColor: '#0468BE',
     padding: 10,
-    paddingHorizontal:40,
+    paddingHorizontal: 40,
     borderRadius: 5,
     marginTop: 20,
-    alignSelf: 'center', 
+    alignSelf: 'center',
   },
   filterButtonText: {
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    fontSize:20,
+    fontSize: 20,
   },
-  catDropDown : {
-    width : 200,
+  catDropDown: {
+    width: 200,
     marginLeft: 'auto',
-    marginRight : 'auto',
-
-},
+    marginRight: 'auto',
+  },
   dropdown: {
-    marginTop:30,
+    marginTop: 30,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 4,
     padding: 10,
     width: '80%',
-  
   },
 
-  containerRadioButton: { 
-    marginTop:5,
-}, 
+  containerRadioButton: {
+    marginTop: 5,
+  },
+  radioGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 20,
+    borderRadius: 8,
+    backgroundColor: 'white',
+    padding: 5,
+    width: '100%', 
+  
+  },
+  radioButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    marginRight:20,
+    // color:"red",
 
-  radioGroup: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    justifyContent: 'space-around', 
-    marginTop: 20, 
-    borderRadius: 8, 
-    backgroundColor: 'white', 
-    padding: 5, 
-    elevation: 4, 
-    shadowColor: '#000', 
-    shadowOffset: { 
-        width: 0, 
-        height: 2, 
-    }, 
-    shadowOpacity: 0.25, 
-    shadowRadius: 3.84, 
-}, 
-radioButton: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-}, 
-radioLabel: { 
-    marginLeft: 8, 
-    fontSize: 16, 
-    color: '#333', 
-}, 
-}); 
+  },
+  radioLabel: {
+    // marginLeft: 2,
+    fontSize: 16,
+    color: '#333',
+    marginRight:10,
+    marginLeft:5,
+  },
+  cercleRdio:{
+    color:"yellow",
+  }
+});
 
 
 export default DCMCategoryScreen;
@@ -484,3 +575,24 @@ export default DCMCategoryScreen;
 
 
 
+
+
+
+
+
+
+
+                  // useEffect(() => {
+                  //   if(selectedOrigins){
+                  //     const filteredDataByOrigins = allData.filter(dcm =>{
+                  //       return dcm.origins
+                  //    })
+                  //     setData(filteredDataByOrigins)
+                  //    } else {
+                  //       fetchAllDCMs();
+                  //     }
+                  //    }, [selectedOrigins]);
+
+
+                    // const handleSelectedOrigins = async (item) =>
+                    //   selec
