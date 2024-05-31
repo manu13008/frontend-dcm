@@ -40,7 +40,7 @@ function SignUpScreen({ handleDisplay}) {
 
   return (
     <>
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'position' : 'height'} >
+    {/* <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'position' : 'height'} > */}
     <Header showButton={false}/>
     <View style={styles.container}>
        <Text style ={styles.errorMessage}>{errorMessage}</Text>
@@ -52,7 +52,7 @@ function SignUpScreen({ handleDisplay}) {
           <Text style={styles.text}>Déjà membre ? <Text style={styles.link} onPress={() => handleDisplay()}>Me connecter</Text></Text>
         </View>
     </View>
-    </KeyboardAvoidingView>
+    {/* </KeyboardAvoidingView> */}
 </>
   );
 };
