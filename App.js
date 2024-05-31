@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
+import ForNotifOnly from "./components/ForNotifOnly";
 
 // Redux
 import { Provider } from "react-redux";
@@ -21,6 +22,7 @@ import LoginScreen from "./screens/LoginScreen";
 import AddDCMScreen from "./screens/AddDCMScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import DCMCategoryScreen from "./screens/DCMCategoryScreen";
+import UniqueDCMScreen from "./screens/UniqueDCMScreen";
 import CguScreen from "./screens/CguScreen";
 import AccountScreen from "./screens/AccountScreen";
 // Persistance du store
@@ -37,6 +39,11 @@ const persistor = persistStore(store);
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
+
+// Notifications
+// const notifications = useSelector(state => state.notifications);
+// const notifications = [1,2,3];
 
 const TabNavigator = () => {
   return (
@@ -59,6 +66,7 @@ const TabNavigator = () => {
           }
 
           return (
+            <View>
             <Image
               source={iconName}
               style={{
@@ -68,6 +76,15 @@ const TabNavigator = () => {
                 opacity : focused ? 1 : 0.7,
               }}
             />
+
+            {route.name === 'Notification' && ( 
+            <ForNotifOnly  containerStyle={{ position: 'absolute', top: -10, right: -10 ,
+             color : 'white' , fontWeight : 900, backgroundColor : 'red',
+             fontSize : 10, borderRadius : 12, padding : 4}}/>
+             
+
+            )}
+            </View>
           );
         },
         tabBarShowLabel: false,
@@ -148,7 +165,6 @@ export default function App() {
             <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
             <Stack.Screen name="CguScreen" component={CguScreen} />
             <Stack.Screen name="AddDCMScreen" component={AddDCMScreen} />
-            <Stack.Screen name="HomeScreen" component={HomeScreen} />
             <Stack.Screen name="AccountScreen" component={AccountScreen} />
           </Stack.Navigator>
         </NavigationContainer>
